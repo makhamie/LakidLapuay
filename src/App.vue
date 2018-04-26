@@ -2,8 +2,8 @@
   <div id="app">
     <nav class="navbar is-transparent">
       <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-          <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+        <a class="navbar-item">
+          <h1>LakidLapuay</h1>
         </a>
         <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
           <span></span>
@@ -11,53 +11,35 @@
           <span></span>
         </div>
       </div>
-
       <div id="navbarExampleTransparentExample" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item" href="https://bulma.io/">
-            Home
+          <a v-if="userType==='supervisor'" class="navbar-item" href="/sub">
+            Subordinators
           </a>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="/documentation/overview/start/">
-              Docs
-            </a>
-            <div class="navbar-dropdown is-boxed">
-              <a class="navbar-item" href="/documentation/overview/start/">
-                Overview
-              </a>
-              <a class="navbar-item" href="https://bulma.io/documentation/modifiers/syntax/">
-                Modifiers
-              </a>
-              <a class="navbar-item" href="https://bulma.io/documentation/columns/basics/">
-                Columns
-              </a>
-              <a class="navbar-item" href="https://bulma.io/documentation/layout/container/">
-                Layout
-              </a>
-              <a class="navbar-item" href="https://bulma.io/documentation/form/general/">
-                Form
-              </a>
-              <hr class="navbar-divider">
-              <a class="navbar-item" href="https://bulma.io/documentation/elements/box/">
-                Elements
-              </a>
-              <a class="navbar-item is-active" href="https://bulma.io/documentation/components/breadcrumb/">
-                Components
-              </a>
-            </div>
-          </div>
+          <a v-if="userType==='supervisor'"  class="navbar-item" href="/res">
+            Tasks
+          </a>
+          <a v-if="userType==='subordinator'" class="navbar-item" href="/sub">
+            Responsibilities
+          </a>
+          <a v-if="userType==='subordinator'"  class="navbar-item" href="/res">
+            Leave Submission
+          </a>
         </div>
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="field is-grouped">
               <p class="control">
-                <a class="bd-tw-button button" href="/login">
+                <a v-if="!currentUser" class="bd-tw-button button" href="/">
                   <span>Login</span>
+                </a>
+                <a v-else class="bd-tw-button button" @click="onLogout">
+                  <span>Logout</span>
                 </a>
               </p>
               <p class="control">
-                <a class="button is-primary" href="/register">
-                  <span>Register</span>
+                <a class="button is-primary" href="/admin">
+                  <span>Admin</span>
                 </a>
               </p>
             </div>
@@ -65,13 +47,30 @@
         </div>
       </div>
     </nav>
+          {{userType}}
+      {{currentUser}}
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  computed:{
+    userType(){
+      return this.$store.state.userType
+    },
+    currentUser(){
+      return this.$store.state.user
+    }
+  },
+  methods:{
+    onClickSubbordinator() {
+      this.$router.push('/sub')
+    },
+    onLogout(){
+      this.$store.dispatch('logout')
+    }
+  }
 }
 </script>
 
@@ -83,5 +82,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.navbar {
+  background-color: aquamarine;
 }
 </style>

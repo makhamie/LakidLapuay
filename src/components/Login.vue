@@ -3,10 +3,15 @@
     <div class="login-container">
       <h1>Login</h1>
       <br>
+      email :{{email}}
+      <br>
+      pass :{{password}}
+
+      Object :{{currentUser}}
       <div class="field">
         <label class="label">Email</label>
         <div class="control">
-          <input class="input" type="email" placeholder="Email" value="">
+          <input v-model="email" class="input" type="email" placeholder="Email" value="">
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -15,7 +20,7 @@
       <div class="field">
         <label class="label">Password</label>
         <div class="control">
-          <input class="input" type="password" placeholder="Password" value="hello@">
+          <input v-model="password" class="input" type="password" placeholder="Password" value="hello@">
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -24,7 +29,7 @@
       <br>
       <div class="field is-grouped">
         <div class="control">
-          <button class="button is-link">Submit</button>
+          <button class="button is-link" @click="onLogin">Submit</button>
         </div>
         <div class="control">
           <button class="button is-text">Cancel</button>
@@ -38,7 +43,18 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      email : '',
+      password: ''
+    }
+  },
+  computed:{
+    currentUser(){
+      return this.$store.state.user
+    }
+  },
+  methods:{
+    onLogin(){
+      this.$store.dispatch('login',{email: this.email, password: this.password})
     }
   }
 }

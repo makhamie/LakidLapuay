@@ -1,8 +1,10 @@
 <template>
   <div class="container">
     <div class="login-container">
-      <h1>Register</h1>
+      <h1>Create user</h1>
       <br>
+      1:{{roles}}
+      2:{{departments}}
       <div class="field">
         <label class="label">Email</label>
         <div class="control">
@@ -26,8 +28,17 @@
         <div class="control">
           <div class="select">
             <select>
-              <option>Supervisor</option>
-              <option>Subordinator</option>
+              <option v-for="(role,index) in roles" :key="index">{{role.role}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Select department</label>
+        <div class="control">
+          <div class="select">
+            <select>
+              <option v-for="(department,index) in departments" :key="index">{{department.name}}</option>
             </select>
           </div>
         </div>
@@ -45,12 +56,24 @@
   </div>
 </template>
 <script>
+import API from '../api/index'
 export default {
-  name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  computed:{
+    roles() {
+      return this.getRoles()
+    },
+    departments(){
+      return this.getDepartments()
+    }
+  },
+  methods:{
+    getDepartments: API.allDepartment,
+    getRoles: API.allRole
   }
 }
 </script>

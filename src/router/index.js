@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Responsibilities from '@/components/Responsibilities'
+import Subordinator from '@/components/Subordinators'
 import Login from '@/components/Login'
-import Register from '@/components/Register'
+import Admin from '@/components/Admin'
 
 Vue.use(Router)
 
@@ -11,18 +12,19 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/login',
-      name: 'Login',
       component: Login
     },
     {
-      path: '/register',
-      name: 'Register',
-      component: Register
+      path: '/admin',
+      component: Admin
+    },
+    {
+      path: '/sub',
+      component: Subordinator
+    },
+    {
+      path: '/res',
+      component: Responsibilities
     }
   ]
 })
