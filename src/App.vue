@@ -19,10 +19,10 @@
           <a v-if="userType==='supervisor'"  class="navbar-item" href="/res">
             Tasks
           </a>
-          <a v-if="userType==='subordinator'" class="navbar-item" href="/sub">
+          <a v-if="userType==='subordinator'" class="navbar-item" href="/res">
             Responsibilities
           </a>
-          <a v-if="userType==='subordinator'"  class="navbar-item" href="/res">
+          <a v-if="userType==='subordinator'"  class="navbar-item" href="/permission">
             Leave Submission
           </a>
         </div>

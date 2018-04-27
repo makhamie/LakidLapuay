@@ -4,6 +4,7 @@ import Responsibilities from '@/components/Responsibilities'
 import Subordinator from '@/components/Subordinators'
 import Login from '@/components/Login'
 import Admin from '@/components/Admin'
+import Permission from '@/components/Permission'
 
 Vue.use(Router)
 
@@ -25,6 +26,10 @@ export default new Router({
     {
       path: '/res',
       component: Responsibilities
+    },
+    {
+      path: '/permission',
+      component: Permission
     }
   ]
 })
