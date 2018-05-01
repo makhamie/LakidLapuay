@@ -1,43 +1,38 @@
 <template>
   <div class="container">
-    <label class="label">Submission request</label>
+    <label class="label">Task Assignment</label>
     <div>
       <el-table
-        :data="leaveRequestData"
+        :data="taskListData"
         style="width: 100%">
         <el-table-column
-          prop="requestDate"
-          label="Request Date"
+          prop="assignDate"
+          label="Assign Date"
           width="120%">
         </el-table-column>
         <el-table-column
           prop="startDate"
-          label="Since"
+          label="Start date"
           width="120%">
         </el-table-column>
         <el-table-column
           prop="endDate"
-          label="Until"
+          label="Due date"
           width="120%">
         </el-table-column>
         <el-table-column
-          prop="requestor"
-          label="Requestor"
+          prop="subordinator"
+          label="Subordinator"
           width="120%">
         </el-table-column>
         <el-table-column
-          prop="substitute"
-          label="Substitute"
-          width="120%">
+          prop="taskName"
+          label="Task name"
+          width="250%">
         </el-table-column>
         <el-table-column
-          prop="type"
-          label="Type"
-          width="120%">
-        </el-table-column>
-        <el-table-column
-          prop="period"
-          label="Period (days)"
+          prop="submitRequest"
+          label="Submit"
           width="120%">
         </el-table-column>
         <el-table-column
@@ -56,49 +51,42 @@
 
 <script>
 export default {
-  methods: {
-    handleClick () {
-    }
-  },
   data () {
     return {
-      leaveRequestData: [{
-        requestDate: '2016-05-03',
+      taskListData: [{
+        assignDate: '2016-05-03',
         startDate: '2016-05-03',
         endDate: '2016-05-03',
-        requestor: 'Ung',
-        substitute: 'Makhamwan',
-        type: 'vacation',
-        period: '7',
+        subordinator: 'Makhamwan',
+        taskName: 'Eating whole whale',
+        submitRequest: 'No request',
         status: 'waiting'
       }, {
-        requestDate: '2016-05-03',
+        assignDate: '2016-05-03',
         startDate: '2016-05-03',
         endDate: '2016-05-03',
-        requestor: 'Ung',
-        substitute: 'Makhamwan',
-        type: 'vacation',
-        period: '7',
+        subordinator: 'Trong',
+        taskName: 'Eliminate flies from cupcake',
+        submitRequest: 'No request',
         status: 'approved'
       }, {
-        requestDate: '2016-05-03',
+        assignDate: '2016-05-03',
         startDate: '2016-05-03',
         endDate: '2016-05-03',
-        requestor: 'Ung',
-        substitute: 'Makhamwan',
-        type: 'vacation',
-        period: '7',
+        subordinator: 'Ung',
+        taskName: 'Get a higher rank of eating contest',
+        submitRequest: 'No request',
         status: 'rejected'
       }, {
-        requestDate: '2016-05-03',
+        assignDate: '2016-05-03',
         startDate: '2016-05-03',
         endDate: '2016-05-03',
-        requestor: 'Ung',
-        substitute: 'Makhamwan',
-        type: 'vacation',
-        period: '7',
+        subordinator: 'Third',
+        taskName: 'Brush teeth before sleeping',
+        submitRequest: 'No request',
         status: 'waiting'
-      }]
+      }],
+      subordinator:''
     }
   }
 }

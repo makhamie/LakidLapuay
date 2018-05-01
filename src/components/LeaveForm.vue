@@ -1,29 +1,38 @@
 <template>
   <div class="container">
     <div class="field">
-      <el-row :gutter="20">
-        <el-col :span="16"><label class="label">Substitute</label></el-col>
-        <el-col :span="8" class="align-right">
-          <el-dropdown class="inline">
-            <span class="el-dropdown-link" v-model = "substitute">
-              Name<i class="el-icon-caret-bottom el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown" class="block">
-              <el-dropdown-item class="display-block" v-for = "substitute in substituteList"> {{substitute.name}} </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+      <el-row>
+        <el-col :span="3"><label class="label">Leave for</label></el-col>
+        <el-col :span="9">
+          <div class="control">
+            <div class="select">
+              <select>
+                <option v-for="type in typeList">{{type.type}}</option>
+              </select>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="3"><label class="label">Substitute</label></el-col>
+        <el-col :span="9">
+          <div class="control">
+            <div class="select">
+              <select>
+                <option v-for="substitute in substituteList">{{substitute.name}}</option>
+              </select>
+            </div>
+          </div>
         </el-col>
       </el-row>
     </div>
-    <div class="field">
+    <div class="field bottom-line">
       <el-row>
         <el-col :span="12">
           <div class="block">
             <el-row>
-              <el-col :span="8">
+              <el-col :span="6">
                 <label class="label">Start date</label>
               </el-col>
-              <el-col :span="8" class="align-right">
+              <el-col :span="6" class="align-right">
                 <el-date-picker
                   v-model = "startDate"
                   type="date"
@@ -51,23 +60,6 @@
         </el-col>
       </el-row>
     </div>
-    <div class="field bottom-line">
-      <el-row :gutter="20">
-        <el-col :span="16"><label class="label">Leave for</label></el-col>
-        <el-col :span="8" class="align-right">
-          <el-dropdown class="inline">
-            <span class="el-dropdown-link" v-model="leaveType">
-              Leave type<i class="el-icon-caret-bottom el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown" class="block">
-              <el-dropdown-item class="display-block">Sick leave</el-dropdown-item>
-              <el-dropdown-item class="display-block">Personal leave</el-dropdown-item>
-              <el-dropdown-item class="display-block">Vacation leave</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-col>
-      </el-row>
-    </div>
     <div class="padding-top align-right bottom-line">
       <el-button type="primary">Submit</el-button>
     </div>
@@ -84,6 +76,13 @@
           name: 'Ung',
         }, {
           name: 'Trong',
+        }],
+        typeList: [{
+          type: 'Sick leave',
+        }, {
+          type: 'Personal leave',
+        }, {
+          type: 'Vacation leave',
         }],
         startDate: '',
         endDate: '',

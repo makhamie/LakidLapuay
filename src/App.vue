@@ -19,6 +19,9 @@
           <a v-if="userType==='supervisor'"  class="navbar-item" href="/res">
             Tasks
           </a>
+          <a v-if="userType==='supervisor'"  class="navbar-item" href="/permission">
+            Leave Submission
+          </a>
           <a v-if="userType==='subordinator'" class="navbar-item" href="/res">
             Responsibilities
           </a>
@@ -57,6 +60,7 @@
 export default {
   computed:{
     userType(){
+      console.log(this.$store.state.userType);
       return this.$store.state.userType
     },
     currentUser(){
