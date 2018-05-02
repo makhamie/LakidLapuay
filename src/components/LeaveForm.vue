@@ -7,7 +7,7 @@
           <div class="control">
             <div class="select">
               <select>
-                <option v-for="type in typeList" :key="type">{{type.type}}</option>
+                <option v-for="(typeLeave,index) in typeList" :key="index">{{typeLeave.type}}</option>
               </select>
             </div>
           </div>
@@ -17,7 +17,7 @@
           <div class="control">
             <div class="select">
               <select>
-                <option v-for="substitute in substituteList" :key="substitute">{{substitute.name}}</option>
+                <option v-for="(substitute,index) in substituteList" :key="index">{{substitute.name}}</option>
               </select>
             </div>
           </div>

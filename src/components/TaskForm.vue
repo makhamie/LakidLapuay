@@ -8,7 +8,7 @@
             <div class="control">
               <div class="select">
                 <select v-model="subordinator">
-                  <option v-for="subordinator in subordinatorList" :key="subordinator">{{ subordinator.name }}</option>
+                  <option v-for="(subordinator, index) in subordinatorList" :key="index">{{ subordinator.name }}</option>
                 </select>
               </div>
             </div>
@@ -74,7 +74,13 @@ export default{
       subordinator: '',
       period: '',
       startDate: '',
-      endDate: ''
+      endDate: '',
+      task: ''
+    }
+  },
+  methods: {
+    onLogin() {
+      console.log('Submit task')
     }
   }
 }
