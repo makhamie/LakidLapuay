@@ -63,15 +63,15 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  computed:{
-    roles() {
+  computed: {
+    roles () {
       return this.getRoles()
     },
-    departments(){
+    departments () {
       return this.getDepartments()
     }
   },
-  methods:{
+  methods: {
     getDepartments: API.allDepartment,
     getRoles: API.allRole
   }

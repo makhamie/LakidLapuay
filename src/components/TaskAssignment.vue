@@ -76,7 +76,7 @@ export default {
         taskName: 'Brush teeth before sleeping',
         status: 'waiting'
       }],
-      subordinator:''
+      subordinator: ''
     }
   }
 }

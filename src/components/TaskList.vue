@@ -86,7 +86,7 @@ export default {
         submitRequest: 'No request',
         status: 'waiting'
       }],
-      subordinator:''
+      subordinator: ''
     }
   }
 }

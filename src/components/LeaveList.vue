@@ -86,7 +86,7 @@ export default {
         period: '7',
         status: 'waiting'
       }],
-      subordinator:''
+      subordinator: ''
     }
   }
 }

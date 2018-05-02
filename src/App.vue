@@ -13,84 +13,81 @@
       </div>
       <div id="navbarExampleTransparentExample" class="navbar-menu">
         <!-- <div class="navbar-start">
-          <a v-if="userType==='supervisor'" class="navbar-item" href="/sub">
-            Subordinators
-          </a>
-          <a v-if="userType==='supervisor'"  class="navbar-item" href="/res">
-            Tasks
-          </a>
-          <a v-if="userType==='supervisor'"  class="navbar-item" href="/permission">
-            Leave Submission
-          </a>
-          <a v-if="userType==='subordinator'" class="navbar-item" href="/res">
-            Responsibilities
-          </a>
-          <a v-if="userType==='subordinator'"  class="navbar-item" href="/permission">
-            Leave Submission
-          </a>
-        </div> -->
-        <!-- {{auth}} -->
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="field is-grouped">
-              <p class="control">              
-                <a v-if="isAuth" class="bd-tw-button button" @click="onLogout">
-                  <span>Logout</span>
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <router-view/>
+        <a v-if="userType==='supervisor'" class="navbar-item" href="/sub">
+        Subordinators
+      </a>
+      <a v-if="userType==='supervisor'"  class="navbar-item" href="/res">
+      Tasks
+    </a>
+    <a v-if="userType==='supervisor'"  class="navbar-item" href="/permission">
+    Leave Submission
+  </a>
+  <a v-if="userType==='subordinator'" class="navbar-item" href="/res">
+  Responsibilities
+</a>
+<a v-if="userType==='subordinator'"  class="navbar-item" href="/permission">
+Leave Submission
+</a>
+</div> -->
+<!-- {{auth}} -->
+<div class="navbar-end">
+  <div class="navbar-item">
+    <div class="field is-grouped">
+      <p class="control">
+        <a v-if="isAuth" class="bd-tw-button button" @click="onLogout">
+          <span>Logout</span>
+        </a>
+      </p>
+    </div>
   </div>
+</div>
+</div>
+</nav>
+<router-view/>
+</div>
 </template>
 
 <script>
-import {mapGetters,mapActions} from 'vuex'
-import {setAuth, getAuth, clearAuth} from './libraries/helper'
+import {mapGetters, mapActions} from 'vuex'
+import {getAuth, clearAuth} from './libraries/helper'
 
 export default {
-  data() {
+  data () {
     return {
-        auth: {},
-        isLogin: true
-      }
+      auth: {},
+      isLogin: true
+    }
   },
-  mounted(){
+  mounted () {
     this.auth = getAuth()
   },
-  computed:{
+  computed: {
     ...mapGetters({
-      isAuth : 'Global/isAuth'
+      isAuth: 'Global/isAuth'
     }),
-    userType(){
+    userType () {
       const auth = getAuth()
-      console.log('current token',auth)
-      if(auth && auth.data)
-        return auth.data.role
+      console.log('current token', auth)
+      if (auth && auth.data) return auth.data.role
       return ''
-      
     },
-    currentUserToken(){
+    currentUserToken () {
       const auth = getAuth()
-      console.log('current token',auth)
-      if(auth && auth.data)
-        return auth.data.token
+      console.log('current token', auth)
+      if (auth && auth.data) return auth.data.token
       return ''
     }
   },
-  methods:{
+  methods: {
     ...mapActions({
       updateTypeAction: 'Global/updateAction'
     }),
-    onClickSubbordinator() {
+    onClickSubbordinator () {
       this.$router.push('/sub')
     },
-    onLogout(){
+    onLogout () {
       clearAuth()
-      console.log('LOGOUT',getAuth())
+      console.log('LOGOUT', getAuth())
       this.updateTypeAction(false)
       this.$router.push('/')
       // this.$store.dispatch('logout')

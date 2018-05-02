@@ -1,4 +1,3 @@
-import API from '@/api/index'
 import * as types from './mutationTypes'
 
 export default {

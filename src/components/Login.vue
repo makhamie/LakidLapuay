@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import {mapGetters,mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 import {setAuth, getAuth} from '../libraries/helper'
 import {BASE_URL} from '../libraries/const'
 import axios from 'axios'
@@ -43,20 +43,20 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      email : '',
+      email: '',
       password: ''
     }
   },
-  mounted() {
-    if(getAuth()) {
+  mounted () {
+    if (getAuth()) {
       // พาไปหน้าต่อไป
     }
   },
-  methods:{
+  methods: {
     ...mapActions({
       updateTypeAction: 'Global/updateAction'
     }),
-    async onLogin(){
+    async onLogin () {
       try {
         let loginResponse = await axios.post(BASE_URL + '/login', {
           email: this.email, password: this.password
@@ -64,9 +64,9 @@ export default {
         if (loginResponse) {
           console.log(loginResponse)
           await setAuth(loginResponse.data)
-          //ส่งไปหน้าต่อไปฟ
+          // ส่งไปหน้าต่อไปฟ
         }
-      } catch(error) {
+      } catch (error) {
         console.log(error)
       }
       this.updateTypeAction(true)

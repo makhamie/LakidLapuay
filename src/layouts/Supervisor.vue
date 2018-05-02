@@ -21,7 +21,7 @@ import TaskList from '@/components/TaskList.vue'
 import TaskForm from '@/components/TaskForm.vue'
 import Search from '@/components/Search.vue'
 export default {
-  components:{
+  components: {
     TaskForm,
     Search,
     TaskList,
