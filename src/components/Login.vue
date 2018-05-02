@@ -30,9 +30,6 @@
         <div class="control">
           <button class="button is-link" @click="onLogin">Submit</button>
         </div>
-        <div class="control">
-          <button class="button is-text">Cancel</button>
-        </div>
       </div>
     </div>
   </div>
