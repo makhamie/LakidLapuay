@@ -23,26 +23,55 @@
           </span>
         </div>
       </div>
-      <div class="field">
-        <label class="label">Select role</label>
-        <div class="control">
-          <div class="select">
-            <select>
-              <option v-for="(role,index) in roles" :key="index">{{role.role}}</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Select department</label>
-        <div class="control">
-          <div class="select">
-            <select>
-              <option v-for="(department,index) in departments" :key="index">{{department.name}}</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <el-row>
+        <el-col :span="12">
+          <el-col :span="8">
+            <label class="label">Role</label>
+          </el-col>
+          <el-col :span="12">
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option v-for="(role,index) in roles" :key="index">{{role.role}}</option>
+                </select>
+              </div>
+            </div>
+          </el-col>
+        </el-col>
+        <el-col :span="12">
+          <el-col :span="8">
+            <label class="label">Department</label>
+          </el-col>
+          <el-col :span="12">
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option v-for="(department,index) in departments" :key="index">{{department.name}}</option>
+                </select>
+              </div>
+            </div>
+          </el-col>
+        </el-col>
+      </el-row>
+      <br>
+      <el-row>
+        <el-col :span="12">
+          <el-col :span="8">
+            <label class="label">Supervisor</label>
+          </el-col>
+          <el-col :span="12">
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option v-for="(supervisor,index) in roles" :key="index">{{supervisor.supervisor}}</option>
+                </select>
+              </div>
+            </div>
+          </el-col>
+        </el-col>
+      </el-row>
+
+
       <br>
       <div class="field is-grouped">
         <div class="control">
