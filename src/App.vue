@@ -33,20 +33,9 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="field is-grouped">
-              <p class="control">
-                Auth :{{isAuth}}
-                <!-- {{currentUserToken}}
-                {{userType}} -->
-                <a v-if="!isAuth" class="bd-tw-button button" href="/">
-                  <span>Login</span>
-                </a>
-                <a v-else class="bd-tw-button button" @click="onLogout">
+              <p class="control">              
+                <a v-if="isAuth" class="bd-tw-button button" @click="onLogout">
                   <span>Logout</span>
-                </a>
-              </p>
-              <p class="control">
-                <a class="button is-primary" href="/admin">
-                  <span>Admin</span>
                 </a>
               </p>
             </div>
@@ -103,6 +92,7 @@ export default {
       clearAuth()
       console.log('LOGOUT',getAuth())
       this.updateTypeAction(false)
+      this.$router.push('/')
       // this.$store.dispatch('logout')
     }
   }
