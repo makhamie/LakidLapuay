@@ -4,23 +4,42 @@
       <label class="page-title">Permission for Leave</label>
     </div>
     <div>
-      <leave-form></leave-form>
-      <br>
-      <leave-list></leave-list>
-      <leave-request></leave-request>
+      <div v-if="userType==='subordinator'">
+        <br>
+        <leave-form></leave-form>
+        <br>
+        <leave-list></leave-list>
+      </div>
+      <div v-if="userType==='supervisor'">
+        <br>
+        <search> </search>
+        <br>
+        <leave-request></leave-request>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import LeaveForm from './LeaveForm.vue'
+import Search from './Search.vue'
 import LeaveList from './LeaveList.vue'
 import LeaveRequest from './LeaveRequest.vue'
 export default {
+  computed:{
+    // userType(){
+    //   console.log(this.$store.state.userType);
+    //   return this.$store.state.userType
+    // },
+    // currentUser(){
+    //   return this.$store.state.user
+    // }
+  },
   components:{
     LeaveForm,
     LeaveList,
-    LeaveRequest
+    LeaveRequest,
+    Search
   },
   methods: {
     onSubmit() {
@@ -29,6 +48,8 @@ export default {
   },
   data () {
     return {
+      userType: 'subordinator',
+      // userType: 'supervisor',
       subordinator:''
     }
   }

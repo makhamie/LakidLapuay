@@ -6,7 +6,6 @@
       email :{{email}}
       <br>
       pass :{{password}}
-
       Object :{{currentUser}}
       <div class="field">
         <label class="label">Email</label>

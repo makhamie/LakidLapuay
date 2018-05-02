@@ -1,70 +1,49 @@
 <template>
   <div class="container">
     <div class="field">
-      <el-row :gutter="20">
-        <el-col :span="16"><label class="label">Substitute</label></el-col>
-        <el-col :span="8" class="align-right">
-          <el-dropdown class="inline">
-            <span class="el-dropdown-link" v-model = "substitute">
-              Name<i class="el-icon-caret-bottom el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown" class="block">
-              <el-dropdown-item class="display-block" v-for = "substitute in substituteList"> {{substitute.name}} </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-col>
-      </el-row>
-    </div>
-    <div class="field">
       <el-row>
-        <el-col :span="12">
-          <div class="block">
-            <el-row>
-              <el-col :span="8">
-                <label class="label">Start date</label>
-              </el-col>
-              <el-col :span="8" class="align-right">
-                <el-date-picker
-                  v-model = "startDate"
-                  type="date"
-                  placeholder="Pick a day">
-                </el-date-picker>
-              </el-col>
-            </el-row>
+        <el-col :span="3"><label class="label">Leave for</label></el-col>
+        <el-col :span="9">
+          <div class="control">
+            <div class="select">
+              <select>
+                <option v-for="type in typeList">{{type.type}}</option>
+              </select>
+            </div>
           </div>
         </el-col>
-        <el-col :span="12">
-          <div class="block">
-            <el-row>
-              <el-col :span="6">
-                <label class="label">End date</label>
-              </el-col>
-              <el-col :span="6" class="align-right">
-                <el-date-picker
-                  v-model="endDate"
-                  type="date"
-                  placeholder="Pick a day">
-                </el-date-picker>
-              </el-col>
-            </el-row>
+        <el-col :span="3"><label class="label">Substitute</label></el-col>
+        <el-col :span="9">
+          <div class="control">
+            <div class="select">
+              <select>
+                <option v-for="substitute in substituteList">{{substitute.name}}</option>
+              </select>
+            </div>
           </div>
         </el-col>
       </el-row>
     </div>
     <div class="field bottom-line">
-      <el-row :gutter="20">
-        <el-col :span="16"><label class="label">Leave for</label></el-col>
-        <el-col :span="8" class="align-right">
-          <el-dropdown class="inline">
-            <span class="el-dropdown-link" v-model="leaveType">
-              Leave type<i class="el-icon-caret-bottom el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown" class="block">
-              <el-dropdown-item class="display-block">Sick leave</el-dropdown-item>
-              <el-dropdown-item class="display-block">Personal leave</el-dropdown-item>
-              <el-dropdown-item class="display-block">Vacation leave</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+      <el-row>
+        <el-col :span="3">
+        </el-col>
+        <el-col :span="3"><label class="label">Period</label></el-col>
+        <el-col :span="9">
+          <!-- <p>{{ period }}</p> -->
+          <template>
+            <div class="block">
+              <el-date-picker
+                v-model="period"
+                type="daterange"
+                start-placeholder="Start date"
+                end-placeholder="End date"
+                format="yyyy/MM/dd"
+                value-format="yyyy-MM-dd"
+                :default-time="['00:00:00', '23:59:59']">
+              </el-date-picker>
+            </div>
+          </template>
         </el-col>
       </el-row>
     </div>
@@ -85,10 +64,18 @@
         }, {
           name: 'Trong',
         }],
+        typeList: [{
+          type: 'Sick leave',
+        }, {
+          type: 'Personal leave',
+        }, {
+          type: 'Vacation leave',
+        }],
         startDate: '',
         endDate: '',
         leaveType:'',
-        substitute:''
+        substitute:'',
+        period:''
       }
     }
   }
