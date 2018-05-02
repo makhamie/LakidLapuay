@@ -88,6 +88,11 @@ export default {
       }],
       subordinator: ''
     }
+  },
+  methods:{
+    handleClick(){
+      console.log('click')
+    }
   }
 }
 </script>
