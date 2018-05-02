@@ -47,7 +47,7 @@
         </el-row>
       </div>
       <div class="padding-top align-right bottom-line">
-        <el-button type="submit" @click="onLogin">Submit</el-button>
+        <el-button type="submit" @click="onLogin>Submit</el-button>
       </div>
     </div>
   </div>
