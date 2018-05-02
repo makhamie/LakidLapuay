@@ -3,9 +3,15 @@
     <div class="container bottom-line">
       <label class="page-title">Responsibilities</label>
     </div>
-    <task-form></task-form>
-    <task-list> </task-list>
-    <task-assignment></task-assignment>
+    <div>
+      <div v-if="userType==='subordinator'">
+        <task-assignment></task-assignment>
+      </div>
+      <div v-if="userType==='supervisor'">
+        <task-form></task-form>
+        <task-list> </task-list>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,6 +29,8 @@ export default {
   },
   data () {
     return {
+      // userType: 'subordinator',
+      userType: 'supervisor',
       msg: 'Welcome to Your Vue.js App'
     }
   }
