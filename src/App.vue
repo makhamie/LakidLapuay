@@ -70,6 +70,10 @@ export default {
       console.log('current token', auth)
       if (auth && auth.data) return auth.data.role
       return ''
+<<<<<<< HEAD
+=======
+
+>>>>>>> add supervisor field
     },
     currentUserToken () {
       const auth = getAuth()
