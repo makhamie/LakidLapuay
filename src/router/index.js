@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Responsibilities from '@/components/Responsibilities'
-import Subordinator from '@/components/Subordinators'
+import Supervisor from '@/layouts/Supervisor'
 import Login from '@/components/Login'
-import Admin from '@/components/Admin'
-import Permission from '@/components/Permission'
+import Admin from '@/layouts/admin/Admin'
+import Subordinate from '@/layouts/Subordinate'
 
 Vue.use(Router)
 
@@ -20,16 +19,12 @@ export default new Router({
       component: Admin
     },
     {
-      path: '/sub',
-      component: Subordinator
+      path: '/subordinate',
+      component: Subordinate
     },
     {
-      path: '/res',
-      component: Responsibilities
-    },
-    {
-      path: '/permission',
-      component: Permission
+      path: '/supervisor',
+      component: Supervisor
     }
   ]
 })

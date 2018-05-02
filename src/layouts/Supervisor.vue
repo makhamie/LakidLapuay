@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container bottom-line">
-      <label class="page-title">Responsibilities</label>
+      <label class="page-title">Create Task</label>
     </div>
     <div>
       <div v-if="userType==='subordinator'">
@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import TaskAssignment from './TaskAssignment.vue'
-import TaskList from './TaskList.vue'
-import TaskForm from './TaskForm.vue'
-import Search from './Search.vue'
+import TaskAssignment from '@/components/TaskAssignment.vue'
+import TaskList from '@/components/TaskList.vue'
+import TaskForm from '@/components/TaskForm.vue'
+import Search from '@/components/Search.vue'
 export default {
   components:{
     TaskForm,
