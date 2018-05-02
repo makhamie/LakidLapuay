@@ -26,8 +26,7 @@
     </div>
     <div class="field bottom-line">
       <el-row>
-        <el-col :span="3">
-        </el-col>
+      <el-col :span="3"></el-col>
         <el-col :span="3"><label class="label">Period</label></el-col>
         <el-col :span="9">
           <!-- <p>{{ period }}</p> -->
@@ -48,7 +47,7 @@
     </el-row>
   </div>
   <div class="padding-top align-right bottom-line">
-    <el-button type="primary">Submit</el-button>
+    <el-button type="primary"  @click="onRequestLeave">Submit</el-button>
   </div>
 </div>
 </template>
@@ -79,11 +78,29 @@ export default{
           type: 'Vacation leave'
         }
       ],
+      taskList: [
+        {
+          name: 'Task1'
+        },
+        {
+          name: 'Task2'
+        },
+        {
+          name: 'Task3'
+        }
+      ],
       startDate: '',
       endDate: '',
       leaveType: '',
       substitute: '',
       period: ''
+    }
+  },
+  methods:{
+    onRequestLeave() {
+      const res = {
+        requester_id : th
+      }
     }
   }
 }
