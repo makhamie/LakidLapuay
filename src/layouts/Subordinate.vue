@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="container bottom-line">
-      <label class="page-title">Permission for Leave</label>
+      <label class="page-title">Subordinate</label>
+      <label class="label">Request to leave</label>
     </div>
     <div>
       <div v-if="userType==='subordinator'">
@@ -21,10 +22,10 @@
 </template>
 
 <script>
-import LeaveForm from './LeaveForm.vue'
-import Search from './Search.vue'
-import LeaveList from './LeaveList.vue'
-import LeaveRequest from './LeaveRequest.vue'
+import LeaveForm from '@/components/LeaveForm.vue'
+import Search from '@/components/Search.vue'
+import LeaveList from '@/components/LeaveList.vue'
+import LeaveRequest from '@/components/LeaveRequest.vue'
 export default {
   computed:{
     // userType(){

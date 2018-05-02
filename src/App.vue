@@ -12,7 +12,7 @@
         </div>
       </div>
       <div id="navbarExampleTransparentExample" class="navbar-menu">
-        <div class="navbar-start">
+        <!-- <div class="navbar-start">
           <a v-if="userType==='supervisor'" class="navbar-item" href="/sub">
             Subordinators
           </a>
@@ -28,12 +28,16 @@
           <a v-if="userType==='subordinator'"  class="navbar-item" href="/permission">
             Leave Submission
           </a>
-        </div>
+        </div> -->
+        <!-- {{auth}} -->
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="field is-grouped">
               <p class="control">
-                <a v-if="!currentUser" class="bd-tw-button button" href="/">
+                Auth :{{isAuth}}
+                <!-- {{currentUserToken}}
+                {{userType}} -->
+                <a v-if="!isAuth" class="bd-tw-button button" href="/">
                   <span>Login</span>
                 </a>
                 <a v-else class="bd-tw-button button" @click="onLogout">
@@ -50,29 +54,56 @@
         </div>
       </div>
     </nav>
-          {{userType}}
-      {{currentUser}}
     <router-view/>
   </div>
 </template>
 
 <script>
+import {mapGetters,mapActions} from 'vuex'
+import {setAuth, getAuth, clearAuth} from './libraries/helper'
+
 export default {
+  data() {
+    return {
+        auth: {},
+        isLogin: true
+      }
+  },
+  mounted(){
+    this.auth = getAuth()
+  },
   computed:{
+    ...mapGetters({
+      isAuth : 'Global/isAuth'
+    }),
     userType(){
-      console.log(this.$store.state.userType);
-      return this.$store.state.userType
+      const auth = getAuth()
+      console.log('current token',auth)
+      if(auth && auth.data)
+        return auth.data.role
+      return ''
+      
     },
-    currentUser(){
-      return this.$store.state.user
+    currentUserToken(){
+      const auth = getAuth()
+      console.log('current token',auth)
+      if(auth && auth.data)
+        return auth.data.token
+      return ''
     }
   },
   methods:{
+    ...mapActions({
+      updateTypeAction: 'Global/updateAction'
+    }),
     onClickSubbordinator() {
       this.$router.push('/sub')
     },
     onLogout(){
-      this.$store.dispatch('logout')
+      clearAuth()
+      console.log('LOGOUT',getAuth())
+      this.updateTypeAction(false)
+      // this.$store.dispatch('logout')
     }
   }
 }

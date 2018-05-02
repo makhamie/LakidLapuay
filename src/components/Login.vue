@@ -5,8 +5,8 @@
       <br>
       email :{{email}}
       <br>
-      pass :{{password}}
-      Object :{{currentUser}}
+      <!-- pass :{{password}}
+      Object :{{currentUser}} -->
       <div class="field">
         <label class="label">Email</label>
         <div class="control">
@@ -38,6 +38,10 @@
   </div>
 </template>
 <script>
+import {mapGetters,mapActions} from 'vuex'
+import {setAuth, getAuth} from '../libraries/helper'
+import {BASE_URL} from '../libraries/const'
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   data () {
@@ -46,14 +50,33 @@ export default {
       password: ''
     }
   },
-  computed:{
-    currentUser(){
-      return this.$store.state.user
+  mounted() {
+    if(getAuth()) {
+      // พาไปหน้าต่อไป
     }
   },
   methods:{
-    onLogin(){
-      this.$store.dispatch('login',{email: this.email, password: this.password})
+    ...mapActions({
+      updateTypeAction: 'Global/updateAction'
+    }),
+    async onLogin(){
+      try {
+        let loginResponse = await axios.post(BASE_URL + '/login', {
+          email: this.email, password: this.password
+        })
+        if (loginResponse) {
+          console.log(loginResponse)
+          await setAuth(loginResponse.data)
+          //ส่งไปหน้าต่อไปฟ
+        }
+      } catch(error) {
+        console.log(error)
+      }
+      this.updateTypeAction(true)
+      const auth = getAuth()
+      // console.log('LOGIN',getAuth().data)
+      this.$router.push(`/${auth.data.role}`)
+      // this.login({email: this.email, password: this.password})
     }
   }
 }

@@ -56,7 +56,7 @@
   </div>
 </template>
 <script>
-import API from '../api/index'
+import API from '@/api/index'
 export default {
   data () {
     return {
