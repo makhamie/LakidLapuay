@@ -46,6 +46,7 @@
       </el-col>
     </el-row>
   </div>
+  <task-assignment></task-assignment>
   <div class="padding-top align-right bottom-line">
     <el-button type="primary"  @click="onRequestLeave">Submit</el-button>
   </div>
@@ -53,7 +54,12 @@
 </template>
 
 <script>
+import TaskAssignment from './TaskAssignment.vue'
+
 export default{
+  components:{
+    TaskAssignment
+  },
   data () {
     return {
       substituteList: [

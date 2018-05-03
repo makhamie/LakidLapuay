@@ -4,6 +4,7 @@ import Supervisor from '@/layouts/Supervisor'
 import Login from '@/components/Login'
 import Admin from '@/layouts/admin/Admin'
 import Subordinate from '@/layouts/Subordinate'
+import Profile from '@/components/Profile'
 
 Vue.use(Router)
 
@@ -25,6 +26,10 @@ export default new Router({
     {
       path: '/supervisor',
       component: Supervisor
+    },
+    {
+      path: '/profile',
+      component: Profile
     }
   ]
 })
