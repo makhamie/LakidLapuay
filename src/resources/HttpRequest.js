@@ -7,15 +7,16 @@ let axiosInstance = axios.create({
   timeout: 60000
 })
 
-axiosInstance.inteceptors.request.use(function (config) {
+axiosInstance.interceptors.request.use(function (config) {
+  console.log(getAuth().token)
   config.headers.common['Authorization'] = 'Bearer ' + getAuth().token
-  config.headders.post['Content-Type'] = 'application/x-www-form-urlencoded'
+  config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
   return config
 }, function (error) {
   return Promise.reject(error)
 })
 
-axiosInstance.inteceptors.response.use(function (response) {
+axiosInstance.interceptors.response.use(function (response) {
   if (parseInt(response.status) === 401) {
     window.location.href = BASE_URL
   } else {

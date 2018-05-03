@@ -68,13 +68,13 @@ export default {
     userType () {
       const auth = getAuth()
       console.log('current token', auth)
-      if (auth && auth.data) return auth.data.role
+      if (auth) return auth.role
       return ''
     },
     currentUserToken () {
       const auth = getAuth()
       console.log('current token', auth)
-      if (auth && auth.data) return auth.data.token
+      if (auth) return auth.token
       return ''
     }
   },

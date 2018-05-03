@@ -61,9 +61,8 @@ export default {
         let loginResponse = await axios.post(BASE_URL + '/login', {
           email: this.email, password: this.password
         })
-        if (loginResponse) {
-          console.log(loginResponse)
-          await setAuth(loginResponse.data)
+        if (loginResponse.data.result) {
+          await setAuth(loginResponse.data.result)
           // ส่งไปหน้าต่อไปฟ
         }
       } catch (error) {
@@ -71,8 +70,8 @@ export default {
       }
       this.updateTypeAction(true)
       const auth = getAuth()
-      // console.log('LOGIN',getAuth().data)
-      this.$router.push(`/${auth.data.role}`)
+      // console.log('LOGIN',getAuth().result)
+      this.$router.push(`/${auth.role}`)
       // this.login({email: this.email, password: this.password})
     }
   }

@@ -3,15 +3,28 @@
     <div class="container">
       <div class="field">
         <el-row>
+          <!-- {{allSubordinate}} -->
           <el-col :span="3"><label class="label">Subordinator</label></el-col>
           <el-col :span="9">
-            <div class="control">
+           
+            <el-dropdown @command="setSubordinate">
+              <span class="el-dropdown-link">{{showDropdown}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item :command="subordinator" v-for="(subordinator, index) in allSubordinates" :key="index"> {{subordinator.name}}</el-dropdown-item>
+                <!-- <el-dropdown-item>Action 1</el-dropdown-item>
+                <el-dropdown-item>Action 2</el-dropdown-item>
+                <el-dropdown-item>Action 3</el-dropdown-item>
+                <el-dropdown-item disabled>Action 4</el-dropdown-item>
+                <el-dropdown-item divided>Action 5</el-dropdown-item> -->
+              </el-dropdown-menu>
+            </el-dropdown>
+            <!-- <div class="control">
               <div class="select">
                 <select v-model="taskForm.subordinator">
-                  <option v-for="(subordinator, index) in subordinatorList" :key="index">{{ subordinator.name }}</option>
+                  <option v-for="(subordinator, index) in allSubordinate" :key="index">{{ subordinator.name }}</option>
                 </select>
               </div>
-            </div>
+            </div> -->
           </el-col>
           <el-col :span="3"><label class="label">Task</label></el-col>
           <el-col :span="9">
@@ -48,13 +61,14 @@
       </el-row>
     </div>
     <div class="padding-top align-right bottom-line">
-      <el-button type="submit" @click="onLogin">Submit</el-button>
+      <el-button type="submit" @click="onCreateTask">Submit</el-button>
     </div>
   </div>
 </div>
 </template>
 
 <script>
+import {mapGetters,mapActions} from 'vuex'
 export default{
   data () {
     return {
@@ -73,23 +87,46 @@ export default{
           }
         ],
       taskForm :{
-        subordinator: '',
+        subordinator: null,
         time: '',
         name: ''
       }
     }
   },
+  computed:{
+    ...mapGetters({
+      allSubordinates: 'Global/allSubordinates',
+      allTasks: 'Global/allTasks'
+    }),
+    showDropdown() {
+      if(!this.taskForm.subordinator)
+        return 'Select Subordinator'
+      return this.taskForm.subordinator.name
+    }
+  },
+  mounted(){
+    this.getAllSubordinator()
+  },
   methods: {
-    onLogin() {
+    ...mapActions({
+      getAllSubordinator: 'Global/getAllSubordinator',
+      getAllTask: 'Global/getAllTask',
+      createTask: 'Global/createTask'
+    }),
+    async onCreateTask() {
       const timeRes = this.taskForm.time
       const res = {
-        responsible_id : this.taskForm.subordinator,
+        responsible_id : this.taskForm.subordinator.id,
         name: this.taskForm.name,
-        description: this.taskForm.description,
         start_date: timeRes[0],
         end_date: timeRes[1]
       }
+      await this.createTask(res)
+      await this.getAllTask()
       console.log('Submit task',res)
+    },
+    setSubordinate(subordinator) {
+      this.taskForm.subordinator = subordinator
     }
   }
 }
