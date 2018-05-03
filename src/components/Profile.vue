@@ -3,7 +3,6 @@
     <div class="login-container">
       <h1>Edit Profile</h1>
       <br>
-
       <!-- <el-upload
         action="https://jsonplaceholder.typicode.com/posts/"
         list-type="picture-card"
@@ -53,24 +52,25 @@
   </div>
 </template>
 <script>
-  export default {
-    components: {  },
-    data () {
-      return {
-        // dialogImageUrl: '',
-        // dialogVisible: false
-      }
+export default {
+  components: {
+  },
+  data () {
+    return {
+      dialogImageUrl: '',
+      dialogVisible: false
+    }
+  },
+  methods: {
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
     },
-    methods: {
-      // handleRemove(file, fileList) {
-      //   console.log(file, fileList);
-      // },
-      // handlePictureCardPreview(file) {
-      //   this.dialogImageUrl = file.url;
-      //   this.dialogVisible = true;
-      // }
+    handlePictureCardPreview (file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
     }
   }
+}
 </script>
 
 <style scoped>

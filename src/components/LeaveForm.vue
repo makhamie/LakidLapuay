@@ -57,7 +57,7 @@
 import TaskAssignment from './TaskAssignment.vue'
 
 export default{
-  components:{
+  components: {
     TaskAssignment
   },
   data () {
@@ -102,12 +102,12 @@ export default{
       period: ''
     }
   },
-  methods:{
-    onRequestLeave() {
-      const res = {
-        requester_id : th
-      }
-    }
+  methods: {
+    // onRequestLeave () {
+    //   const res = {
+    //     requester_id: th
+    //   }
+    // }
   }
 }
 </script>

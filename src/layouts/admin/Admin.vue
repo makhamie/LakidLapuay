@@ -71,7 +71,6 @@
         </el-col>
       </el-row>
 
-
       <br>
       <div class="field is-grouped">
         <div class="control">
