@@ -89,8 +89,8 @@ export default {
       subordinator: ''
     }
   },
-  methods:{
-    handleClick(){
+  methods: {
+    handleClick () {
       console.log('click')
     }
   }

@@ -59,20 +59,20 @@ export default{
   data () {
     return {
       subordinatorList: [
-          {
-            name: 'Makhamwan'
-          },
-          {
-            name: 'Ung'
-          },
-          {
-            name: 'Third'
-          },
-          {
-            name: 'Trong'
-          }
-        ],
-      taskForm :{
+        {
+          name: 'Makhamwan'
+        },
+        {
+          name: 'Ung'
+        },
+        {
+          name: 'Third'
+        },
+        {
+          name: 'Trong'
+        }
+      ],
+      taskForm: {
         subordinator: '',
         time: '',
         name: ''
@@ -80,16 +80,16 @@ export default{
     }
   },
   methods: {
-    onLogin() {
+    onLogin () {
       const timeRes = this.taskForm.time
       const res = {
-        responsible_id : this.taskForm.subordinator,
+        responsible_id: this.taskForm.subordinator,
         name: this.taskForm.name,
         description: this.taskForm.description,
         start_date: timeRes[0],
         end_date: timeRes[1]
       }
-      console.log('Submit task',res)
+      console.log('Submit task', res)
     }
   }
 }
