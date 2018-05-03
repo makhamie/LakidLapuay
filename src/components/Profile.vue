@@ -3,6 +3,19 @@
     <div class="login-container">
       <h1>Edit Profile</h1>
       <br>
+
+      <!-- <el-upload
+        action="https://jsonplaceholder.typicode.com/posts/"
+        list-type="picture-card"
+        :on-preview="handlePictureCardPreview"
+        :on-remove="handleRemove">
+        <i class="el-icon-plus"></i>
+      </el-upload> -->
+
+      <!-- <el-dialog :visible.sync="dialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="">
+      </el-dialog> -->
+
       <div class="field">
         <label class="label">Address</label>
         <div class="control">
@@ -44,10 +57,18 @@
     components: {  },
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App',
+        // dialogImageUrl: '',
+        // dialogVisible: false
       }
     },
     methods: {
+      // handleRemove(file, fileList) {
+      //   console.log(file, fileList);
+      // },
+      // handlePictureCardPreview(file) {
+      //   this.dialogImageUrl = file.url;
+      //   this.dialogVisible = true;
+      // }
     }
   }
 </script>
@@ -80,5 +101,28 @@ a {
 img, avatar-cropper {
   width: 100px;
   height: 100px;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>
