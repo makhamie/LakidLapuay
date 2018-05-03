@@ -79,7 +79,7 @@ export default{
     }
   },
   methods: {
-    onLogin() {
+    onLogin () {
       console.log('Submit task')
     }
   }

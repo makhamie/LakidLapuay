@@ -2,35 +2,32 @@
   <div class="container">
     <div class="login-container">
       <h1>Login</h1>
-      <br>
-      email :{{email}}
-      <br>
-      <!-- pass :{{password}}
-      Object :{{currentUser}} -->
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control">
-          <input v-model="email" class="input" type="email" placeholder="Email" value="">
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
+      <form method="post" @submit.prevent="onLogin()">
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+            <input v-model="email" class="input" type="email" placeholder="Email" value="">
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label class="label">Password</label>
-        <div class="control">
-          <input v-model="password" class="input" type="password" placeholder="Password" value="hello@">
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input v-model="password" class="input" type="password" placeholder="Password" value="hello@">
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+          </div>
         </div>
-      </div>
-      <br>
-      <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-link" @click="onLogin">Submit</button>
+        <br>
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" type="submit">Submit</button>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
