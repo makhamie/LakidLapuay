@@ -35,9 +35,9 @@
   </div>
 </template>
 <script>
-import {mapActions} from 'vuex'
-import {setAuth, getAuth} from '../libraries/helper'
-import {BASE_URL} from '../libraries/const'
+// import {mapActions} from 'vuex'
+import {setAuth, getAuth} from '../../libraries/helper'
+import {BASE_URL} from '../../libraries/const'
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
@@ -48,32 +48,24 @@ export default {
     }
   },
   mounted () {
+    const auth = getAuth()
     if (getAuth()) {
-      // พาไปหน้าต่อไป
+      this.$router.push(`/${auth.role}`)
     }
   },
   methods: {
-    ...mapActions({
-      updateTypeAction: 'Global/updateAction'
-    }),
     async onLogin () {
       try {
         let loginResponse = await axios.post(BASE_URL + '/login', {
           email: this.email, password: this.password
         })
         if (loginResponse) {
-          console.log(loginResponse)
           await setAuth(loginResponse.data)
-          // ส่งไปหน้าต่อไปฟ
+          this.$router.push(`/${loginResponse.data.role}`)
         }
       } catch (error) {
         console.log(error)
       }
-      this.updateTypeAction(true)
-      const auth = getAuth()
-      // console.log('LOGIN',getAuth().data)
-      this.$router.push(`/${auth.data.role}`)
-      // this.login({email: this.email, password: this.password})
     }
   }
 }

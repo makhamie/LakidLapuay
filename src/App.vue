@@ -34,7 +34,7 @@ Leave Submission
   <div class="navbar-item">
     <div class="field is-grouped">
       <p class="control">
-        <a v-if="isAuth" class="bd-tw-button button" @click="onLogout">
+        <a v-if="getAuth()" class="bd-tw-button button" @click="onLogout">
           <span>Logout</span>
         </a>
       </p>
@@ -53,18 +53,8 @@ import {getAuth, clearAuth} from './libraries/helper'
 
 export default {
   data () {
-    return {
-      auth: {},
-      isLogin: true
-    }
-  },
-  mounted () {
-    this.auth = getAuth()
   },
   computed: {
-    ...mapGetters({
-      isAuth: 'Global/isAuth'
-    }),
     userType () {
       const auth = getAuth()
       console.log('current token', auth)
@@ -85,10 +75,9 @@ export default {
     onClickSubbordinator () {
       this.$router.push('/sub')
     },
-    onLogout () {
-      clearAuth()
+    async onLogout () {
+      await clearAuth()
       console.log('LOGOUT', getAuth())
-      this.updateTypeAction(false)
       this.$router.push('/')
       // this.$store.dispatch('logout')
     }

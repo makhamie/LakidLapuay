@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import TaskAssignment from './TaskAssignment.vue'
+import TaskAssignment from '../../Supervisors/components/TaskAssignment'
 
 export default{
   components: {
