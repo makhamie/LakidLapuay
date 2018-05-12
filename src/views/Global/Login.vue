@@ -38,8 +38,8 @@
 </template>
 <script>
 // import {mapActions} from 'vuex'
-import {setAuth, getAuth} from '../../libraries/helper'
-import {BASE_URL} from '../../libraries/const'
+import { setAuth, getAuth } from '../../libraries/helper'
+import { BASE_URL } from '../../libraries/const'
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
@@ -52,14 +52,15 @@ export default {
     }
   },
   mounted () {
-    // const auth = getAuth()
-    // if (getAuth()) {
-    //   this.$router.push(`/${auth.role}`)
-    // }
+    const auth = getAuth()
+    if (auth) {
+      this.$router.push(`/${auth.role}`)
+    }
   },
   methods: {
     async onLogin () {
       try {
+        console.log(this.loginForm.email)
         let loginResponse = await axios.post(BASE_URL + '/login', {
           email: this.loginForm.email, password: this.loginForm.password
         })
