@@ -7,9 +7,6 @@ export default {
     } else {
       state.isLoading--
     }
-  },
-  [types.IS_AUTH] (state, status) {
-    state.isAuth = status
   }
 
 }

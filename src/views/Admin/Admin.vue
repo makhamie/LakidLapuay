@@ -1,85 +1,27 @@
 <template>
-  <div class="container">
+  <div>
+    <h1>Create user</h1>
     <div class="login-container">
-      <h1>Create user</h1>
-      <br>
-      1:{{roles}}
-      2:{{departments}}
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control">
-          <input class="input" type="email" placeholder="Email" value="">
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Password</label>
-        <div class="control">
-          <input class="input" type="password" placeholder="Password" value="hello@">
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-        </div>
-      </div>
-      <el-row>
-        <el-col :span="12">
-          <el-col :span="8">
-            <label class="label">Role</label>
-          </el-col>
-          <el-col :span="12">
-            <div class="control">
-              <div class="select">
-                <select>
-                  <option v-for="(role,index) in roles" :key="index">{{role.role}}</option>
-                </select>
-              </div>
-            </div>
-          </el-col>
-        </el-col>
-        <el-col :span="12">
-          <el-col :span="8">
-            <label class="label">Department</label>
-          </el-col>
-          <el-col :span="12">
-            <div class="control">
-              <div class="select">
-                <select>
-                  <option v-for="(department,index) in departments" :key="index">{{department.name}}</option>
-                </select>
-              </div>
-            </div>
-          </el-col>
-        </el-col>
-      </el-row>
-      <br>
-      <el-row>
-        <el-col :span="12">
-          <el-col :span="8">
-            <label class="label">Supervisor</label>
-          </el-col>
-          <el-col :span="12">
-            <div class="control">
-              <div class="select">
-                <select>
-                  <option v-for="(supervisor,index) in roles" :key="index">{{supervisor.supervisor}}</option>
-                </select>
-              </div>
-            </div>
-          </el-col>
-        </el-col>
-      </el-row>
+      <el-form ref="registerForm" :model="registerForm" label-width="120px">
+        <el-form-item label="Email">
+          <el-input v-model="registerForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="Password">
+          <el-input v-model="registerForm.password" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="Name">
+          <el-input v-model="registerForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="Department">
+          <el-dropdown>
+            <el-button type="primary">{{departments[0]}} <i class="el-icon-arrow-down"/></el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="(department, index) in departments" :key="index">{{department}}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-form-item>
 
-      <br>
-      <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-link">Submit</button>
-        </div>
-        <div class="control">
-          <button class="button is-text">Cancel</button>
-        </div>
-      </div>
+      </el-form>
     </div>
   </div>
 </template>
@@ -88,20 +30,26 @@ import API from '@/api/index'
 export default {
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      registerForm : {
+        name: '',
+        email: '',
+        password: '',
+
+      },
+      departments: ['Department 1', 'Department 2']
     }
   },
   computed: {
-    roles () {
-      return this.getRoles()
-    },
-    departments () {
-      return this.getDepartments()
-    }
+    // roles () {
+    //   return this.getRoles()
+    // },
+    // departments () {
+    //   return this.getDepartments()
+    // }
   },
   methods: {
-    getDepartments: API.allDepartment,
-    getRoles: API.allRole
+    // getDepartments: API.allDepartment,
+    // getRoles: API.allRole
   }
 }
 </script>

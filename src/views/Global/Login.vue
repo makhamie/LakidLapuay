@@ -5,8 +5,6 @@
       <br>
       email :{{email}}
       <br>
-      <!-- pass :{{password}}
-      Object :{{currentUser}} -->
       <div class="field">
         <label class="label">Email</label>
         <div class="control">
@@ -48,10 +46,10 @@ export default {
     }
   },
   mounted () {
-    const auth = getAuth()
-    if (getAuth()) {
-      this.$router.push(`/${auth.role}`)
-    }
+    // const auth = getAuth()
+    // if (getAuth()) {
+    //   this.$router.push(`/${auth.role}`)
+    // }
   },
   methods: {
     async onLogin () {
@@ -59,9 +57,10 @@ export default {
         let loginResponse = await axios.post(BASE_URL + '/login', {
           email: this.email, password: this.password
         })
-        if (loginResponse) {
-          await setAuth(loginResponse.data)
-          this.$router.push(`/${loginResponse.data.role}`)
+        if (loginResponse.data.success) {
+          console.log('Loging success', loginResponse.data)
+          await setAuth(loginResponse.data.result)
+          this.$router.push(`/${loginResponse.data.result.role}`)
         }
       } catch (error) {
         console.log(error)
