@@ -48,7 +48,7 @@ Leave Submission
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import mapActions from 'vuex'
 import {getAuth, clearAuth} from './libraries/helper'
 
 export default {
