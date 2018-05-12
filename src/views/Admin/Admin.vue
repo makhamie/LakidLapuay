@@ -20,7 +20,17 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-form-item>
-
+        <el-form-item label="Role">
+          <el-dropdown>
+            <el-button type="primary">{{roles[0]}}<i class="el-icon-arrow-down"/></el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="(role, index) in roles" :key="index">{{role}}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-form-item>
+        <el-form-item style="text-align: left;">
+          <el-button type="primary">Register</el-button>
+        </el-form-item>
       </el-form>
     </div>
   </div>
@@ -34,9 +44,11 @@ export default {
         name: '',
         email: '',
         password: '',
-
+        department: 1,
+        role: 'admin'
       },
-      departments: ['Department 1', 'Department 2']
+      departments: ['Department 1', 'Department 2'],
+      roles: ['admin']
     }
   },
   computed: {
