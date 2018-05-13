@@ -43,11 +43,14 @@ export default {
         if (loginResponse.data.success) {
           console.log('Loging success', loginResponse.data)
           await setAuth(loginResponse.data.result)
-          this.$router.push(`/${loginResponse.data.result.role}`)
+          this.next(loginResponse.data.result.role)
         }
       } catch (error) {
         console.log(error)
       }
+    },
+    next (role) {
+      this.$router.push(`/${role}`)
     }
   }
 }
