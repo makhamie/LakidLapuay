@@ -19,7 +19,6 @@ export default {
   },
   async mounted () {
     if (getAuth()) {
-      // start load
       this.isLoading = true
       try {
         let userRole = await UserService.getRole()
@@ -28,10 +27,8 @@ export default {
           this.$store.dispatch('setRole', userRole.data.results)
         }
         this.isLoading = false
-      // stop load
       } catch (error) {
         this.isLoading = false
-        //stop load
         console.log(error)
       }
     }
@@ -41,11 +38,8 @@ export default {
   },
   methods: {
     async onLogout () {
-      // localStorage.clear()
       await clearAuth()
       this.$store.dispatch('logout')
-      // this.$router.push({name: 'Login'})
-    
     }
   }
 }

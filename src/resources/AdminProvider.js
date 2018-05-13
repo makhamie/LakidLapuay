@@ -15,8 +15,14 @@ class AdminProvider extends HttpRequest {
     return this.fetch('/admin/departments')
   }
 
-  getAllUsers () {
-    return this.fetch('/admin/users')
+  getAllUsers (page) {
+    if (page < 1) {
+      page = 1
+    }
+    console.log('Page:', page)
+    return this.fetch(`/admin/users`, {
+      page
+    })
   }
 
   getAvailableSupervisor (departmentId) {

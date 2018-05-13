@@ -15,7 +15,7 @@
 </template>
 <script>
 export default {
-  props: ['isLogin', 'activeRoute'],
+  props: ['isLogin', 'activeRoute']
   // methods: {
   //   // handleSelect (key, keyPath) {
   //   //   if (key === 'Login') {

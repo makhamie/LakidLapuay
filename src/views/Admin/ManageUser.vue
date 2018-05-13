@@ -34,10 +34,10 @@
           <div class="block">
             <el-pagination
               @current-change="handlePageChange"
-              :current-page="1"
+              :current-page="currentPage"
               :page-size="perPage"
               layout="total, prev, pager, next"
-              :total="10">
+              :total="allUserCount">
             </el-pagination>
           </div>
         </el-col>
@@ -85,6 +85,8 @@ export default {
   data () {
     return {
       tableData: [],
+      allUserCount: 0,
+      currentPage: 1,
       userForm: null,
       supervisor: {
         id: -1,
@@ -97,21 +99,32 @@ export default {
   },
   async mounted () {
     try {
-      let allUserResponse = await AdminService.getAllUsers()
+      console.log('mounted Manage User')
+      let allUserResponse = await AdminService.getAllUsers(this.currentPage)
       let allDepartments = await AdminService.getAllDepartments()
-      if (allUserResponse.data) {
-        this.tableData = allUserResponse.data
+      if (allUserResponse.data.success) {
+        this.tableData = allUserResponse.data.results.users
+        this.allUserCount = allUserResponse.data.results.count
       }
       if (allDepartments.data) {
         this.departments = allDepartments.data
       }
     } catch (error) {
-
+      console.log(error)
     }
   },
   methods: {
-    handlePageChange () {
-      console.log('Page Change')
+    async handlePageChange (page) {
+      this.currentPage = page
+      try {
+        let allUserResponse = await AdminService.getAllUsers(this.currentPage)
+        if (allUserResponse.data.success) {
+          this.tableData = allUserResponse.data.results.users
+          this.allUserCount = allUserResponse.data.results.count
+        }
+      } catch (error) {
+        console.log(error)
+      }
     },
     async onClickRow (user, mouseEvent, column) {
       try {
@@ -130,7 +143,6 @@ export default {
               name: supervisor.name
             }
           })
-          // console.log(supervisorResponse.data.results)
         }
       } catch (error) {
         console.log(error)
