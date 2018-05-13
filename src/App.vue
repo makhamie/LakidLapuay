@@ -10,7 +10,7 @@
     active-text-color="#ffd04b">
     <div class="navbar-brand">LakidLapuay</div>
   </el-menu>
-<router-view/>
+  <router-view/>
 </div>
 </template>
 
