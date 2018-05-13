@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <admin-navbar v-if="userType ==='admin'" :userType="userType" :activeRoute="activeRoute" @logout="onLogout"/>
+    <nav-bar :activeRoute="activeRoute" @logout="onLogout"/>
+    <!-- <admin-navbar v-if="userType ==='admin'" :userType="userType" :activeRoute="activeRoute" @logout="onLogout"/> -->
     <router-view/>
   </div>
 </template>
@@ -27,25 +28,12 @@ export default {
     activeRoute () {
       return this.$route.name
     }
-    // userType () {
-    //   const auth = getAuth()
-    //   console.log('current token', auth)
-    //   if (auth && auth.data) return auth.data.role
-    //   return ''
-    // },
-    // currentUserToken () {
-    //   const auth = getAuth()
-    //   console.log('current token', auth)
-    //   if (auth && auth.data) return auth.data.token
-    //   return ''
-    // }
   },
   methods: {
     async onLogout () {
       await clearAuth()
-      // console.log('LOGOUT', getAuth())
+      this.$store.dispatch('logout')
       this.$router.push('/')
-      // this.$store.dispatch('logout')
     }
   }
 }
