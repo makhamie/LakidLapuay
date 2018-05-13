@@ -8,11 +8,31 @@
     text-color="#fff"
     active-text-color="#ffd04b">
     <div class="navbar-brand">LakidLapuay</div>
+    <el-menu-item index="Admin" :route="{name: 'Admin'}" v-if="isAdmin">Create User</el-menu-item>
+    <el-menu-item index="ManageUser" :route="{name: 'ManageUser'}" v-if="isAdmin">Manage User Account</el-menu-item>
+    <el-menu-item index="CreateDepartment" v-if="isAdmin">Create Department</el-menu-item>
+    <el-menu-item v-if="isLogin" index="logout" class="pull-right">Logout</el-menu-item>
   </el-menu>
 </template>
 
 <script>
 export default {
+  computed: {
+    isLogin () {
+      return this.$store.state.role
+    },
+    isAdmin () {
+      return this.$store.state.role === 'admin'
+    }
+  },
+  methods: {
+    handleSelect (key, keyPath) {
+      if (key === 'logout') {
+        console.log('NavBar; methods; handleSelect; logout')
+        this.$emit('logout')
+      }
+    }
+  }
 }
 </script>
 
