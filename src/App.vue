@@ -1,51 +1,39 @@
 <template>
   <div id="app">
-  <el-menu
-    :default-active="null"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b">
-    <div class="navbar-brand">LakidLapuay</div>
-  </el-menu>
-  <router-view/>
-</div>
+    <nav-bar :activeRoute="activeRoute" @logout="onLogout"/>
+    <!-- <admin-navbar v-if="userType ==='admin'" :userType="userType" :activeRoute="activeRoute" @logout="onLogout"/> -->
+    <router-view/>
+  </div>
 </template>
 
 <script>
-import { clearAuth } from './libraries/helper'
+import { getAuth, clearAuth } from './libraries/helper'
+import AdminNavbar from '@/components/AdminNavbar'
+
+import NavBar from '@/components/parts/NavBar'
 
 export default {
-  data () {
-    return {
-
-    }
+  components: {
+    NavBar,
+    AdminNavbar
   },
   computed: {
-    // userType () {
-    //   const auth = getAuth()
-    //   console.log('current token', auth)
-    //   if (auth && auth.data) return auth.data.role
-    //   return ''
-    // },
-    // currentUserToken () {
-    //   const auth = getAuth()
-    //   console.log('current token', auth)
-    //   if (auth && auth.data) return auth.data.token
-    //   return ''
-    // }
+    userType () {
+      if (getAuth()) {
+        return getAuth().role
+      } else {
+        return null
+      }
+    },
+    activeRoute () {
+      return this.$route.name
+    }
   },
   methods: {
     async onLogout () {
       await clearAuth()
-      // console.log('LOGOUT', getAuth())
+      this.$store.dispatch('logout')
       this.$router.push('/')
-      // this.$store.dispatch('logout')
-    },
-    handleSelect () {
-
     }
   }
 }
@@ -57,7 +45,7 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
 }
 
@@ -72,4 +60,6 @@ export default {
     margin: 0px 60px 0px 20px;
     font-size: 26px;
   }
+.pull-right { float: right !important; }
+
 </style>
