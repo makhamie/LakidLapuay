@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Global from './modules/global/index'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    Global
+  state: {
+    isLogin: false
+  },
+  mutations: {
+
+  },
+  actions: {
+
   }
-  // strict: true
 })
