@@ -12,15 +12,13 @@ import AdminNavbar from '@/components/AdminNavbar'
 import NavBar from '@/components/parts/NavBar'
 
 export default {
-  components: {
-    NavBar
-  },
   data () {
     return {
 
     }
   },
   components: {
+    NavBar,
     AdminNavbar
   },
   computed: {
