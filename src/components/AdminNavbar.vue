@@ -10,18 +10,20 @@
       <el-menu-item index="Admin" :route="{name: 'Admin'}">Create User</el-menu-item>
       <el-menu-item index="ManageUser" :route="{name: 'ManageUser'}">Manage User Account</el-menu-item>
       <el-menu-item index="CreateDepartment">Create Department</el-menu-item>
-      <el-menu-item v-if="userType" index="4" class="pull-right">Logout</el-menu-item>
-    <!-- <el-menu-item v-else class="pull-right">Login</el-menu-item> -->
+      <el-menu-item @click="$emit('logout')" v-if="isLogin" index="Login" :route="{name: 'Login'}" class="pull-right">Logout</el-menu-item>
   </el-menu>
 </template>
 <script>
 export default {
-  props: ['userType', 'activeRoute'],
-  methods: {
-    clickLogout () {
-      this.$emit('logout')
-    }
-  }
+  props: ['isLogin', 'activeRoute'],
+  // methods: {
+  //   // handleSelect (key, keyPath) {
+  //   //   if (key === 'Login') {
+  //   //     console.log('NavBar; methods; handleSelect; logout')
+  //   //     this.$emit('logout')
+  //   //   }
+  //   // }
+  // }
 }
 </script>
 <style scoped>

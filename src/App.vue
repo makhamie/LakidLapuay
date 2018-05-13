@@ -1,56 +1,51 @@
 <template>
   <div id="app">
-    <admin-navbar v-if="userType ==='admin'" :userType="userType" :activeRoute="activeRoute" @logout="onLogout"/>
-    <router-view/>
+    <nav-bar @logout="onLogout"/>
+    <!-- <admin-navbar v-if="userType ==='admin'" :userType="userType" :activeRoute="activeRoute" @logout="onLogout"/> -->
+    <router-view v-if="!isLoading"/>
   </div>
 </template>
 
 <script>
 import { getAuth, clearAuth } from './libraries/helper'
-import AdminNavbar from '@/components/AdminNavbar'
-
+import { UserService } from '@/resources'
 import NavBar from '@/components/parts/NavBar'
 
 export default {
   data () {
     return {
-
+      isLoading: false
+    }
+  },
+  async mounted () {
+    if (getAuth()) {
+      // start load
+      this.isLoading = true
+      try {
+        let userRole = await UserService.getRole()
+        console.log(userRole)
+        if (userRole.data.success) {
+          this.$store.dispatch('setRole', userRole.data.results)
+        }
+        this.isLoading = false
+      // stop load
+      } catch (error) {
+        this.isLoading = false
+        //stop load
+        console.log(error)
+      }
     }
   },
   components: {
-    NavBar,
-    AdminNavbar
-  },
-  computed: {
-    userType () {
-      if (getAuth()) {
-        return getAuth().role
-      } else {
-        return null
-      }
-    },
-    activeRoute () {
-      return this.$route.name
-    }
-    // userType () {
-    //   const auth = getAuth()
-    //   console.log('current token', auth)
-    //   if (auth && auth.data) return auth.data.role
-    //   return ''
-    // },
-    // currentUserToken () {
-    //   const auth = getAuth()
-    //   console.log('current token', auth)
-    //   if (auth && auth.data) return auth.data.token
-    //   return ''
-    // }
+    NavBar
   },
   methods: {
     async onLogout () {
+      // localStorage.clear()
       await clearAuth()
-      // console.log('LOGOUT', getAuth())
-      this.$router.push('/')
-      // this.$store.dispatch('logout')
+      this.$store.dispatch('logout')
+      // this.$router.push({name: 'Login'})
+    
     }
   }
 }

@@ -9,7 +9,7 @@ let axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(function (config) {
   // Do something before request is sent
-  config.headers.common['Authorization'] = 'Bearer ' + getAuth().token
+  config.headers.common['Authorization'] = 'Bearer ' + getAuth()
   config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
   return config
 }, function (error) {
