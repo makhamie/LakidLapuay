@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-  <el-menu
+    <nav-bar />
+  <!-- el-menu
     :default-active="null"
     class="el-menu-demo"
     mode="horizontal"
@@ -9,7 +10,7 @@
     text-color="#fff"
     active-text-color="#ffd04b">
     <div class="navbar-brand">LakidLapuay</div>
-  </el-menu>
+  </el-menu -->
   <router-view/>
 </div>
 </template>
@@ -17,7 +18,12 @@
 <script>
 import { clearAuth } from './libraries/helper'
 
+import NavBar from '@/components/parts/NavBar'
+
 export default {
+  components: {
+    NavBar
+  },
   data () {
     return {
 
