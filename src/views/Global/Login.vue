@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import { setAuth, getAuth } from '@/libraries/helper'
+import { setAuth } from '@/libraries/helper'
 import { BASE_URL } from '@/libraries/const'
 import axios from 'axios'
 
