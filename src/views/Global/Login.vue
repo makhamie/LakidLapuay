@@ -14,8 +14,8 @@
 </template>
 <script>
 // import {mapActions} from 'vuex'
-import { setAuth, getAuth } from '../../libraries/helper'
-import { BASE_URL } from '../../libraries/const'
+import { setAuth, getAuth } from '@/libraries/helper'
+import { BASE_URL } from '@/libraries/const'
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
