@@ -10,30 +10,6 @@
         </el-form-item>
         <el-button type="primary" @click="onLogin">Login</el-button>
       </el-form>
-      <!-- <div class="field">
-        <label class="label">Email</label>
-        <div class="control">
-          <input v-model="email" class="input" type="email" placeholder="Email" value="">
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-        </div>
-        <div class="field">
-          <label class="label">Password</label>
-          <div class="control">
-            <input v-model="password" class="input" type="password" placeholder="Password" value="hello@">
-            <span class="icon is-small is-left">
-              <i class="fas fa-envelope"></i>
-            </span>
-          </div>
-        </div>
-        <br>
-        <div class="field is-grouped">
-          <div class="control">
-            <button class="button is-link" type="submit">Submit</button>
-          </div>
-        </div>
-      </div> -->
   </div>
 </template>
 <script>
