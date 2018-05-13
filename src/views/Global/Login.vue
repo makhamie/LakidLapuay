@@ -1,11 +1,16 @@
 <template>
   <div class="container">
-    <div class="login-container">
       <h1>Login</h1>
-      <br>
-      email :{{email}}
-      <br>
-      <div class="field">
+      <el-form ref="loginForm" :model="loginForm">
+        <el-form-item label="Email" label-width="120px">
+          <el-input v-model="loginForm.email" type="email"></el-input>
+        </el-form-item>
+        <el-form-item label="Password" label-width="120px">
+          <el-input v-model="loginForm.password" type="password"></el-input>
+        </el-form-item>
+        <el-button type="primary" @click="onLogin">Login</el-button>
+      </el-form>
+      <!-- <div class="field">
         <label class="label">Email</label>
         <div class="control">
           <input v-model="email" class="input" type="email" placeholder="Email" value="">
@@ -28,34 +33,36 @@
         <div class="control">
           <button class="button is-link" @click="onLogin">Submit</button>
         </div>
-      </div>
-    </div>
+      </div> -->
   </div>
 </template>
 <script>
 // import {mapActions} from 'vuex'
-import {setAuth, getAuth} from '../../libraries/helper'
-import {BASE_URL} from '../../libraries/const'
+import { setAuth, getAuth } from '../../libraries/helper'
+import { BASE_URL } from '../../libraries/const'
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      email: '',
-      password: ''
+      loginForm: {
+        email: '',
+        password: ''
+      }
     }
   },
   mounted () {
-    // const auth = getAuth()
-    // if (getAuth()) {
-    //   this.$router.push(`/${auth.role}`)
-    // }
+    const auth = getAuth()
+    if (auth) {
+      this.$router.push(`/${auth.role}`)
+    }
   },
   methods: {
     async onLogin () {
       try {
+        console.log(this.loginForm.email)
         let loginResponse = await axios.post(BASE_URL + '/login', {
-          email: this.email, password: this.password
+          email: this.loginForm.email, password: this.loginForm.password
         })
         if (loginResponse.data.success) {
           console.log('Loging success', loginResponse.data)
@@ -73,11 +80,9 @@ export default {
 <style scoped>
 .container {
   width: 50%;
-  text-align: left;
-}
-
-.login-container{
-  margin-top: 120px;
+  text-align: center;
+  margin-top: 3%;
+  margin-left: 20%
 }
 
 h1 {

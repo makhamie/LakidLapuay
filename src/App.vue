@@ -40,11 +40,11 @@ export default {
   methods: {
     async onLogout () {
       await clearAuth()
-      console.log('LOGOUT', getAuth())
+      // console.log('LOGOUT', getAuth())
       this.$router.push('/')
       // this.$store.dispatch('logout')
     },
-    handleSelect() {
+    handleSelect () {
 
     }
   }

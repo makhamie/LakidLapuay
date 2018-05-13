@@ -13,30 +13,42 @@
           <el-input v-model="registerForm.name"></el-input>
         </el-form-item>
         <el-form-item label="Department">
-          <el-dropdown>
-            <el-button type="primary">{{departments[0]}} <i class="el-icon-arrow-down"/></el-button>
+          <el-dropdown @command="onDropdownDepartmentClick">
+            <el-button type="primary">{{this.registerForm.department}}<i class="el-icon-arrow-down"/></el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(department, index) in departments" :key="index">{{department}}</el-dropdown-item>
+              <el-dropdown-item v-for="(department, index) in departments" :key="index" :command="department">{{department}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-form-item>
-
+        <el-form-item label="Role">
+          <el-dropdown @command="onDropdownRoleClick">
+            <el-button type="primary">{{this.registerForm.role}}<i class="el-icon-arrow-down"/></el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="(role, index) in roles" :key="index" :command="role">{{role}}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-form-item>
+        <el-form-item style="text-align: left;">
+          <el-button type="primary" @click="onRegister">Register</el-button>
+        </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 <script>
-import API from '@/api/index'
+import { AdminService } from '../../resources'
 export default {
   data () {
     return {
-      registerForm : {
+      registerForm: {
         name: '',
         email: '',
         password: '',
-
+        department: 1,
+        role: 'admin'
       },
-      departments: ['Department 1', 'Department 2']
+      departments: [1],
+      roles: ['admin', 'supervisor', 'subordinate']
     }
   },
   computed: {
@@ -48,6 +60,18 @@ export default {
     // }
   },
   methods: {
+    async onRegister () {
+      await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department, this.registerForm.role)
+      console.log('Successfully register')
+    },
+    onDropdownRoleClick (role) {
+      console.log('dropdown click')
+      console.log(role)
+      this.registerForm.role = role
+    },
+    onDropdownDepartmentClick (department) {
+      this.registerForm.department = department
+    }
     // getDepartments: API.allDepartment,
     // getRoles: API.allRole
   }
