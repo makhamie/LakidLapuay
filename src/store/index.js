@@ -5,7 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    role: ''
+    role: '',
+    isLoading: 0
+  },
+  getters: {
+    isLoading (state) {
+      return state.isLoading
+    }
   },
   mutations: {
     setRole (state, newRole) {
@@ -14,6 +20,15 @@ export default new Vuex.Store({
     },
     clearRole (state) {
       state.role = ''
+    },
+    increseLoading (state) {
+      state.isLoading = state.isLoading + 1
+    },
+    decreaseLoading (state) {
+      if (state.isLoading === 0) state.isLoading = state.isLoading - 1
+    },
+    clearLoading (state) {
+      state.isLoading = 0
     }
   },
   actions: {
@@ -22,6 +37,12 @@ export default new Vuex.Store({
     },
     logout ({commit}) {
       commit('clearRole')
+    },
+    startLoad ({commit}) {
+      commit('increseLoading')
+    },
+    finishLoad ({commit}) {
+      commit('decreaseLoading')
     }
   }
 })
