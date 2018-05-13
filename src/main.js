@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import 'bulma/css/bulma.css'
+// import 'bulma/css/bulma.css'
 import store from './store'
 
 Vue.config.productionTip = false

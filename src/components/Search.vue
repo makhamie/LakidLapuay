@@ -3,10 +3,10 @@
     <div class="field">
       <el-row class="bottom-line">
         <el-col :span="3">
-          <label class="label">Subordinator</label>
+          <label class="label">Check task</label>
         </el-col>
         <el-col :span="6">
-          <input v-model="subordinator" class="input" type="" placeholder="Subordinator name" value="">
+          <input v-model="task" class="input" type="" placeholder="Task name" value="">
         </el-col>
         <el-col :span="3" class="align-right">
           <div class="padding-top">

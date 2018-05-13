@@ -1,9 +1,5 @@
-import * as types from './mutationTypes'
+// import * as types from './mutationTypes'
 
 export default {
-  updateAction ({commit}, payload) {
-    commit(types.IS_LOADING, true)
-    commit(types.IS_AUTH, payload)
-    commit(types.IS_LOADING, false)
-  }
+
 }

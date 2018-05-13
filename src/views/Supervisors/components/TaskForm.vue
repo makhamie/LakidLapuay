@@ -7,33 +7,28 @@
           <el-col :span="9">
             <div class="control">
               <div class="select">
-                <select v-model="subordinator">
+                <select v-model="taskForm.subordinator">
                   <option v-for="(subordinator, index) in subordinatorList" :key="index">{{ subordinator.name }}</option>
                 </select>
               </div>
             </div>
           </el-col>
           <el-col :span="3"><label class="label">Task</label></el-col>
-          {{task}}
           <el-col :span="9">
             <div class="control">
-              <input v-model="task" class="input" type="input" placeholder="Task name" value="">
+              <input v-model="taskForm.name" class="input" type="input" placeholder="Task name" value="">
             </div>
           </el-col>
         </el-row>
       </div>
       <div class="field bottom-line">
         <el-row>
-          <el-col :span="3">
-          </el-col>
           <el-col :span="3"><label class="label">Period</label></el-col>
           <el-col :span="9">
-            <p>{{ period }}</p>
-            <p>{{ subordinator }}</p>
             <template>
               <div class="block">
                 <el-date-picker
-                v-model="period"
+                v-model="taskForm.time"
                 type="daterange"
                 start-placeholder="Start date"
                 end-placeholder="End date"
@@ -44,6 +39,12 @@
             </div>
           </template>
         </el-col>
+        <el-col :span="3"><label class="label">Description</label></el-col>
+          <el-col :span="9">
+            <div class="control">
+              <input v-model="taskForm.description" class="input" type="input" placeholder="Task description" value="">
+            </div>
+          </el-col>
       </el-row>
     </div>
     <div class="padding-top align-right bottom-line">
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-export default{
+export default {
   data () {
     return {
       subordinatorList: [
@@ -71,16 +72,24 @@ export default{
           name: 'Trong'
         }
       ],
-      subordinator: '',
-      period: '',
-      startDate: '',
-      endDate: '',
-      task: ''
+      taskForm: {
+        subordinator: '',
+        time: '',
+        name: ''
+      }
     }
   },
   methods: {
     onLogin () {
-      console.log('Submit task')
+      const timeRes = this.taskForm.time
+      const res = {
+        responsible_id: this.taskForm.subordinator,
+        name: this.taskForm.name,
+        description: this.taskForm.description,
+        start_date: timeRes[0],
+        end_date: timeRes[1]
+      }
+      console.log('Submit task', res)
     }
   }
 }

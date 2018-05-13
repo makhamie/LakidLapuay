@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import LeaveForm from '@/components/LeaveForm.vue'
+import LeaveForm from './components/LeaveForm'
 import Search from '@/components/Search.vue'
-import LeaveList from '@/components/LeaveList.vue'
-import LeaveRequest from '@/components/LeaveRequest.vue'
+import LeaveList from './components/LeaveList.vue'
+import LeaveRequest from './components/LeaveRequest'
 export default {
   computed: {
     // userType(){
