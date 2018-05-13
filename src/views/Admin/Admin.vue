@@ -14,9 +14,9 @@
         </el-form-item>
         <el-form-item label="Department">
           <el-dropdown @command="onDropdownDepartmentClick">
-            <el-button type="primary">{{this.registerForm.department}}<i class="el-icon-arrow-down"/></el-button>
+            <el-button type="primary">{{this.registerForm.department.name}}<i class="el-icon-arrow-down"/></el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(department, index) in departments" :key="index" :command="department">{{department}}</el-dropdown-item>
+              <el-dropdown-item v-for="(department, index) in departments" :key="index" :command="department">{{department.name}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-form-item>
@@ -44,10 +44,13 @@ export default {
         name: '',
         email: '',
         password: '',
-        department: 1,
+        department: {
+          id: -1,
+          name: 'Please select a department'
+        },
         role: 'admin'
       },
-      departments: [1],
+      departments: [],
       roles: ['admin', 'supervisor', 'subordinate']
     }
   },
@@ -58,6 +61,16 @@ export default {
     // departments () {
     //   return this.getDepartments()
     // }
+  },
+  async mounted () {
+    try {
+      let allDepartmentResponse = await AdminService.getAllDepartments()
+      if (allDepartmentResponse.data) {
+        this.departments = allDepartmentResponse.data
+      }
+    } catch (error) {
+      console.log(error)
+    }
   },
   methods: {
     async onRegister () {
