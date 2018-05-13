@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     async onRegister () {
-      await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department, this.registerForm.role)
+      await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department.id, this.registerForm.role)
       console.log('Successfully register')
     },
     onDropdownRoleClick (role) {
@@ -103,15 +103,6 @@ export default {
 
 h1 {
   font-size: 50px;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
 }
 a {
   color: #42b983;

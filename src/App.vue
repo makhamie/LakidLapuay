@@ -1,39 +1,51 @@
 <template>
   <div id="app">
-    <nav-bar :activeRoute="activeRoute" @logout="onLogout"/>
+    <nav-bar @logout="onLogout"/>
     <!-- <admin-navbar v-if="userType ==='admin'" :userType="userType" :activeRoute="activeRoute" @logout="onLogout"/> -->
-    <router-view/>
+    <router-view v-if="!isLoading"/>
   </div>
 </template>
 
 <script>
 import { getAuth, clearAuth } from './libraries/helper'
-import AdminNavbar from '@/components/AdminNavbar'
-
+import { UserService } from '@/resources'
 import NavBar from '@/components/parts/NavBar'
 
 export default {
-  components: {
-    NavBar,
-    AdminNavbar
-  },
-  computed: {
-    userType () {
-      if (getAuth()) {
-        return getAuth().role
-      } else {
-        return null
-      }
-    },
-    activeRoute () {
-      return this.$route.name
+  data () {
+    return {
+      isLoading: false
     }
+  },
+  async mounted () {
+    if (getAuth()) {
+      // start load
+      this.isLoading = true
+      try {
+        let userRole = await UserService.getRole()
+        console.log(userRole)
+        if (userRole.data.success) {
+          this.$store.dispatch('setRole', userRole.data.results)
+        }
+        this.isLoading = false
+      // stop load
+      } catch (error) {
+        this.isLoading = false
+        //stop load
+        console.log(error)
+      }
+    }
+  },
+  components: {
+    NavBar
   },
   methods: {
     async onLogout () {
+      // localStorage.clear()
       await clearAuth()
       this.$store.dispatch('logout')
-      this.$router.push('/')
+      // this.$router.push({name: 'Login'})
+    
     }
   }
 }

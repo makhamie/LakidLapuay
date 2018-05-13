@@ -3,10 +3,10 @@
       <h1>Login</h1>
       <el-form ref="loginForm" :model="loginForm">
         <el-form-item label="Email" label-width="120px">
-          <el-input v-model="loginForm.email" type="email"></el-input>
+          <el-input v-on:keyup.enter.native="onLogin" v-model="loginForm.email" type="email"></el-input>
         </el-form-item>
         <el-form-item label="Password" label-width="120px">
-          <el-input v-model="loginForm.password" type="password"></el-input>
+          <el-input v-on:keyup.enter.native="onLogin" v-model="loginForm.password" type="password"></el-input>
         </el-form-item>
         <el-button type="primary" @click="onLogin">Login</el-button>
       </el-form>
@@ -18,7 +18,6 @@ import { BASE_URL } from '@/libraries/const'
 import axios from 'axios'
 
 export default {
-  name: 'HelloWorld',
   data () {
     return {
       loginForm: {
@@ -28,28 +27,25 @@ export default {
     }
   },
   mounted () {
-    const auth = getAuth()
-    if (auth) {
-      this.$router.push(`/${auth.role}`)
+    if (this.$store.state.role !== '') {
+      this.$router.push(`/${this.$store.state.role}`)
     }
   },
   methods: {
     async onLogin () {
       try {
-        console.log(this.loginForm.email)
         let loginResponse = await axios.post(BASE_URL + '/login', {
           email: this.loginForm.email, password: this.loginForm.password
         })
         if (loginResponse.data.success) {
-          console.log('Loging success', loginResponse.data)
-          await setAuth(loginResponse.data.result)
-          this.next(loginResponse.data.result.role)
+          await setAuth(loginResponse.data.results)
+          this.setRole(loginResponse.data.results.role)
         }
       } catch (error) {
         console.log(error)
       }
     },
-    next (role) {
+    setRole (role) {
       this.$store.dispatch('setRole', role)
       this.$router.push(`/${role}`)
     }

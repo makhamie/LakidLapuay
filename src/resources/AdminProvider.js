@@ -15,8 +15,34 @@ class AdminProvider extends HttpRequest {
     return this.fetch('/admin/departments')
   }
 
-  getAllUser () {
+  getAllUsers () {
     return this.fetch('/admin/users')
+  }
+
+  getAvailableSupervisor (departmentId) {
+    return this.fetch(`/admin/get-available-supervisor`, {
+      department_id: departmentId
+    })
+  }
+
+  getUserSupervisor (userId) {
+    return this.fetch('/admin/relations/get-user-supervisor', {
+      id: userId
+    })
+  }
+
+  editUser (id, departmentId, role) {
+    return this.update(`/admin/user/${id}`, {
+      department_id: departmentId,
+      role
+    })
+  }
+
+  editSupervisor (subordinateId, supervisorId) {
+    return this.update(`/admin/update-user-relation`, {
+      subordinate_id: subordinateId,
+      supervisor_id: supervisorId
+    })
   }
 }
 

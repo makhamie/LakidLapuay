@@ -15,7 +15,6 @@ export default new Vuex.Store({
   },
   mutations: {
     setRole (state, newRole) {
-      console.log('Vuex; setRole; role:', newRole)
       state.role = newRole
     },
     clearRole (state) {
