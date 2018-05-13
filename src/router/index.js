@@ -5,6 +5,7 @@ import Login from '@/views/Global/Login'
 import Admin from '@/views/Admin/Admin'
 import Subordinate from '@/views/Subordinates/Subordinate'
 import Profile from '@/views/Global/Profile'
+import ManageUser from '@/views/Admin/ManageUser'
 
 Vue.use(Router)
 
@@ -13,23 +14,33 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Login
+      component: Login,
+      name: 'Login'
     },
     {
       path: '/admin',
-      component: Admin
+      component: Admin,
+      name: 'Admin'
     },
     {
       path: '/subordinate',
-      component: Subordinate
+      component: Subordinate,
+      name: 'Subordinate'
     },
     {
       path: '/supervisor',
-      component: Supervisor
+      component: Supervisor,
+      name: 'Supervisor'
     },
     {
       path: '/profile',
-      component: Profile
+      component: Profile,
+      name: 'Profile'
+    },
+    {
+      path: '/manage-user',
+      component: ManageUser,
+      name: 'ManageUser'
     }
   ]
 })

@@ -10,6 +10,14 @@ class AdminProvider extends HttpRequest {
       role
     })
   }
+
+  getAllDepartments () {
+    return this.fetch('/admin/departments')
+  }
+
+  getAllUser () {
+    return this.fetch('/admin/users')
+  }
 }
 
 export default AdminProvider
