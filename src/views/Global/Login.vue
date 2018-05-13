@@ -13,10 +13,10 @@
   </div>
 </template>
 <script>
-// import {mapActions} from 'vuex'
 import { setAuth, getAuth } from '@/libraries/helper'
 import { BASE_URL } from '@/libraries/const'
 import axios from 'axios'
+
 export default {
   name: 'HelloWorld',
   data () {
@@ -50,6 +50,7 @@ export default {
       }
     },
     next (role) {
+      this.$store.dispatch('setRole', role)
       this.$router.push(`/${role}`)
     }
   }
