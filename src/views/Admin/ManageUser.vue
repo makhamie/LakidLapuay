@@ -99,7 +99,7 @@ export default {
     handlePageChange () {
       console.log('Page Change')
     },
-    onClickRow (a,b,c) {
+    onClickRow (a, b, c) {
       console.log(a)
       console.log(b)
       console.log(c)
