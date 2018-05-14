@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Route from '../Route'
 import Supervisor from '@/views/Supervisors/Supervisor'
 import Login from '@/views/Global/Login'
 import Admin from '@/views/Admin/Admin'
@@ -13,7 +14,6 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-
     {
       path: '/',
       component: Login,
@@ -21,13 +21,24 @@ export default new Router({
     },
     {
       path: '/admin',
-      component: Admin,
-      name: 'Admin'
-    },
-    {
-      path: '/create-department',
-      component: CreateDepartment,
-      name: 'CreateDepartment'
+      component: Route,
+      children: [
+        {
+          path: '',
+          component: Admin,
+          name: 'Admin'
+        },
+        {
+          path: 'create-department',
+          component: CreateDepartment,
+          name: 'CreateDepartment'
+        },
+        {
+          path: 'manage-user',
+          component: ManageUser,
+          name: 'ManageUser'
+        }
+      ]
     },
     {
       path: '/subordinate',
@@ -36,18 +47,19 @@ export default new Router({
     },
     {
       path: '/supervisor',
-      component: Supervisor,
-      name: 'Supervisor'
+      component: Route,
+      children: [
+        {
+          path: '',
+          component: Supervisor,
+          name: 'Supervisor'
+        }
+      ]
     },
     {
       path: '/profile',
       component: Profile,
       name: 'Profile'
-    },
-    {
-      path: '/manage-user',
-      component: ManageUser,
-      name: 'ManageUser'
     }
   ]
 })
