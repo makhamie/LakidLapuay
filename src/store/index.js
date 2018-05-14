@@ -24,7 +24,7 @@ export default new Vuex.Store({
       state.isLoading = state.isLoading + 1
     },
     decreaseLoading (state) {
-      if (state.isLoading === 0) state.isLoading = state.isLoading - 1
+      if (state.isLoading > 0) state.isLoading = state.isLoading - 1
     },
     clearLoading (state) {
       state.isLoading = 0

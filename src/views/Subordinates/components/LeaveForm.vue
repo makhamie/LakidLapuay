@@ -1,7 +1,37 @@
 <template>
   <div class="container">
     <div class="field">
-      <el-row>
+      <el-form :inline="true" ref="leaveForm" :model="leaveForm" label-width="120px">
+        <el-row>
+          <el-form-item label="Reason : ">
+            <el-select v-model="leaveForm.reason" placeholder="Select a reason">
+              <el-option v-for="(type,index) in typeList" :key="index" :value="type" :label="type"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item label="Period : ">
+             <el-date-picker
+              v-model="leaveForm.period"
+              @change="validateDate"
+              type="daterange"
+              start-placeholder="Start date"
+              end-placeholder="End date"
+              format="yyyy/MM/dd"
+              value-format="yyyy-MM-dd"
+              :default-time="['00:00:00', '23:59:59']"
+              :picker-options="datePickerOption"/>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <task-assignment v-if="taskList.length > 0" :list="taskList"></task-assignment>
+        </el-row>
+        <el-row>
+          <el-button type="primary" :disabled="leaveForm.period === ''">Create Leave Request</el-button>
+        </el-row>
+      </el-form>
+      {{isLoading}}
+      <!-- <el-row>
         <el-col :span="3"><label class="label">Leave for</label></el-col>
         <el-col :span="9">
           <div class="control">
@@ -22,14 +52,14 @@
             </div>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
     </div>
-    <div class="field bottom-line">
+    <!-- <div class="field bottom-line">
       <el-row>
       <el-col :span="3"></el-col>
         <el-col :span="3"><label class="label">Period</label></el-col>
         <el-col :span="9">
-          <!-- <p>{{ period }}</p> -->
+          <p>{{ period }}</p>
           <template>
             <div class="block">
               <el-date-picker
@@ -45,76 +75,68 @@
         </template>
       </el-col>
     </el-row>
-  </div>
-  <task-assignment></task-assignment>
-  <div class="padding-top align-right bottom-line">
+  </div> -->
+  <!-- <task-assignment></task-assignment> -->
+  <!-- <div class="padding-top align-right bottom-line">
     <el-button type="primary"  @click="onRequestLeave">Submit</el-button>
-  </div>
+  </div> -->
+  {{leaveForm}}
 </div>
 </template>
 
 <script>
-import TaskAssignment from '../../Supervisors/components/TaskAssignment'
+import { mapGetters, mapActions } from 'vuex'
+import TaskAssignment from './TaskAssignment'
+import { SubordinateService } from '@/resources'
 
-export default{
+export default {
+  data () {
+    return {
+      datePickerOption: {
+        disabledDate (time) {
+          return time.getTime() < Date.now() - 3600 * 1000 * 24
+        }
+      },
+      typeList: ['Sick leave', 'Personal Errand leave', 'Vacation leave'],
+      taskList: [],
+      leaveForm: {
+        reason: '',
+        substitute: '',
+        period: ''
+      }
+    }
+  },
   components: {
     TaskAssignment
   },
-  data () {
-    return {
-      substituteList: [
-        {
-          name: 'Makhamwan'
-        },
-        {
-          name: 'Ung'
-        },
-        {
-          name: 'Trong'
-        }
-      ],
-      typeList: [
-        {
-          type: 'Sick leave'
-        },
-        {
-          type: 'Personal leave'
-        },
-        {
-          type: 'Vacation leave'
-        }
-      ],
-      taskList: [
-        {
-          name: 'Task1'
-        },
-        {
-          name: 'Task2'
-        },
-        {
-          name: 'Task3'
-        }
-      ],
-      startDate: '',
-      endDate: '',
-      leaveType: '',
-      substitute: '',
-      period: ''
-    }
+  computed: {
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
   },
   methods: {
-    // onRequestLeave () {
-    //   const res = {
-    //     requester_id: th
-    //   }
-    // }
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    }),
+    async validateDate (dates) {
+      try {
+        this.startLoad()
+        let validateDateResponse = await SubordinateService.getTaskInRange(dates[0], dates[1])
+        if (validateDateResponse.data.success) {
+          this.taskList = validateDateResponse.data.results
+        }
+        this.stopLoad()
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 }
 </script>
 <style scoped>
 .container {
   margin-top: 20px;
-  width: 70%;
   text-align: left;
 }
 .field {

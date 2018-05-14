@@ -42,8 +42,14 @@ export default new Router({
     },
     {
       path: '/subordinate',
-      component: Subordinate,
-      name: 'Subordinate'
+      component: Route,
+      children: [
+        {
+          path: '',
+          component: Subordinate,
+          name: 'Subordinate'
+        }
+      ]
     },
     {
       path: '/supervisor',
