@@ -12,7 +12,7 @@
     <el-menu-item index="ManageUser" :route="{name: 'ManageUser'}" v-if="isAdmin">Manage User Account</el-menu-item>
     <el-menu-item index="CreateDepartment" :route="{name: 'CreateDepartment'}" v-if="isAdmin">Create Department</el-menu-item>
     <el-menu-item @click="$emit('logout')" v-if="isLogin" index="Login" :route="{name: 'Login'}" class="pull-right">Logout</el-menu-item>
-    <!-- sSupervisor navbar, use v-if="isSupervisor" to check role-->
+    <!-- Supervisor navbar, use v-if="isSupervisor" to check role-->
     <!-- Admin navbar, use v-if="isSubordinator" to check role-->
   </el-menu>
 </template>

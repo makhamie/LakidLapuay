@@ -22,7 +22,6 @@ export default {
       this.isLoading = true
       try {
         let userRole = await UserService.getRole()
-        console.log(userRole)
         if (userRole.data.success) {
           this.$store.dispatch('setRole', userRole.data.results)
         }
