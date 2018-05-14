@@ -13,7 +13,6 @@
 </template>
 <script>
 import { AdminService } from '@/resources'
-// import { PER_PAGE } from '@/libraries/const'
 
 export default {
   data () {

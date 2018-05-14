@@ -1,63 +1,58 @@
 <template>
-  <div>
-    <div class="container">
-      <div class="field">
+  <div class="container">
+    <div class="field bottom-line">
+      <el-form :inline="true" ref="taskForm" :model="taskForm" label-width="120px">
         <el-row>
-          <el-col :span="3"><label class="label">Subordinator</label></el-col>
-          <el-col :span="9">
-            <div class="control">
-              <div class="select">
-                <select v-model="taskForm.subordinator">
-                  <option v-for="(subordinator, index) in subordinatorList" :key="index">{{ subordinator.name }}</option>
-                </select>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="3"><label class="label">Task</label></el-col>
-          <el-col :span="9">
-            <div class="control">
-              <input v-model="taskForm.name" class="input" type="input" placeholder="Task name" value="">
-            </div>
-          </el-col>
+          <el-form-item label="Subordinator : ">
+            <el-select v-model="taskForm.subordinator" placeholder="Please select subordinator">
+              <el-option v-for="(subordinator, index) in subordinatorList" :key="index" :label="subordinator.name" :value="subordinator.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Task">
+            <el-input v-model="taskForm.name" placeholder="Task name"></el-input>
+          </el-form-item>
         </el-row>
-      </div>
-      <div class="field bottom-line">
         <el-row>
-          <el-col :span="3"><label class="label">Period</label></el-col>
-          <el-col :span="9">
-            <template>
-              <div class="block">
-                <el-date-picker
-                v-model="taskForm.time"
-                type="daterange"
-                start-placeholder="Start date"
-                end-placeholder="End date"
-                format="yyyy/MM/dd"
-                value-format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']">
-              </el-date-picker>
-            </div>
-          </template>
-        </el-col>
-        <el-col :span="3"><label class="label">Description</label></el-col>
-          <el-col :span="9">
-            <div class="control">
-              <input v-model="taskForm.description" class="input" type="input" placeholder="Task description" value="">
-            </div>
-          </el-col>
-      </el-row>
+          <el-form-item label="Period">
+            <el-date-picker
+              v-model="taskForm.time"
+              type="daterange"
+              start-placeholder="Start date"
+              end-placeholder="End date"
+              format="yyyy/MM/dd"
+              value-format="yyyy-MM-dd"
+              :default-time="['00:00:00', '23:59:59']"
+              :picker-options="datePickerOption"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item label="Description">
+            <el-input v-model="taskForm.description" type="textarea" :row="5"></el-input>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item class="align-right">
+            <el-button type="primary" @click="createTask">Create Task</el-button>
+          </el-form-item>
+        </el-row>
+      </el-form>
     </div>
-    <div class="padding-top align-right bottom-line">
-      <el-button type="submit" @click="onLogin">Submit</el-button>
-    </div>
-  </div>
 </div>
 </template>
 
 <script>
+import { SupervisorService } from '@/resources'
+
 export default {
   data () {
     return {
+      datePickerOption: {
+        disabledDate (time) {
+          return time.getTime() < Date.now() - 3600 * 1000 * 24
+        }
+      },
       subordinatorList: [
         {
           name: 'Makhamwan'
@@ -79,17 +74,27 @@ export default {
       }
     }
   },
-  methods: {
-    onLogin () {
-      const timeRes = this.taskForm.time
-      const res = {
-        responsible_id: this.taskForm.subordinator,
-        name: this.taskForm.name,
-        description: this.taskForm.description,
-        start_date: timeRes[0],
-        end_date: timeRes[1]
+  async mounted () {
+    try {
+      let subordinatorResponse = await SupervisorService.getSubordinators()
+      if (subordinatorResponse.data.success) {
+        this.subordinatorList = subordinatorResponse.data.results
       }
-      console.log('Submit task', res)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  methods: {
+    async createTask () {
+      // console.log(this.taskForm)
+      try {
+        let createTaskResponse = await SupervisorService.createTask(this.taskForm.subordinator, this.taskForm.name, this.taskForm.time[0], this.taskForm.time[1], this.taskForm.description)
+        console.log(createTaskResponse)
+        console.log('create task successfuly')
+      } catch (error) {
+        console.log(error)
+      }
+      console.log('create task')
     }
   }
 }
@@ -107,7 +112,7 @@ h1, h2 {
   font-weight: normal;
 }
 .align-right {
-  text-align: right;
+  text-align: right !important;
 }
 .bottom-line {
   border-bottom: 1px;

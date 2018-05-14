@@ -9,8 +9,8 @@
       </div> -->
       <!-- <div v-if="userType==='supervisor'"> -->
       <task-form></task-form>
-      <search> </search>
-      <task-list> </task-list>
+      <!-- <search> </search>
+      <task-list> </task-list> -->
       <!-- </div> -->
     </div>
   </div>

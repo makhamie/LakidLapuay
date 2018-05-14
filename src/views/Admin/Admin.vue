@@ -45,14 +45,6 @@ export default {
       roles: ['admin', 'supervisor', 'subordinate']
     }
   },
-  computed: {
-    // roles () {
-    //   return this.getRoles()
-    // },
-    // departments () {
-    //   return this.getDepartments()
-    // }
-  },
   async mounted () {
     try {
       let allDepartmentResponse = await AdminService.getAllDepartments()
@@ -68,14 +60,6 @@ export default {
       await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department.id, this.registerForm.role)
       console.log('Successfully register')
     }
-    // onDropdownRoleClick (role) {
-    //   this.registerForm.role = role
-    // },
-    // onDropdownDepartmentClick (department) {
-    //   this.registerForm.department = department
-    // }
-    // getDepartments: API.allDepartment,
-    // getRoles: API.allRole
   }
 }
 </script>
