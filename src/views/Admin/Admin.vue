@@ -98,7 +98,7 @@ export default {
 }
 
 .login-container{
-  margin-top: 120px;
+  margin-top: 30px;
 }
 
 h1 {

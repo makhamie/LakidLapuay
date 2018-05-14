@@ -6,6 +6,7 @@ import Admin from '@/views/Admin/Admin'
 import Subordinate from '@/views/Subordinates/Subordinate'
 import Profile from '@/views/Global/Profile'
 import ManageUser from '@/views/Admin/ManageUser'
+import CreateDepartment from '@/views/Admin/CreateDepartment'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/admin',
       component: Admin,
       name: 'Admin'
+    },
+    {
+      path: '/create-department',
+      component: CreateDepartment,
+      name: 'CreateDepartment'
     },
     {
       path: '/subordinate',
