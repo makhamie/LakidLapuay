@@ -11,6 +11,12 @@ class AdminProvider extends HttpRequest {
     })
   }
 
+  createDepartment (name) {
+    return this.create('/admin/department', {
+      name
+    })
+  }
+
   getAllDepartments () {
     return this.fetch('/admin/departments')
   }
