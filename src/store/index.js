@@ -11,6 +11,19 @@ export default new Vuex.Store({
   getters: {
     isLoading (state) {
       return state.isLoading
+    },
+    isLogin (state) {
+      if (state.role) return true
+      return false
+    },
+    isAdmin (state) {
+      return state.role === 'admin'
+    },
+    isSupervisor (state) {
+      return state.role === 'supervisor'
+    },
+    isSubordinator (state) {
+      return state.role === 'subordinator'
     }
   },
   mutations: {
