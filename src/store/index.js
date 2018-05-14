@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    user: {},
     role: '',
     isLoading: 0
   },
@@ -24,9 +25,15 @@ export default new Vuex.Store({
     },
     isSubordinator (state) {
       return state.role === 'subordinator'
+    },
+    currentUser (state) {
+      return state.user
     }
   },
   mutations: {
+    setUser (state, newUser) {
+      state.user = newUser
+    },
     setRole (state, newRole) {
       state.role = newRole
     },
@@ -44,6 +51,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setUser ({commit}, newUser) {
+      commit('setUser', newUser)
+      commit('setRole', newUser.role)
+    },
     setRole ({ commit }, newRole) {
       commit('setRole', newRole)
     },
