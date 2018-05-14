@@ -1,5 +1,6 @@
 <template>
   <admin-navbar v-if="isAdmin" :isLogin="isLogin" :activeRoute="activeRoute" @logout="handleLogout"></admin-navbar>
+  <supervisor-navbar v-else-if="isLogin === 'supervisor'" :isLogin="isLogin" :activeRoute="activeRoute" @logout="handleLogout"></supervisor-navbar>
   <!-- <el-menu
     :default-active="null"
     class="el-menu-demo"
@@ -18,10 +19,12 @@
 
 <script>
 import AdminNavbar from '../AdminNavbar'
+import SupervisorNavbar from '../SupervisorNavbar'
 
 export default {
   components: {
-    AdminNavbar
+    AdminNavbar,
+    SupervisorNavbar
   },
   computed: {
     isLogin () {

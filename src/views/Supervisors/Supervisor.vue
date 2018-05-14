@@ -4,14 +4,14 @@
       <label class="page-title">Create Task</label>
     </div>
     <div>
-      <div v-if="userType==='subordinator'">
+      <!-- <div v-if="userType==='subordinator'">
         <task-assignment></task-assignment>
-      </div>
-      <div v-if="userType==='supervisor'">
-        <task-form></task-form>
-        <search> </search>
-        <task-list> </task-list>
-      </div>
+      </div> -->
+      <!-- <div v-if="userType==='supervisor'"> -->
+      <task-form></task-form>
+      <search> </search>
+      <task-list> </task-list>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -31,8 +31,6 @@ export default {
   data () {
     return {
       // userType: 'subordinator',
-      userType: 'supervisor',
-      msg: 'Welcome to Your Vue.js App'
     }
   }
 }

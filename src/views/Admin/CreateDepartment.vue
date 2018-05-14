@@ -27,9 +27,7 @@ export default {
     async onSave () {
       console.log('saving user')
       try {
-        //TODO CALL ADMIN ADD DEPARTMENT
         await AdminService.createDepartment(this.departmentForm.name)
-        // await AdminService.editSupervisor(this.userForm.id, this.supervisor.id)
         console.log('Successfuly save department')
       } catch (error) {
         console.log(error)

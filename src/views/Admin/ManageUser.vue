@@ -47,28 +47,19 @@
           <el-input v-model="userForm.name" disabled></el-input>
         </el-form-item>
         <el-form-item label="Department">
-          <el-dropdown @command="onDropdownDepartmentClick">
-            <el-button type="primary">{{this.userForm.department.name}}<i class="el-icon-arrow-down"/></el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(department, index) in departments" :key="index" :command="department">{{department.name}}</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-select @change="fetchDepartmentSupervisor" v-model="userForm.department_id" :value-key="userForm.department.name" placeholder="Please Select a department">
+            <el-option v-for="(department,index) in departments" :key="index" :label="department.name" :value="department.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="Role">
-          <el-dropdown @command="onDropdownRoleClick">
-            <el-button type="primary">{{this.userForm.role}}<i class="el-icon-arrow-down"/></el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(role, index) in roles" :key="index" :command="role">{{role}}</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-select v-model="userForm.role">
+            <el-option v-for="(role, index) in roles" :key="index" :label="role" :value="role"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item v-if="userForm.role === 'subordinate'" label="Supervisor">
-          <el-dropdown @command="onDropdownSupervisorClick">
-            <el-button type="primary">{{this.supervisor.name}}<i class="el-icon-arrow-down"/></el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(supervisor, index) in availableSupervisor" :key="index" :command="supervisor">{{supervisor.name}}</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-select v-model="supervisor.id" placeholder="Please Select Supervisor">
+            <el-option v-if="userForm.id !== supervisor.id" v-for="(supervisor, index) in availableSupervisor" :key="index" :value="supervisor.id" :label="supervisor.name"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item style="text-align: left;">
           <el-button type="primary" @click="onSave">Save</el-button>
@@ -88,10 +79,7 @@ export default {
       allUserCount: 0,
       currentPage: 1,
       userForm: null,
-      supervisor: {
-        id: -1,
-        name: 'test'
-      },
+      supervisor: {},
       departments: [],
       roles: ['admin', 'supervisor', 'subordinate'],
       availableSupervisor: []
@@ -130,9 +118,13 @@ export default {
       try {
         let currentSupervisorResponse = await AdminService.getUserSupervisor(user.id)
         if (currentSupervisorResponse.data.success) {
-          this.supervisor = {
-            id: currentSupervisorResponse.data.results.id,
-            name: currentSupervisorResponse.data.results.name
+          if(currentSupervisorResponse.data.results.id === -1) {
+            this.supervisor = {}
+          } else {
+            this.supervisor = {
+              id: currentSupervisorResponse.data.results.id,
+              name: currentSupervisorResponse.data.results.name
+            }
           }
         }
         let supervisorResponse = await AdminService.getAvailableSupervisor(user.department_id)
@@ -149,17 +141,23 @@ export default {
       }
       this.userForm = user
     },
-    onDropdownDepartmentClick (departmentId) {
-      this.userForm.department_id = departmentId
-    },
-    onDropdownRoleClick (role) {
-      this.userForm.role = role
-    },
-    onDropdownSupervisorClick (supervisor) {
-      this.supervisor = supervisor
+    async fetchDepartmentSupervisor (departmentId) {
+      try {
+        let supervisorResponse = await AdminService.getAvailableSupervisor(departmentId)
+        if (supervisorResponse.data.success) {
+          this.availableSupervisor = supervisorResponse.data.results.map((supervisor) => {
+            return {
+              id: supervisor.id,
+              name: supervisor.name
+            }
+          })
+          this.supervisor = {}
+        }
+      } catch (error) {
+        console.log(error)
+      }
     },
     async onSave () {
-      console.log('saving user')
       try {
         await AdminService.editUser(this.userForm.id, this.userForm.department_id, this.userForm.role)
         await AdminService.editSupervisor(this.userForm.id, this.supervisor.id)

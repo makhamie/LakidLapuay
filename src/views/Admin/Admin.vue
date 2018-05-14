@@ -13,20 +13,14 @@
           <el-input v-model="registerForm.name"></el-input>
         </el-form-item>
         <el-form-item label="Department">
-          <el-dropdown @command="onDropdownDepartmentClick">
-            <el-button type="primary">{{this.registerForm.department.name}}<i class="el-icon-arrow-down"/></el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(department, index) in departments" :key="index" :command="department">{{department.name}}</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-select v-model="registerForm.department.id" :value-key="registerForm.department.name" placeholder="Please Select a department">
+            <el-option v-for="(department,index) in departments" :key="index" :label="department.name" :value="department.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="Role">
-          <el-dropdown @command="onDropdownRoleClick">
-            <el-button type="primary">{{this.registerForm.role}}<i class="el-icon-arrow-down"/></el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(role, index) in roles" :key="index" :command="role">{{role}}</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-select v-model="registerForm.role">
+            <el-option v-for="(role, index) in roles" :key="index" :label="role" :value="role"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item style="text-align: left;">
           <el-button type="primary" @click="onRegister">Register</el-button>
@@ -44,10 +38,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        department: {
-          id: -1,
-          name: 'Please select a department'
-        },
+        department: {},
         role: 'admin'
       },
       departments: [],
@@ -77,14 +68,12 @@ export default {
       await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department.id, this.registerForm.role)
       console.log('Successfully register')
     },
-    onDropdownRoleClick (role) {
-      console.log('dropdown click')
-      console.log(role)
-      this.registerForm.role = role
-    },
-    onDropdownDepartmentClick (department) {
-      this.registerForm.department = department
-    }
+    // onDropdownRoleClick (role) {
+    //   this.registerForm.role = role
+    // },
+    // onDropdownDepartmentClick (department) {
+    //   this.registerForm.department = department
+    // }
     // getDepartments: API.allDepartment,
     // getRoles: API.allRole
   }
