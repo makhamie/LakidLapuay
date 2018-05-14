@@ -11,9 +11,13 @@
     <el-menu-item index="Admin" :route="{name: 'Admin'}" v-if="isAdmin">Create User</el-menu-item>
     <el-menu-item index="ManageUser" :route="{name: 'ManageUser'}" v-if="isAdmin">Manage User Account</el-menu-item>
     <el-menu-item index="CreateDepartment" :route="{name: 'CreateDepartment'}" v-if="isAdmin">Create Department</el-menu-item>
-    <el-menu-item @click="$emit('logout')" v-if="isLogin" index="Login" :route="{name: 'Login'}" class="pull-right">Logout</el-menu-item>
     <!-- Supervisor navbar, use v-if="isSupervisor" to check role-->
     <!-- Admin navbar, use v-if="isSubordinator" to check role-->
+    <el-submenu index="9" class="pull-right">
+      <template slot="title">{{ currentUser.name }}</template>
+      <el-menu-item index="Profile" :route="{name: 'Profile'}">Edit profile</el-menu-item>
+      <el-menu-item @click="$emit('logout')" v-if="isLogin" index="Login" :route="{name: 'Login'}">Logout</el-menu-item>
+    </el-submenu>
   </el-menu>
 </template>
 
@@ -41,6 +45,9 @@ export default {
     },
     activeRoute () {
       return this.$route.name
+    },
+    currentUser () {
+      return this.$store.getters.currentUser
     }
   },
   methods: {
