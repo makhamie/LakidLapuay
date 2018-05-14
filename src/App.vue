@@ -21,9 +21,9 @@ export default {
     if (getAuth()) {
       this.isLoading = true
       try {
-        let userRole = await UserService.getRole()
-        if (userRole.data.success) {
-          this.$store.dispatch('setRole', userRole.data.results)
+        let userData = await UserService.getUserData()
+        if (userData.data.success) {
+          this.$store.dispatch('setUser', userData.data.results)
         }
         this.isLoading = false
       } catch (error) {
