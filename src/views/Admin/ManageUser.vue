@@ -118,7 +118,7 @@ export default {
       try {
         let currentSupervisorResponse = await AdminService.getUserSupervisor(user.id)
         if (currentSupervisorResponse.data.success) {
-          if(currentSupervisorResponse.data.results.id === -1) {
+          if (currentSupervisorResponse.data.results.id === -1) {
             this.supervisor = {}
           } else {
             this.supervisor = {

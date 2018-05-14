@@ -67,7 +67,7 @@ export default {
     async onRegister () {
       await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department.id, this.registerForm.role)
       console.log('Successfully register')
-    },
+    }
     // onDropdownRoleClick (role) {
     //   this.registerForm.role = role
     // },
