@@ -11,7 +11,8 @@
         </el-row>
         <el-row>
           <el-form-item label="Period : ">
-             <el-date-picker
+            <el-date-picker
+              :disabled="leaveForm.reason === ''"
               v-model="leaveForm.period"
               @change="validateDate"
               type="daterange"
@@ -24,64 +25,15 @@
           </el-form-item>
         </el-row>
         <el-row>
-          <task-assignment v-if="taskList.length > 0" :list="taskList"></task-assignment>
+          <task-assignment @validateTaskList="validateTaskIsPass" v-if="taskList.length > 0" :list="taskList"></task-assignment>
         </el-row>
-        <el-row>
-          <el-button type="primary" :disabled="leaveForm.period === ''">Create Leave Request</el-button>
+        <el-row style="margin-top: 20px;">
+          <el-button type="primary" @click="createLeaveRequest" :disabled="!validateForm">Create Leave Request</el-button>
         </el-row>
       </el-form>
-      {{isLoading}}
-      <!-- <el-row>
-        <el-col :span="3"><label class="label">Leave for</label></el-col>
-        <el-col :span="9">
-          <div class="control">
-            <div class="select">
-              <select>
-                <option v-for="(typeLeave,index) in typeList" :key="index">{{typeLeave.type}}</option>
-              </select>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="3"><label class="label">Substitute</label></el-col>
-        <el-col :span="9">
-          <div class="control">
-            <div class="select">
-              <select>
-                <option v-for="(substitute,index) in substituteList" :key="index">{{substitute.name}}</option>
-              </select>
-            </div>
-          </div>
-        </el-col>
-      </el-row> -->
     </div>
-    <!-- <div class="field bottom-line">
-      <el-row>
-      <el-col :span="3"></el-col>
-        <el-col :span="3"><label class="label">Period</label></el-col>
-        <el-col :span="9">
-          <p>{{ period }}</p>
-          <template>
-            <div class="block">
-              <el-date-picker
-              v-model="period"
-              type="daterange"
-              start-placeholder="Start date"
-              end-placeholder="End date"
-              format="yyyy/MM/dd"
-              value-format="yyyy-MM-dd"
-              :default-time="['00:00:00', '23:59:59']">
-            </el-date-picker>
-          </div>
-        </template>
-      </el-col>
-    </el-row>
-  </div> -->
-  <!-- <task-assignment></task-assignment> -->
-  <!-- <div class="padding-top align-right bottom-line">
-    <el-button type="primary"  @click="onRequestLeave">Submit</el-button>
-  </div> -->
-  {{leaveForm}}
-</div>
+    {{taskList}}
+  </div>
 </template>
 
 <script>
@@ -101,9 +53,9 @@ export default {
       taskList: [],
       leaveForm: {
         reason: '',
-        substitute: '',
         period: ''
-      }
+      },
+      validateTaskList: false
     }
   },
   components: {
@@ -112,7 +64,10 @@ export default {
   computed: {
     ...mapGetters({
       isLoading: 'isLoading'
-    })
+    }),
+    validateForm () {
+      return this.leaveForm.reason !== '' && this.leaveForm.period !== '' && this.validateTaskList
+    }
   },
   methods: {
     ...mapActions({
@@ -124,12 +79,49 @@ export default {
         this.startLoad()
         let validateDateResponse = await SubordinateService.getTaskInRange(dates[0], dates[1])
         if (validateDateResponse.data.success) {
-          this.taskList = validateDateResponse.data.results
+          this.taskList = validateDateResponse.data.results.map((data) => {
+            return {
+              ...data,
+              isSubstitute: false,
+              substituteId: '',
+              substituteName: ''
+            }
+          })
         }
         this.stopLoad()
       } catch (error) {
         console.log(error)
       }
+    },
+    async createLeaveRequest () {
+      try {
+        let createLeaveRequestResponse = await SubordinateService.createLeaveRequest(this.leaveForm.reason, this.leaveForm.period[0], this.leaveForm.period[1])
+        if (createLeaveRequestResponse.data.success) {
+          let leaveRequestId = createLeaveRequestResponse.data.results.id
+          if (this.taskList.length > 0) {
+            let leaveTask = this.taskList.map((data) => {
+              return {
+                leave_request_id: leaveRequestId,
+                task_id: data.id,
+                substitute_id: data.substituteId
+              }
+            })
+            console.log(leaveTask)
+            await SubordinateService.createLeaveTasks(leaveTask)
+            console.log('sucessfully create leave request')
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    validateTaskIsPass (isPass) {
+      this.validateTaskList = isPass
+    },
+    updateTaskList ({taskIndex, substituter, isSubstitute}) {
+      this.taskList[taskIndex].substituteId = substituter.id
+      this.taskList[taskIndex].substituteName = substituter.name
+      this.taskList[taskIndex].isSubstitute = isSubstitute
     }
   }
 }
