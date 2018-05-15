@@ -1,27 +1,13 @@
 <template>
-  <admin-navbar v-if="isAdmin" :isLogin="isLogin" :activeRoute="activeRoute" @logout="handleLogout"></admin-navbar>
-  <supervisor-navbar v-else-if="isLogin === 'supervisor'" :isLogin="isLogin" :activeRoute="activeRoute" @logout="handleLogout"></supervisor-navbar>
-  <subordinate-navbar v-else-if="isLogin === 'subordinate'" :isLogin="isLogin" :activeRoute="activeRoute" @logout="handleLogout"></subordinate-navbar>
-  <!-- <el-menu
-    :default-active="null"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b">
-    <div class="navbar-brand">LakidLapuay</div>
-    <el-menu-item index="Admin" :route="{name: 'Admin'}" v-if="isAdmin">Create User</el-menu-item>
-    <el-menu-item index="ManageUser" :route="{name: 'ManageUser'}" v-if="isAdmin">Manage User Account</el-menu-item>
-    <el-menu-item index="CreateDepartment" v-if="isAdmin">Create Department</el-menu-item>
-    <el-menu-item v-if="isLogin" index="logout" class="pull-right">Logout</el-menu-item>
-  </el-menu> -->
+  <admin-navbar v-if="isAdmin" :currentUser="currentUser" :isLogin="isLogin" :activeRoute="activeRoute" @logout="handleLogout"></admin-navbar>
+  <supervisor-navbar v-else-if="isSupervisor" :currentUser="currentUser" :isLogin="isLogin" :activeRoute="activeRoute" @logout="handleLogout"></supervisor-navbar>
+  <subordinate-navbar v-else-if="isSubordinator" :currentUser="currentUser" :isLogin="isLogin" :activeRoute="activeRoute" @logout="handleLogout"></subordinate-navbar>
 </template>
 
 <script>
-import AdminNavbar from '../AdminNavbar'
-import SupervisorNavbar from '../SupervisorNavbar'
-import SubordinateNavbar from '../SubordinateNavbar'
+import AdminNavbar from './customnavbar/AdminNavbar'
+import SupervisorNavbar from './customnavbar/SupervisorNavbar'
+import SubordinateNavbar from './customnavbar/SubordinateNavbar'
 
 export default {
   components: {
@@ -31,14 +17,22 @@ export default {
   },
   computed: {
     isLogin () {
-      return this.$store.state.role
+      return this.$store.getters.isLogin
     },
     isAdmin () {
-      console.log(this.$store.state.role)
-      return this.$store.state.role === 'admin'
+      return this.$store.getters.isAdmin
+    },
+    isSupervisor () {
+      return this.$store.getters.isSupervisor
+    },
+    isSubordinator () {
+      return this.$store.getters.isSubordinator
     },
     activeRoute () {
       return this.$route.name
+    },
+    currentUser () {
+      return this.$store.getters.currentUser
     }
   },
   methods: {

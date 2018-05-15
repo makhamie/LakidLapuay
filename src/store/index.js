@@ -5,19 +5,40 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    user: {},
     role: '',
     isLoading: 0
   },
   getters: {
     isLoading (state) {
       return state.isLoading
+    },
+    isLogin (state) {
+      if (state.user.role) return true
+      return false
+    },
+    isAdmin (state) {
+      return state.user.role === 'admin'
+    },
+    isSupervisor (state) {
+      return state.user.role === 'supervisor'
+    },
+    isSubordinator (state) {
+      return state.user.role === 'subordinate'
+    },
+    currentUser (state) {
+      return state.user
     }
   },
   mutations: {
+    setUser (state, newUser) {
+      state.user = newUser
+    },
     setRole (state, newRole) {
       state.role = newRole
     },
-    clearRole (state) {
+    clearUser (state) {
+      state.user = {}
       state.role = ''
     },
     increseLoading (state) {
@@ -31,11 +52,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setUser ({commit}, newUser) {
+      commit('setUser', newUser)
+      commit('setRole', newUser.role)
+    },
     setRole ({ commit }, newRole) {
       commit('setRole', newRole)
     },
     logout ({commit}) {
-      commit('clearRole')
+      commit('clearUser')
     },
     startLoad ({commit}) {
       commit('increseLoading')
