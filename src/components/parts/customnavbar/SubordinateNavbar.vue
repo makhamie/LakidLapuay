@@ -7,6 +7,7 @@
     text-color="#fff"
     active-text-color="#ffd04b" router>
     <div class="navbar-brand">LakidLapuay</div>
+    <el-menu-item index="SubordinateHome" :route="{name: 'SubordinateHome'}">Home</el-menu-item>
     <el-menu-item index="Subordinate" :route="{name: 'Subordinate'}">Create Leave Request</el-menu-item>
     <el-submenu index="9" class="pull-right">
       <template slot="title">{{ currentUser.name }}</template>

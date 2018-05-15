@@ -87,6 +87,9 @@ export default {
               substituteName: ''
             }
           })
+          if (this.taskList.length === 0) {
+            this.validateTaskList = true
+          }
         }
         this.stopLoad()
       } catch (error) {
