@@ -12,8 +12,11 @@
     <el-menu-item index="ManageUser" :route="{name: 'ManageUser'}" v-if="isAdmin">Manage User Account</el-menu-item>
     <el-menu-item index="CreateDepartment" :route="{name: 'CreateDepartment'}" v-if="isAdmin">Create Department</el-menu-item>
     <!-- Supervisor navbar, use v-if="isSupervisor" to check role-->
-    <!-- Admin navbar, use v-if="isSubordinator" to check role-->
-    <el-submenu index="9" class="pull-right">
+    <el-menu-item index="Supervisor" :route="{name: 'Supervisor'}" v-if="isSupervisor">Create Task</el-menu-item>
+    <!-- Subordinator navbar, use v-if="isSubordinator" to check role-->
+    <el-menu-item index="SubordinateHome" :route="{name: 'SubordinateHome'}" v-if="isSubordinator">Home</el-menu-item>
+    <el-menu-item index="Subordinate" :route="{name: 'Subordinate'}" v-if="isSubordinator">Create Leave Request</el-menu-item>
+    <el-submenu index="9" class="pull-right" v-if="isLogin">
       <template slot="title">
         {{ currentUser.name }}
         <img class="nav-img pull-left" :src="currentUser.profile_picture">
@@ -25,16 +28,7 @@
 </template>
 
 <script>
-import AdminNavbar from './customnavbar/AdminNavbar'
-import SupervisorNavbar from './customnavbar/SupervisorNavbar'
-import SubordinateNavbar from './customnavbar/SubordinateNavbar'
-
 export default {
-  components: {
-    AdminNavbar,
-    SupervisorNavbar,
-    SubordinateNavbar
-  },
   computed: {
     isLogin () {
       return this.$store.getters.isLogin

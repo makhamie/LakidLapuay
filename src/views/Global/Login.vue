@@ -14,6 +14,7 @@
 </template>
 <script>
 import { setAuth } from '@/libraries/helper'
+import { UserService } from '@/resources'
 import { BASE_URL } from '@/libraries/const'
 import axios from 'axios'
 
@@ -37,9 +38,12 @@ export default {
         let loginResponse = await axios.post(BASE_URL + '/login', {
           email: this.loginForm.email, password: this.loginForm.password
         })
+        console.log(loginResponse)
         if (loginResponse.data.success) {
           await setAuth(loginResponse.data.results)
-          this.setUser(loginResponse.data.results)
+          let userData = await UserService.getUserData()
+          console.log(userData)
+          this.setUser(userData.data.results)
         }
       } catch (error) {
         console.log(error)

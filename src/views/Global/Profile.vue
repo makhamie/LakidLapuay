@@ -124,21 +124,6 @@ export default {
           this.state.isSaved = true
         })
       }
-      // const imageName = `avatar/${this.userData.name}.jpg`
-      // if (this.imageUrl) {
-      //   const userImageRef = firebase.storage().ref().child(imageName)
-      //   userImageRef.putString(this.imageUrl, 'data_url').then(() => {
-      //     return userImageRef.getDownloadURL()
-      //   }).then((url) => {
-      //     this.userData.profile_picture = url
-      //   }).then(() => {
-      //     return UserService.updateUser(this.userData)
-      //   }).then((response) => {
-      //     this.state.isSaved = true
-      //   }).catch((error) => {
-      //     console.log(error)
-      //   })
-      // }
     }
   }
 }
