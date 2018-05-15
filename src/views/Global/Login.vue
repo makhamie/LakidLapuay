@@ -39,15 +39,15 @@ export default {
         })
         if (loginResponse.data.success) {
           await setAuth(loginResponse.data.results)
-          this.setRole(loginResponse.data.results.role)
+          this.setUser(loginResponse.data.results)
         }
       } catch (error) {
         console.log(error)
       }
     },
-    setRole (role) {
-      this.$store.dispatch('setRole', role)
-      this.$router.push(`/${role}`)
+    setUser (user) {
+      this.$store.dispatch('setUser', user)
+      this.$router.push(`/${user.role}`)
     }
   }
 }

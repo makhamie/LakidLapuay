@@ -7,10 +7,7 @@
     text-color="#fff"
     active-text-color="#ffd04b" router>
     <div class="navbar-brand">LakidLapuay</div>
-    <el-menu-item index="Admin" :route="{name: 'Admin'}">Create User</el-menu-item>
-    <el-menu-item index="ManageUser" :route="{name: 'ManageUser'}">Manage User Account</el-menu-item>
-    <el-menu-item index="CreateDepartment" :route="{name: 'CreateDepartment'}">Create Department</el-menu-item>
-    <!-- <el-menu-item @click="$emit('logout')" v-if="isLogin" index="Login" :route="{name: 'Login'}" class="pull-right">Logout</el-menu-item> -->
+    <el-menu-item index="Subordinate" :route="{name: 'Subordinate'}">Create Leave Request</el-menu-item>
     <el-submenu index="9" class="pull-right">
       <template slot="title">{{ currentUser.name }}</template>
       <el-menu-item index="Profile" :route="{name: 'Profile'}">Edit profile</el-menu-item>

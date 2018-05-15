@@ -14,17 +14,17 @@ export default new Vuex.Store({
       return state.isLoading
     },
     isLogin (state) {
-      if (state.role) return true
+      if (state.user.role) return true
       return false
     },
     isAdmin (state) {
-      return state.role === 'admin'
+      return state.user.role === 'admin'
     },
     isSupervisor (state) {
-      return state.role === 'supervisor'
+      return state.user.role === 'supervisor'
     },
     isSubordinator (state) {
-      return state.role === 'subordinator'
+      return state.user.role === 'subordinate'
     },
     currentUser (state) {
       return state.user
@@ -37,14 +37,15 @@ export default new Vuex.Store({
     setRole (state, newRole) {
       state.role = newRole
     },
-    clearRole (state) {
+    clearUser (state) {
+      state.user = {}
       state.role = ''
     },
     increseLoading (state) {
       state.isLoading = state.isLoading + 1
     },
     decreaseLoading (state) {
-      if (state.isLoading === 0) state.isLoading = state.isLoading - 1
+      if (state.isLoading > 0) state.isLoading = state.isLoading - 1
     },
     clearLoading (state) {
       state.isLoading = 0
@@ -59,7 +60,7 @@ export default new Vuex.Store({
       commit('setRole', newRole)
     },
     logout ({commit}) {
-      commit('clearRole')
+      commit('clearUser')
     },
     startLoad ({commit}) {
       commit('increseLoading')

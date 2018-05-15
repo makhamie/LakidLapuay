@@ -25,13 +25,15 @@
 </template>
 
 <script>
-import AdminNavbar from '@/components/parts/customnavbar/AdminNavbar'
-import SupervisorNavbar from '@/components/parts/customnavbar/SupervisorNavbar'
+import AdminNavbar from './customnavbar/AdminNavbar'
+import SupervisorNavbar from './customnavbar/SupervisorNavbar'
+import SubordinateNavbar from './customnavbar/SubordinateNavbar'
 
 export default {
   components: {
     AdminNavbar,
-    SupervisorNavbar
+    SupervisorNavbar,
+    SubordinateNavbar
   },
   computed: {
     isLogin () {
@@ -41,7 +43,7 @@ export default {
       return this.$store.getters.isAdmin
     },
     isSupervisor () {
-      return this.$state.getters.isSupervisor
+      return this.$store.getters.isSupervisor
     },
     isSubordinator () {
       return this.$store.getters.isSubordinator

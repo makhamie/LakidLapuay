@@ -2,21 +2,9 @@
   <div>
     <div class="container bottom-line">
       <label class="page-title">Subordinate</label>
-      <label class="label">Request to leave</label>
     </div>
     <div>
-      <div v-if="userType==='subordinator'">
-        <br>
-        <leave-form></leave-form>
-        <br>
-        <leave-list></leave-list>
-      </div>
-      <div v-if="userType==='supervisor'">
-        <br>
-        <search> </search>
-        <br>
-        <leave-request></leave-request>
-      </div>
+      <leave-form></leave-form>
     </div>
   </div>
 </template>
@@ -61,7 +49,7 @@ export default {
 <style scoped>
   .container {
     margin-top: 20px;
-    width: 70%;
+    /* width: 70%; */
     text-align: left;
   }
   .field {
