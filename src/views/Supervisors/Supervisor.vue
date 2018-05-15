@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import TaskAssignment from './components/TaskAssignment.vue'
 import TaskList from './components/TaskList.vue'
 import TaskForm from './components/TaskForm.vue'
 import Search from '@/components/Search.vue'
@@ -25,8 +24,7 @@ export default {
   components: {
     TaskForm,
     Search,
-    TaskList,
-    TaskAssignment
+    TaskList
   },
   data () {
     return {
