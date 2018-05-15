@@ -14,7 +14,10 @@
     <!-- Supervisor navbar, use v-if="isSupervisor" to check role-->
     <!-- Admin navbar, use v-if="isSubordinator" to check role-->
     <el-submenu index="9" class="pull-right">
-      <template slot="title">{{ currentUser.name }}</template>
+      <template slot="title">
+        {{ currentUser.name }}
+        <img class="nav-img pull-left" :src="currentUser.profile_picture">
+      </template>
       <el-menu-item index="Profile" :route="{name: 'Profile'}">Edit profile</el-menu-item>
       <el-menu-item @click="$emit('logout')" v-if="isLogin" index="Login" :route="{name: 'Login'}">Logout</el-menu-item>
     </el-submenu>
@@ -59,4 +62,9 @@ export default {
 </script>
 
 <style lang="css">
+.nav-img {
+  border-radius: 2px;
+  max-height: 75%;
+  margin: 5px;
+}
 </style>

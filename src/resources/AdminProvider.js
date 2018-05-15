@@ -21,6 +21,10 @@ class AdminProvider extends HttpRequest {
     return this.fetch('/admin/departments')
   }
 
+  getDepartment (id) {
+    return this.fetch(`/admin/departments/${id}`)
+  }
+
   getAllUsers (page) {
     if (page < 1) {
       page = 1

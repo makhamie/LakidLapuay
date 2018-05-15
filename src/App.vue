@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <nav-bar @logout="onLogout"/>
-    <!-- <admin-navbar v-if="userType ==='admin'" :userType="userType" :activeRoute="activeRoute" @logout="onLogout"/> -->
     <router-view v-if="!isLoading"/>
   </div>
 </template>

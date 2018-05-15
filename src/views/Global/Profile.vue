@@ -1,73 +1,144 @@
 <template>
   <div class="container">
-    <div class="login-container">
-      <h1>Edit Profile</h1>
-      <br>
-      <!-- <el-upload
-        action="https://jsonplaceholder.typicode.com/posts/"
-        list-type="picture-card"
-        :on-preview="handlePictureCardPreview"
-        :on-remove="handleRemove">
-        <i class="el-icon-plus"></i>
-      </el-upload> -->
-
-      <!-- <el-dialog :visible.sync="dialogVisible">
-        <img width="100%" :src="dialogImageUrl" alt="">
-      </el-dialog> -->
-
-      <div class="field">
-        <label class="label">Address</label>
-        <div class="control">
-          <input class="input" placeholder="" value="">
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Facebook</label>
-        <div class="control">
-          <input class="input" placeholder="" value="">
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Line</label>
-        <div class="control">
-          <input class="input" placeholder="" value="">
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Instragram</label>
-        <div class="control">
-          <input class="input" placeholder="" value="">
-        </div>
-      </div>
-      <br>
-      <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-link">Submit</button>
-        </div>
-        <div class="control">
-          <button class="button is-text">Cancel</button>
-        </div>
-      </div>
-    </div>
+    <el-row>
+      <el-col :span="10" :offset="2">
+        <el-form :mode="userData">
+          <h2>Personal Information</h2>
+          <el-form-item label="Name">
+            <el-input v-model="userData.name" />
+          </el-form-item>
+          <el-form-item label="Email">
+            <el-input v-model="userData.email" />
+          </el-form-item>
+          <el-form-item label="Department">
+            <el-select v-model="userData.department_id" placeholder="Select">
+              <el-option
+                v-for="item in departments"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <hr />
+          <h2>Social Network Information</h2>
+          <el-form-item label="Facebook">
+            <el-input v-model="userData.facebook" placeholder="facebook name" />
+          </el-form-item>
+          <el-form-item label="Instagram">
+            <el-input v-model="userData.instagram" placeholder="Instagram id" />
+          </el-form-item>
+          <el-form-item label="Line">
+            <el-input v-model="userData.line" placeholder="Line id" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">Save</el-button>
+            <el-button @click="resetUserData">Cancel</el-button>
+            <i class="el-icon-check" v-if="state.isSaved"> Saved</i>
+          </el-form-item>
+        </el-form>
+      </el-col>
+      <el-col class="profile" :span="10">
+        <h2>Profile Image</h2>
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          action=""
+          :multiple="false"
+          :auto-upload="false"
+          :show-file-list="false"
+          :on-change="submitUpload">
+          <el-button slot="trigger" size="small" type="primary">Select File</el-button>
+          <!-- el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button -->
+          <!-- div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div -->
+        </el-upload>
+        <img class="avatar-img" :src="imageUrl" height="150">
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
+import { AdminService, UserService } from '@/resources'
+import * as firebase from 'firebase'
+
 export default {
-  components: {
-  },
   data () {
     return {
-      dialogImageUrl: '',
-      dialogVisible: false
+      state: {
+        isSaved: false
+      },
+      userData: {},
+      departments: [],
+      imageUrl: ''
     }
   },
+  created () {
+    this.userData = this.$store.getters.currentUser
+    AdminService.getAllDepartments().then((response) => {
+      this.departments = response.data
+    })
+    this.imageUrl = this.userData.profile_picture
+  },
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
+    getUserdata () {
+      return this.$store.getters.currentUser
     },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
+    resetUserData () {
+      this.userData = this.getUserdata()
+    },
+    submitUpload () {
+      let fileReader = new FileReader()
+      fileReader.addEventListener('load', () => {
+        this.imageUrl = fileReader.result
+      })
+      this.imageUrl = fileReader.readAsDataURL(this.$refs.upload.uploadFiles[0].raw)
+    },
+    storeProfileImage () {
+      console.log('in store image')
+      const userImageRef = firebase.storage().ref().child(`avatar/${this.userData.name}.jpg`)
+      if (this.imageUrl !== this.userData.profile_picture) {
+        console.log('imageUrl !=== userdata')
+        return userImageRef.putString(this.imageUrl, 'data_url').then(() => {
+          return userImageRef.getDownloadURL()
+        })
+      }
+      return this.userData.profile_picture
+    },
+    onSubmit () {
+      this.state.isSaved = false
+      if (this.imageUrl !== this.userData.profile_picture) {
+        const userImageRef = firebase.storage().ref().child(`avatar/${this.userData.name}.jpg`)
+        userImageRef.putString(this.imageUrl, 'data_url').then(() => {
+          return userImageRef.getDownloadURL()
+        }).then((url) => {
+          this.userData.profile_picture = url
+        }).then(() => {
+          return UserService.updateUser(this.userData)
+        }).then((response) => {
+          this.state.isSaved = true
+        })
+      } else {
+        UserService.updateUser(this.userData).then((response) => {
+          this.userData = response.data.result.user
+          this.$store.dispatch('setUser', this.userData)
+          this.state.isSaved = true
+        })
+      }
+      // const imageName = `avatar/${this.userData.name}.jpg`
+      // if (this.imageUrl) {
+      //   const userImageRef = firebase.storage().ref().child(imageName)
+      //   userImageRef.putString(this.imageUrl, 'data_url').then(() => {
+      //     return userImageRef.getDownloadURL()
+      //   }).then((url) => {
+      //     this.userData.profile_picture = url
+      //   }).then(() => {
+      //     return UserService.updateUser(this.userData)
+      //   }).then((response) => {
+      //     this.state.isSaved = true
+      //   }).catch((error) => {
+      //     console.log(error)
+      //   })
+      // }
     }
   }
 }
@@ -75,54 +146,16 @@ export default {
 
 <style scoped>
 .container {
-  width: 50%;
-  text-align: left;
+  margin-top: 20px;
 }
 
-.login-container{
-  margin-top: 120px;
-}
-
-h1 {
-  font-size: 50px;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
+.profile {
   margin: 0 10px;
 }
-a {
-  color: #42b983;
-}
-img, avatar-cropper {
-  width: 100px;
-  height: 100px;
-}
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
+
+.avatar-img {
+  height: 150px;
+  border-radius: 30px;
+  margin: 20px;
 }
 </style>

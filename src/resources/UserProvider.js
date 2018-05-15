@@ -7,5 +7,8 @@ class UserProvider extends HttpRequest {
   getUserData () {
     return this.fetch('/get-user')
   }
+  updateUser (data) {
+    return this.update('/user-update', data)
+  }
 }
 export default UserProvider

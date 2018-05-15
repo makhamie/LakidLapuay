@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
 // import 'bulma/css/bulma.css'
 import store from './store'
+import * as firebase from 'firebase'
 
 Vue.config.productionTip = false
 
@@ -18,5 +19,13 @@ new Vue({
   store,
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  created () {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyCopnkVNcXj9MCHawAnnBL9owlVEUGFwxU',
+      authDomain: 'lakidlapuay.firebaseapp.com',
+      databaseURL: 'gs://lakidlapuay/',
+      storageBucket: 'lakidlapuay'
+    })
+  }
 })
