@@ -25,5 +25,17 @@ class SubordinateProvider extends HttpRequest {
       leave_task_array: taskArray
     })
   }
+  getLeaveTask (type, page) {
+    return this.fetch('get-leave-tasks-by-substitute', {
+      request: type,
+      page: page
+    })
+  }
+  responseLeaveTask (leaveTaskId, response) {
+    return this.update('response-leave-task', {
+      leave_task_id: leaveTaskId,
+      action: response
+    })
+  }
 }
 export default SubordinateProvider

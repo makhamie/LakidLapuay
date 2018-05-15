@@ -5,6 +5,7 @@ import Supervisor from '@/views/Supervisors/Supervisor'
 import Login from '@/views/Global/Login'
 import Admin from '@/views/Admin/Admin'
 import Subordinate from '@/views/Subordinates/Subordinate'
+import SubordinateHome from '@/views/Subordinates/Home'
 import Profile from '@/views/Global/Profile'
 import ManageUser from '@/views/Admin/ManageUser'
 import CreateDepartment from '@/views/Admin/CreateDepartment'
@@ -46,6 +47,11 @@ export default new Router({
       children: [
         {
           path: '',
+          component: SubordinateHome,
+          name: 'SubordinateHome'
+        },
+        {
+          path: '/create-leave-request',
           component: Subordinate,
           name: 'Subordinate'
         }
