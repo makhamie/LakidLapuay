@@ -131,9 +131,11 @@ export default {
 </script>
 <style scoped>
 .container {
-  margin-top: 20px;
-  text-align: left;
+  width: 70%;
+  margin: auto;
+  margin-top: 50px;
 }
+
 .field {
   margin-top: 20px;
 }

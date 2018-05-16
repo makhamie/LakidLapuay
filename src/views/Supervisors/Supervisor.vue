@@ -8,10 +8,12 @@
         <task-assignment></task-assignment>
       </div> -->
       <!-- <div v-if="userType==='supervisor'"> -->
+    <div class="container bottom-line">
       <task-form></task-form>
       <!-- <search> </search>
       <task-list> </task-list> -->
       <!-- </div> -->
+    </div>
     </div>
   </div>
 </template>
@@ -36,13 +38,15 @@ export default {
 
 <style scoped>
 .page-title {
-  margin-top: 50px;
   font-size: 50px;
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 50px;
 }
 .container {
-  margin-top: 20px;
-  width: 70%;
-  text-align: left;
+  width: 100%;
+  margin: auto;
+  margin-top: 50px;
 }
 .bottom-line {
   border-bottom: 1px;

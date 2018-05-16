@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Create user</h1>
     <div class="login-container">
       <el-form ref="registerForm" :model="registerForm" label-width="120px">
@@ -66,8 +66,9 @@ export default {
 
 <style scoped>
 .container {
-  width: 50%;
-  text-align: left;
+  width: 70%;
+  margin: auto;
+  margin-top: 50px;
 }
 
 .login-container{

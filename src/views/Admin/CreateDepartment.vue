@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Create Department</h1>
     <el-form class="edit-form" ref="departmentForm" :model="departmentForm" label-width="120px">
       <el-form-item label="Department">
@@ -37,6 +37,11 @@ export default {
 }
 </script>
 <style scoped>
+  .container {
+    width: 70%;
+    margin: auto;
+    margin-top: 50px;
+  }
   .table-footer {
     border: 1px solid #dfe6ec;
     border-top: none;

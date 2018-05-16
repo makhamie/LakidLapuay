@@ -1,60 +1,64 @@
 <template>
-  <div class="container">
-    <el-row>
-      <el-col :span="10" :offset="2">
-        <el-form :mode="userData">
-          <h2>Personal Information</h2>
-          <el-form-item label="Name">
-            <el-input v-model="userData.name" />
-          </el-form-item>
-          <el-form-item label="Email">
-            <el-input v-model="userData.email" />
-          </el-form-item>
-          <el-form-item label="Department">
-            <el-select v-model="userData.department_id" placeholder="Select">
-              <el-option
-                v-for="item in departments"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <hr />
-          <h2>Social Network Information</h2>
-          <el-form-item label="Facebook">
-            <el-input v-model="userData.facebook" placeholder="facebook name" />
-          </el-form-item>
-          <el-form-item label="Instagram">
-            <el-input v-model="userData.instagram" placeholder="Instagram id" />
-          </el-form-item>
-          <el-form-item label="Line">
-            <el-input v-model="userData.line" placeholder="Line id" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">Save</el-button>
-            <el-button @click="resetUserData">Cancel</el-button>
-            <i class="el-icon-check" v-if="state.isSaved"> Saved</i>
-          </el-form-item>
-        </el-form>
-      </el-col>
-      <el-col class="profile" :span="10">
-        <h2>Profile Image</h2>
-        <el-upload
-          class="upload-demo"
-          ref="upload"
-          action=""
-          :multiple="false"
-          :auto-upload="false"
-          :show-file-list="false"
-          :on-change="submitUpload">
-          <el-button slot="trigger" size="small" type="primary">Select File</el-button>
-          <!-- el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button -->
-          <!-- div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div -->
-        </el-upload>
-        <img class="avatar-img" :src="imageUrl" height="150">
-      </el-col>
-    </el-row>
+  <div class>
+    <div class="header-container bottom-line">
+      <label class="page-title">Update profile</label>
+    </div>
+    <div class="container">
+      <el-row>
+        <el-col class="profile" :span="5">
+          <h2>Profile Image</h2>
+          <img class="avatar-img" :src="imageUrl" height="150">
+          <el-upload
+            class="upload-demo"
+            ref="upload"
+            action=""
+            :multiple="false"
+            :auto-upload="false"
+            :show-file-list="false"
+            :on-change="submitUpload">
+            <el-button slot="trigger" size="small" type="primary">Select File</el-button>
+            <!-- el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button -->
+            <!-- div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div -->
+          </el-upload>
+        </el-col>
+        <el-col :span="15" :offset="2">
+          <el-form :mode="userData">
+            <h2>Personal Information</h2>
+            <el-form-item label="Name">
+              <el-input v-model="userData.name" />
+            </el-form-item>
+            <el-form-item label="Email">
+              <el-input v-model="userData.email" />
+            </el-form-item>
+            <el-form-item class="bottom-line" label="Department">
+              <el-select v-model="userData.department_id" placeholder="Select">
+                <el-option
+                  v-for="item in departments"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <h2>Social Network Information</h2>
+            <el-form-item label="Facebook">
+              <el-input v-model="userData.facebook" placeholder="facebook name" />
+            </el-form-item>
+            <el-form-item label="Instagram">
+              <el-input v-model="userData.instagram" placeholder="Instagram id" />
+            </el-form-item>
+            <el-form-item label="Line">
+              <el-input v-model="userData.line" placeholder="Line id" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">Save</el-button>
+              <el-button @click="resetUserData">Cancel</el-button>
+              <i class="el-icon-check" v-if="state.isSaved"> Saved</i>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 <script>
@@ -131,7 +135,23 @@ export default {
 
 <style scoped>
 .container {
-  margin-top: 20px;
+  width: 70%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.header-container {
+  width: 100%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.bottom-line {
+  border-bottom: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #e0e0E0;
+  padding-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .profile {
@@ -141,6 +161,13 @@ export default {
 .avatar-img {
   height: 150px;
   border-radius: 30px;
-  margin: 20px;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 50px;
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 50px;
 }
 </style>
