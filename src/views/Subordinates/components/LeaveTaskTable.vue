@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <el-tabs v-model="tab" @tab-click="handleTabChange">
       <!-- Pending Tab -->
       <el-tab-pane label="Pending" name="pending">
@@ -258,6 +258,11 @@ export default {
 }
 </script>
 <style scoped>
+  .container {
+    width: 70%;
+    margin: auto;
+    margin-top: 50px;
+  }
   .table-footer {
     border: 1px solid #dfe6ec;
     border-top: none;
