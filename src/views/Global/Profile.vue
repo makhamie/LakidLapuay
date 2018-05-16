@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div class="container bottom-line">
+      <label class="page-title">Update profile</label>
+    </div>
     <el-row>
       <el-col :span="10" :offset="2">
         <el-form :mode="userData">
@@ -131,7 +134,17 @@ export default {
 
 <style scoped>
 .container {
-  margin-top: 20px;
+  width: 70%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.bottom-line {
+  border-bottom: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #e0e0E0;
+  padding-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .profile {

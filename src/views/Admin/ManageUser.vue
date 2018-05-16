@@ -1,43 +1,21 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Manage User</h1>
     <div class="login-container">
-      <el-table
-      :data="tableData"
-      @row-click="onClickRow"
-      style="width: 100%"
-      :header-row-style="{'text-align': 'center'}">
-        <el-table-column
-          prop="id"
-          label="ID"
-          width="50"
-          >
+      <el-table :data="tableData" @row-click="onClickRow" style="width: 100%" :header-row-style="{'text-align': 'center'}">
+        <el-table-column prop="id" label="ID" width="50">
         </el-table-column>
-        <el-table-column
-          prop="name"
-          label="Name"
-          >
+        <el-table-column prop="name" label="Name">
         </el-table-column>
-        <el-table-column
-          prop="department.name"
-          label="Department"
-          >
+        <el-table-column prop="department.name" label="Department">
         </el-table-column>
-        <el-table-column
-          prop="role"
-          label="Role"
-          >
+        <el-table-column prop="role" label="Role">
         </el-table-column>
       </el-table>
       <el-row :gutter="0" class="table-footer">
         <el-col :sm="24" class="text-right">
           <div class="block">
-            <el-pagination
-              @current-change="handlePageChange"
-              :current-page="currentPage"
-              :page-size="perPage"
-              layout="total, prev, pager, next"
-              :total="allUserCount">
+            <el-pagination @current-change="handlePageChange" :current-page="currentPage" :page-size="perPage" layout="total, prev, pager, next" :total="allUserCount">
             </el-pagination>
           </div>
         </el-col>
@@ -68,9 +46,14 @@
     </div>
   </div>
 </template>
+
 <script>
-import { AdminService } from '@/resources'
-import { PER_PAGE } from '@/libraries/const'
+import {
+  AdminService
+} from '@/resources'
+import {
+  PER_PAGE
+} from '@/libraries/const'
 
 export default {
   data () {
@@ -175,14 +158,23 @@ export default {
 
 }
 </script>
+
 <style scoped>
+  .container {
+    width: 70%;
+    margin: auto;
+    margin-top: 50px;
+  }
   .table-footer {
     border: 1px solid #dfe6ec;
     border-top: none;
     padding: 5px;
   }
-  .text-right { text-align: right; }
+  .text-right {
+    text-align: right;
+  }
   .edit-form {
     margin-top: 30px;
+    width: 50%;
   }
 </style>
