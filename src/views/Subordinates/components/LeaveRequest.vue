@@ -103,3 +103,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.container {
+  width: 70%;
+  margin-top: 50px;
+}
+</style>

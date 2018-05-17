@@ -22,7 +22,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .container {
+  .header-container {
     margin-top: 50px;
     text-align: left;
   }
