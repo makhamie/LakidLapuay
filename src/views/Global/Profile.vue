@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div v-loading="isLoading">
     <div class="header-container bottom-line">
       <label class="page-title">Update profile</label>
     </div>
@@ -65,6 +65,7 @@
 import { AdminService, UserService } from '@/resources'
 import { messageAlert, notificationAlert } from '@/libraries/helper'
 import * as firebase from 'firebase'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
@@ -78,16 +79,27 @@ export default {
     }
   },
   created () {
+    this.startLoad()
     this.userData = this.$store.getters.currentUser
+    this.imageUrl = this.userData.profile_picture
     AdminService.getAllDepartments().then((response) => {
       this.departments = response.data
+      this.stopLoad()
     }).catch((error) => {
       console.log(error)
-      notificationAlert('Cannot contact server', 'error')
+      this.stopLoad()
     })
-    this.imageUrl = this.userData.profile_picture
+  },
+  computed: {
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
   },
   methods: {
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    }),
     getUserdata () {
       return this.$store.getters.currentUser
     },
@@ -102,6 +114,7 @@ export default {
       this.imageUrl = fileReader.readAsDataURL(this.$refs.upload.uploadFiles[0].raw)
     },
     storeProfileImage () {
+      this.startLoad()
       const userImageRef = firebase.storage().ref().child(`avatar/${this.userData.name}.jpg`)
       if (this.imageUrl !== this.userData.profile_picture) {
         console.log('imageUrl !=== userdata')
@@ -110,11 +123,13 @@ export default {
         }).catch((error) => {
           console.log(error)
           messageAlert('Fail to upload image', 'error')
+          this.stopLoad()
         })
       }
       return this.userData.profile_picture
     },
     onSubmit () {
+      this.startLoad()
       this.state.isSaved = false
       if (this.imageUrl !== this.userData.profile_picture) {
         const userImageRef = firebase.storage().ref().child(`avatar/${this.userData.name}.jpg`)
@@ -126,9 +141,11 @@ export default {
           return UserService.updateUser(this.userData)
         }).then((response) => {
           this.state.isSaved = true
+          this.stopLoad()
           messageAlert('Edit user profile successful', 'success')
         }).catch((error) => {
           console.log(error)
+          this.stopLoad()
           messageAlert('Fail to edit user profile', 'error')
         })
       } else {
@@ -136,9 +153,11 @@ export default {
           this.userData = response.data.result.user
           this.$store.dispatch('setUser', this.userData)
           this.state.isSaved = true
+          this.stopLoad()
           messageAlert('Edit user profile successful', 'success')
         }).catch((error) => {
           console.log(error)
+          this.stopLoad()
           messageAlert('Fail to edit user profile', 'error')
         })
       }

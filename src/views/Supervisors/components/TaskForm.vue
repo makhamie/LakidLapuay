@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-loading="isLoading" class="container">
     <div class="field">
       <el-form :inline="true" ref="taskForm" :model="taskForm" label-width="120px">
         <el-row>
@@ -36,6 +36,7 @@
 <script>
 import { SupervisorService } from '@/resources'
 import { notificationAlert, messageAlert } from '@/libraries/helper'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
@@ -65,31 +66,46 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
+  },
   async mounted () {
+    this.startLoad()
     try {
       let subordinatorResponse = await SupervisorService.getSubordinators()
       if (subordinatorResponse.data.success) {
         this.subordinatorList = subordinatorResponse.data.results
       }
+      this.stopLoad()
     } catch (error) {
+      this.stopLoad()
       notificationAlert('Cannot contact server', 'error')
       console.log(error)
     }
   },
   methods: {
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    }),
     async createTask () {
+      this.startLoad()
       try {
         let createTaskResponse = await SupervisorService.createTask(this.taskForm.subordinator, this.taskForm.name, this.taskForm.time[0], this.taskForm.time[1], this.taskForm.description)
         if (createTaskResponse.data.success) {
+          this.stopLoad()
           messageAlert('Create task successfully')
         } else {
+          this.stopLoad()
           messageAlert('Cannot create task')
         }
       } catch (error) {
+        this.stopLoad()
         messageAlert('Cannot create task')
         console.log(error)
       }
-      console.log('create task')
     }
   }
 }

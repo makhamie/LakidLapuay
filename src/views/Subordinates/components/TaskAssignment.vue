@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-loading="isLoading" class="container">
     <label class="label">Task Assignment</label>
     <div>
       <el-table
@@ -48,11 +48,6 @@ import SubstituteModal from './SubstituteModal'
 
 export default {
   props: ['list'],
-  data () {
-    return {
-      // taskList: []
-    }
-  },
   components: {
     SubstituteModal
   },

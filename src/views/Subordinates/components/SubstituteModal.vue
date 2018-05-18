@@ -6,6 +6,7 @@
       :visible.sync="dialogVisible"
       size="small"
       @open="onSubstituteModalClick"
+      v-loading="isLoading"
     >
     <span>
       <el-select v-model="substituter">
@@ -22,6 +23,7 @@
 <script>
 import { SubordinateService } from '@/resources'
 import { notificationAlert } from '@/libraries/helper'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: ['taskId', 'startDate', 'endDate'],
@@ -32,14 +34,26 @@ export default {
       substituterList: []
     }
   },
+  computed: {
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
+  },
   methods: {
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    }),
     async onSubstituteModalClick () {
+      this.startLoad()
       try {
         let availableColleagueResponse = await SubordinateService.getAvailableColleague(this.startDate, this.endDate)
         if (availableColleagueResponse.data.success) {
           this.substituterList = availableColleagueResponse.data.results
         }
+        this.stopLoad()
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
       }
     },

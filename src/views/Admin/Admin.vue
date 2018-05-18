@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-loading="isLoading" class="container">
     <h1>Create user</h1>
     <div class="login-container">
       <el-form ref="registerForm" :model="registerForm" label-width="120px">
@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import { AdminService } from '../../resources'
 import { messageAlert, notificationAlert } from '@/libraries/helper'
 export default {
@@ -46,26 +47,42 @@ export default {
       roles: ['admin', 'supervisor', 'subordinate']
     }
   },
+  computed: {
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
+  },
   async mounted () {
+    this.startLoad()
     try {
       let allDepartmentResponse = await AdminService.getAllDepartments()
       if (allDepartmentResponse.data) {
         this.departments = allDepartmentResponse.data
+        this.stopLoad()
       }
     } catch (error) {
       notificationAlert('Cannot contact server', 'error')
       console.log(error)
+      this.stopLoad()
     }
   },
   methods: {
     async onRegister () {
+      this.startLoad()
       try {
         await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department.id, this.registerForm.role)
+        this.stopLoad()
         messageAlert('Create new user successfully')
       } catch (error) {
+        this.stopLoad()
         messageAlert('Fail to create user', 'error')
+        console.log(error)
       }
-    }
+    },
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    })
   }
 }
 </script>

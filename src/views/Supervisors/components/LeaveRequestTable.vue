@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs v-model="tab" @tab-click="handleTabChange">
+    <el-tabs v-loading="isLoading" v-model="tab" @tab-click="handleTabChange">
       <!-- Pending Tab -->
       <el-tab-pane label="Pending" name="pending">
         <!-- {{pendingRows}} -->
@@ -161,6 +161,7 @@ import { PER_PAGE } from '@/libraries/const'
 import { notificationAlert, messageAlert } from '@/libraries/helper'
 import { SupervisorService } from '@/resources'
 import LeaveRequestDetailModal from './LeaveRequestDetailModal'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
@@ -184,9 +185,13 @@ export default {
   computed: {
     perPage () {
       return PER_PAGE
-    }
+    },
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
   },
   async mounted () {
+    this.startLoad()
     try {
       let pendingRowsResponse = await SupervisorService.getLeaveRequest(this.tab, this.currentPage)
       if (pendingRowsResponse.data.success) {
@@ -194,12 +199,19 @@ export default {
         this.pendingRows = pendingRowsResponse.data.results.leave_requests
         this.pendingRowCount = pendingRowsResponse.data.results.count
       }
+      this.stopLoad()
     } catch (error) {
+      this.stopLoad()
       notificationAlert('Cannot contact server', 'error')
     }
   },
   methods: {
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    }),
     async handleTabChange (tab, event) {
+      this.startLoad()
       const currentTab = tab.name
       this.tab = tab.name
       this.currentPage = 1
@@ -209,12 +221,15 @@ export default {
           this[`${currentTab}Rows`] = newRowsResponse.data.results.leave_requests
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
+        this.stopLoad()
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
     async handlePageChange (page) {
+      this.startLoad()
       this.currentPage = page
       const currentTab = this.tab
       try {
@@ -223,38 +238,49 @@ export default {
           this[`${currentTab}Rows`] = newRowsResponse.data.results.leave_requests
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
+        this.stopLoad()
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
     async approveLeaveRequest (leaveRequestId) {
+      this.startLoad()
       try {
         let leaveRequestResponse = await SupervisorService.responseLeaveRequest(leaveRequestId, 'approved')
         if (leaveRequestResponse.data.success) {
+          this.stopLoad()
           messageAlert('Leave request approved')
           this.reload()
         } else {
+          this.stopLoad()
           messageAlert('Fail to approved', 'error')
         }
       } catch (error) {
+        this.stopLoad()
         messageAlert('Cannot contact server', 'error')
       }
     },
     async rejectLeaveRequest (leaveRequestId) {
+      this.startLoad()
       try {
         let leaveRequestResponse = await SupervisorService.responseLeaveRequest(leaveRequestId, 'rejected')
         if (leaveRequestResponse.data.success) {
+          this.stopLoad()
           messageAlert('Leave request rejected')
           this.reload()
         } else {
+          this.stopLoad()
           messageAlert('Fail to approved', 'error')
         }
       } catch (error) {
+        this.stopLoad()
         messageAlert('Cannot contact server', 'error')
       }
     },
     async reload () {
+      this.startLoad()
       this.currentPage = 1
       const currentTab = this.tab
       try {
@@ -263,7 +289,9 @@ export default {
           this[`${currentTab}Rows`] = newRowsResponse.data.results.leave_tasks
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
+        this.stopLoad()
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
