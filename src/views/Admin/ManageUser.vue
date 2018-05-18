@@ -48,12 +48,9 @@
 </template>
 
 <script>
-import {
-  AdminService
-} from '@/resources'
-import {
-  PER_PAGE
-} from '@/libraries/const'
+import { AdminService } from '@/resources'
+import { PER_PAGE } from '@/libraries/const'
+import { notificationAlert, messageAlert } from '@/libraries/helper'
 
 export default {
   data () {
@@ -70,7 +67,6 @@ export default {
   },
   async mounted () {
     try {
-      console.log('mounted Manage User')
       let allUserResponse = await AdminService.getAllUsers(this.currentPage)
       let allDepartments = await AdminService.getAllDepartments()
       if (allUserResponse.data.success) {
@@ -81,6 +77,7 @@ export default {
         this.departments = allDepartments.data
       }
     } catch (error) {
+      notificationAlert('Cannot Contact Server', 'error')
       console.log(error)
     }
   },
@@ -94,6 +91,7 @@ export default {
           this.allUserCount = allUserResponse.data.results.count
         }
       } catch (error) {
+        notificationAlert('Cannot Contact Server', 'error')
         console.log(error)
       }
     },
@@ -120,6 +118,7 @@ export default {
           })
         }
       } catch (error) {
+        messageAlert('Cannot contact server', 'error')
         console.log(error)
       }
       this.userForm = user
@@ -137,6 +136,7 @@ export default {
           this.supervisor = {}
         }
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
@@ -144,8 +144,9 @@ export default {
       try {
         await AdminService.editUser(this.userForm.id, this.userForm.department_id, this.userForm.role)
         await AdminService.editSupervisor(this.userForm.id, this.supervisor.id)
-        console.log('Successfuly save user')
+        messageAlert('Edit user successfully')
       } catch (error) {
+        messageAlert('Fail to edit user', 'error')
         console.log(error)
       }
     }

@@ -158,6 +158,7 @@
 
 <script>
 import { PER_PAGE } from '@/libraries/const'
+import { notificationAlert, messageAlert } from '@/libraries/helper'
 import { SupervisorService } from '@/resources'
 import LeaveRequestDetailModal from './LeaveRequestDetailModal'
 
@@ -194,7 +195,7 @@ export default {
         this.pendingRowCount = pendingRowsResponse.data.results.count
       }
     } catch (error) {
-      console.log(error)
+      notificationAlert('Cannot contact server', 'error')
     }
   },
   methods: {
@@ -209,6 +210,7 @@ export default {
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
@@ -222,6 +224,7 @@ export default {
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
@@ -229,20 +232,26 @@ export default {
       try {
         let leaveRequestResponse = await SupervisorService.responseLeaveRequest(leaveRequestId, 'approved')
         if (leaveRequestResponse.data.success) {
+          messageAlert('Leave request approved')
           this.reload()
+        } else {
+          messageAlert('Fail to approved', 'error')
         }
       } catch (error) {
-        console.log(error)
+        messageAlert('Cannot contact server', 'error')
       }
     },
     async rejectLeaveRequest (leaveRequestId) {
       try {
         let leaveRequestResponse = await SupervisorService.responseLeaveRequest(leaveRequestId, 'rejected')
         if (leaveRequestResponse.data.success) {
+          messageAlert('Leave request rejected')
           this.reload()
+        } else {
+          messageAlert('Fail to approved', 'error')
         }
       } catch (error) {
-        console.log(error)
+        messageAlert('Cannot contact server', 'error')
       }
     },
     async reload () {
@@ -255,6 +264,7 @@ export default {
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     }

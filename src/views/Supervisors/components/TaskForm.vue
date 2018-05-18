@@ -34,9 +34,8 @@
 </template>
 
 <script>
-import {
-  SupervisorService
-} from '@/resources'
+import { SupervisorService } from '@/resources'
+import { notificationAlert, messageAlert } from '@/libraries/helper'
 
 export default {
   data () {
@@ -73,17 +72,21 @@ export default {
         this.subordinatorList = subordinatorResponse.data.results
       }
     } catch (error) {
+      notificationAlert('Cannot contact server', 'error')
       console.log(error)
     }
   },
   methods: {
     async createTask () {
-      // console.log(this.taskForm)
       try {
         let createTaskResponse = await SupervisorService.createTask(this.taskForm.subordinator, this.taskForm.name, this.taskForm.time[0], this.taskForm.time[1], this.taskForm.description)
-        console.log(createTaskResponse)
-        console.log('create task successfuly')
+        if (createTaskResponse.data.success) {
+          messageAlert('Create task successfully')
+        } else {
+          messageAlert('Cannot create task')
+        }
       } catch (error) {
+        messageAlert('Cannot create task')
         console.log(error)
       }
       console.log('create task')

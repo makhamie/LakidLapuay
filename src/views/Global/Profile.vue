@@ -63,6 +63,7 @@
 </template>
 <script>
 import { AdminService, UserService } from '@/resources'
+import { messageAlert, notificationAlert } from '@/libraries/helper'
 import * as firebase from 'firebase'
 
 export default {
@@ -80,6 +81,9 @@ export default {
     this.userData = this.$store.getters.currentUser
     AdminService.getAllDepartments().then((response) => {
       this.departments = response.data
+    }).catch((error) => {
+      console.log(error)
+      notificationAlert('Cannot contact server', 'error')
     })
     this.imageUrl = this.userData.profile_picture
   },
@@ -98,12 +102,14 @@ export default {
       this.imageUrl = fileReader.readAsDataURL(this.$refs.upload.uploadFiles[0].raw)
     },
     storeProfileImage () {
-      console.log('in store image')
       const userImageRef = firebase.storage().ref().child(`avatar/${this.userData.name}.jpg`)
       if (this.imageUrl !== this.userData.profile_picture) {
         console.log('imageUrl !=== userdata')
         return userImageRef.putString(this.imageUrl, 'data_url').then(() => {
           return userImageRef.getDownloadURL()
+        }).catch((error) => {
+          console.log(error)
+          messageAlert('Fail to upload image', 'error')
         })
       }
       return this.userData.profile_picture
@@ -120,12 +126,20 @@ export default {
           return UserService.updateUser(this.userData)
         }).then((response) => {
           this.state.isSaved = true
+          messageAlert('Edit user profile successful', 'success')
+        }).catch((error) => {
+          console.log(error)
+          messageAlert('Fail to edit user profile', 'error')
         })
       } else {
         UserService.updateUser(this.userData).then((response) => {
           this.userData = response.data.result.user
           this.$store.dispatch('setUser', this.userData)
           this.state.isSaved = true
+          messageAlert('Edit user profile successful', 'success')
+        }).catch((error) => {
+          console.log(error)
+          messageAlert('Fail to edit user profile', 'error')
         })
       }
     }

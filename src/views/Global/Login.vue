@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import { setAuth } from '@/libraries/helper'
+import { setAuth, messageAlert } from '@/libraries/helper'
 import { UserService } from '@/resources'
 import { BASE_URL } from '@/libraries/const'
 import axios from 'axios'
@@ -42,10 +42,13 @@ export default {
         if (loginResponse.data.success) {
           await setAuth(loginResponse.data.results)
           let userData = await UserService.getUserData()
-          console.log(userData)
           this.setUser(userData.data.results)
+          messageAlert('Login Successful', 'success')
+        } else {
+          messageAlert('User or password is incorrect', 'error')
         }
       } catch (error) {
+        messageAlert('Cannot connect to server', 'error')
         console.log(error)
       }
     },
