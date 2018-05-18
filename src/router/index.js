@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Route from '../Route'
 import Supervisor from '@/views/Supervisors/Supervisor'
+import SupervisorHome from '@/views/Supervisors/Home'
 import Login from '@/views/Global/Login'
 import Admin from '@/views/Admin/Admin'
 import Subordinate from '@/views/Subordinates/Subordinate'
@@ -63,6 +64,11 @@ export default new Router({
       children: [
         {
           path: '',
+          component: SupervisorHome,
+          name: 'SupervisorHome'
+        },
+        {
+          path: 'create-task',
           component: Supervisor,
           name: 'Supervisor'
         }

@@ -12,6 +12,7 @@
     <el-menu-item index="ManageUser" :route="{name: 'ManageUser'}" v-if="isAdmin">Manage User Account</el-menu-item>
     <el-menu-item index="CreateDepartment" :route="{name: 'CreateDepartment'}" v-if="isAdmin">Create Department</el-menu-item>
     <!-- Supervisor navbar, use v-if="isSupervisor" to check role-->
+    <el-menu-item index="SupervisorHome" :route="{name: 'SupervisorHome'}" v-if="isSupervisor">Home</el-menu-item>
     <el-menu-item index="Supervisor" :route="{name: 'Supervisor'}" v-if="isSupervisor">Create Task</el-menu-item>
     <!-- Subordinator navbar, use v-if="isSubordinator" to check role-->
     <el-menu-item index="SubordinateHome" :route="{name: 'SubordinateHome'}" v-if="isSubordinator">Home</el-menu-item>
