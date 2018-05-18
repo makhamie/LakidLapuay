@@ -13,6 +13,7 @@
 </template>
 <script>
 import { AdminService } from '@/resources'
+import { messageAlert } from '@/libraries/helper'
 
 export default {
   data () {
@@ -27,8 +28,9 @@ export default {
       console.log('saving user')
       try {
         await AdminService.createDepartment(this.departmentForm.name)
-        console.log('Successfuly save department')
+        messageAlert('Create new department successfully')
       } catch (error) {
+        messageAlert('Fail to create new department', 'error')
         console.log(error)
       }
     }

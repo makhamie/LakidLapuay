@@ -5,7 +5,6 @@
       title="LeaveRequestDetail"
       :visible.sync="leaveRequestDetailModalVisible"
       @open="openLeaveRequestDetail"
-      @close="onClose"
     >
       <el-table :data="leaveRequestDetailRows">
         <el-table-column
@@ -48,6 +47,7 @@
 <script>
 import { SupervisorService } from '@/resources'
 import { PER_PAGE } from '@/libraries/const'
+import { notificationAlert, messageAlert } from '@/libraries/helper'
 
 export default {
   props: ['leaveRequestId'],
@@ -74,6 +74,7 @@ export default {
           this.leaveRequestDetailCount = leaveRequestDetailResponse.data.results.count
         }
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
@@ -87,6 +88,7 @@ export default {
         }
         this.leaveRequestDetailModalVisible = true
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
@@ -95,7 +97,9 @@ export default {
       try {
         await SupervisorService.responseLeaveRequest(this.leaveRequestId, action)
         this.leaveRequestDetailModalVisible = false
+        messageAlert('Successfuly response to leave request')
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     }

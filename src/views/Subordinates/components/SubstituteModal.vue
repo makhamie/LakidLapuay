@@ -1,10 +1,11 @@
 <template>
   <div>
-    <el-button class="" type="text" @click="onSubstituteModalClick">Substitute</el-button>
+    <el-button class="" type="text" @click="dialogVisible = true">Substitute</el-button>
     <el-dialog
       title="Find Substituter"
       :visible.sync="dialogVisible"
       size="small"
+      @open="onSubstituteModalClick"
     >
     <span>
       <el-select v-model="substituter">
@@ -20,6 +21,7 @@
 </template>
 <script>
 import { SubordinateService } from '@/resources'
+import { notificationAlert } from '@/libraries/helper'
 
 export default {
   props: ['taskId', 'startDate', 'endDate'],
@@ -37,13 +39,11 @@ export default {
         if (availableColleagueResponse.data.success) {
           this.substituterList = availableColleagueResponse.data.results
         }
-        this.dialogVisible = true
       } catch (error) {
-        console.log(error)
+        notificationAlert('Cannot contact server', 'error')
       }
     },
     onConfirmSubstituter () {
-      console.log('Emit back to parent')
       this.$emit('onConfirm', {taskId: this.taskId, substituter: this.substituter})
       this.dialogVisible = false
     }

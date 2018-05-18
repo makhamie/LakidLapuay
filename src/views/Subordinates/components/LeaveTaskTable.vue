@@ -149,6 +149,7 @@
 <script>
 import { SubordinateService } from '@/resources'
 import { PER_PAGE } from '@/libraries/const'
+import { messageAlert, notificationAlert } from '@/libraries/helper'
 
 export default {
   data () {
@@ -179,6 +180,7 @@ export default {
         this.pendingRowCount = pendingRowsResponse.data.results.count
       }
     } catch (error) {
+      notificationAlert('Cannot contact server', 'error')
       console.log(error)
     }
   },
@@ -193,6 +195,7 @@ export default {
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
@@ -207,6 +210,7 @@ export default {
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
@@ -215,8 +219,11 @@ export default {
         let leaveTaskResponse = await SubordinateService.responseLeaveTask(leaveTaskId, 'approved')
         if (leaveTaskResponse.data.success) {
           this.reload()
+          messageAlert('Leave task approved')
         }
+        messageAlert('Cannot approve leave task')
       } catch (error) {
+        messageAlert('Fail to approve leave task', 'error')
         console.log(error)
       }
     },
@@ -225,8 +232,11 @@ export default {
         let leaveTaskResponse = await SubordinateService.responseLeaveTask(leaveTaskId, 'rejected')
         if (leaveTaskResponse.data.success) {
           this.reload()
+          messageAlert('Leave task approved')
         }
+        messageAlert('Cannot approve leave task')
       } catch (error) {
+        messageAlert('Leave task approved')
         console.log(error)
       }
     },
@@ -240,6 +250,7 @@ export default {
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
       } catch (error) {
+        notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     }

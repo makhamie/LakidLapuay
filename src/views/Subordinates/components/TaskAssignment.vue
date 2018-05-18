@@ -56,16 +56,6 @@ export default {
   components: {
     SubstituteModal
   },
-  mounted () {
-    // this.taskList = this.list.map((data) => {
-    //   return {
-    //     ...data,
-    //     isSubstitute: false,
-    //     substituteId: '',
-    //     substituteName: ''
-    //   }
-    // })
-  },
   methods: {
     onSubstituteConfirm ({taskId, substituter}) {
       let taskIndex = this.list.findIndex((task) => {
@@ -78,7 +68,6 @@ export default {
         this.$emit('validateTaskList', this.list[0].isSubstitute)
       } else {
         let isPass = this.list.reduce((prev, val, index) => {
-          console.log(prev, val)
           return prev.isSubstitute && val.isSubstitute
         })
         this.$emit('validateTaskList', isPass)

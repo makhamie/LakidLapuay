@@ -12,35 +12,10 @@
 <script>
 import LeaveForm from './components/LeaveForm'
 import Search from '@/components/Search.vue'
-import LeaveList from './components/LeaveList.vue'
-import LeaveRequest from './components/LeaveRequest'
 export default {
-  computed: {
-    // userType(){
-    //   console.log(this.$store.state.userType);
-    //   return this.$store.state.userType
-    // },
-    // currentUser(){
-    //   return this.$store.state.user
-    // }
-  },
   components: {
     LeaveForm,
-    LeaveList,
-    LeaveRequest,
     Search
-  },
-  methods: {
-    onSubmit () {
-      console.log('submit!')
-    }
-  },
-  data () {
-    return {
-      userType: 'subordinator',
-      // userType: 'supervisor',
-      subordinator: ''
-    }
   }
 }
 </script>

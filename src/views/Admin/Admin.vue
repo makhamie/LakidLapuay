@@ -31,6 +31,7 @@
 </template>
 <script>
 import { AdminService } from '../../resources'
+import { messageAlert, notificationAlert } from '@/libraries/helper'
 export default {
   data () {
     return {
@@ -52,13 +53,18 @@ export default {
         this.departments = allDepartmentResponse.data
       }
     } catch (error) {
+      notificationAlert('Cannot contact server', 'error')
       console.log(error)
     }
   },
   methods: {
     async onRegister () {
-      await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department.id, this.registerForm.role)
-      console.log('Successfully register')
+      try {
+        await AdminService.createUser(this.registerForm.email, this.registerForm.password, this.registerForm.name, this.registerForm.department.id, this.registerForm.role)
+        messageAlert('Create new user successfully')
+      } catch (error) {
+        messageAlert('Fail to create user', 'error')
+      }
     }
   }
 }

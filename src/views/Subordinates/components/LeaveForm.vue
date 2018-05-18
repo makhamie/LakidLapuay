@@ -32,7 +32,6 @@
         </el-row>
       </el-form>
     </div>
-    {{taskList}}
   </div>
 </template>
 
@@ -40,6 +39,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import TaskAssignment from './TaskAssignment'
 import { SubordinateService } from '@/resources'
+import { notificationAlert, messageAlert } from '@/libraries/helper'
 
 export default {
   data () {
@@ -93,7 +93,8 @@ export default {
         }
         this.stopLoad()
       } catch (error) {
-        console.log(error)
+        notificationAlert('Fail to contact server', 'error')
+        this.stopLoad()
       }
     },
     async createLeaveRequest () {
@@ -109,12 +110,12 @@ export default {
                 substitute_id: data.substituteId
               }
             })
-            console.log(leaveTask)
             await SubordinateService.createLeaveTasks(leaveTask)
-            console.log('sucessfully create leave request')
           }
+          messageAlert('Create leave request success')
         }
       } catch (error) {
+        messageAlert('Fail to create leave request', 'error')
         console.log(error)
       }
     },
