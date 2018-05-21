@@ -2,17 +2,21 @@
   <div>
     <div class="container bottom-line">
       <label class="page-title">Supervisor</label>
-      <leave-request-table></leave-request-table>
+      <leave-request-table>
+      </leave-request-table>
+      <task-list></task-list>
     </div>
   </div>
 </template>
 
 <script>
 import LeaveRequestTable from './components/LeaveRequestTable'
+import TaskList from './components/TaskList'
 
 export default {
   components: {
-    LeaveRequestTable
+    LeaveRequestTable,
+    TaskList
   }
 }
 </script>

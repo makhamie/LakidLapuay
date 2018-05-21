@@ -31,6 +31,16 @@ class SupervisorProvider extends HttpRequest {
       action
     })
   }
+  getSupervisorTask (page) {
+    return this.fetch('/tasks/get-supervisor-tasks', {
+      page
+    })
+  }
+  getCurrentTask (page) {
+    return this.fetch('/tasks/get_current_tasks', {
+      page
+    })
+  }
 }
 
 export default SupervisorProvider
