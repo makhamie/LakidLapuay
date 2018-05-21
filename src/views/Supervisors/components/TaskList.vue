@@ -14,15 +14,16 @@
           >
           </el-table-column>
           <el-table-column
-            prop="requester.name"
+            prop="supervisor_id"
             label="Requester name"
           >
           </el-table-column>
           <el-table-column
-            prop="reason"
-            label="Reason for leave"
+            prop="description"
+            label="Requester name"
           >
           </el-table-column>
+
           <el-table-column
             prop="started_at"
             label="Start Date"
@@ -37,7 +38,6 @@
             label="Action"
           >
             <template slot-scope="scope">
-              <leave-request-detail-modal :leaveRequestId="scope.row.id"></leave-request-detail-modal>
               <!-- <el-button type="text">AAA</el-button> -->
             </template>
             <!-- <template slot-scope="scope"> -->
@@ -209,6 +209,7 @@ export default {
         if (newRowsResponse.data.success) {
           this[`${currentTab}Rows`] = newRowsResponse.data.results.tasks
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
+          console.log(this[`${currentTab}Rows`]);
         }
       } catch (error) {
         // notificationAlert('Cannot contact server', 'error')
