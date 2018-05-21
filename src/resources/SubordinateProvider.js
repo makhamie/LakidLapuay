@@ -37,5 +37,11 @@ class SubordinateProvider extends HttpRequest {
       action: response
     })
   }
+  getSubordinateTasks (action, page) {
+    return this.fetch('tasks', {
+      page: page,
+      action: action
+    })
+  }
 }
 export default SubordinateProvider
