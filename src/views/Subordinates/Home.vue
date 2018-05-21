@@ -2,7 +2,9 @@
   <div>
     <div class="container bottom-line">
       <label class="page-title">Leave Task</label>
-      <leave-task-table></leave-task-table>
+    </div>
+    <div class="container">
+      <leave-task-table class="bottom-line"></leave-task-table>
     </div>
   </div>
 </template>
@@ -17,9 +19,15 @@ export default {
 </script>
 <style scoped>
   .container {
+    width: 100%;
+    margin: auto;
+    margin-top: 50px;
+  }
+  .header-container {
     margin-top: 20px;
-    /* width: 70%; */
-    text-align: left;
+    width: 100%;
+    margin: auto;
+    margin-top: 50px;
   }
   .field {
     margin-top: 20px;
@@ -55,6 +63,7 @@ export default {
     padding-top: 20px;
   }
   .page-title {
+    margin-left: 15%;
     margin-top: 50px;
     font-size: 50px;
   }

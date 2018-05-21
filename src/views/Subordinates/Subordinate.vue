@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container bottom-line">
+    <div class="header-container bottom-line">
       <label class="page-title">Subordinate</label>
     </div>
     <div>
@@ -22,9 +22,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .container {
-    margin-top: 20px;
-    /* width: 70%; */
+  .header-container {
+    margin-top: 50px;
     text-align: left;
   }
   .field {
@@ -61,6 +60,8 @@ export default {
     padding-top: 20px;
   }
   .page-title {
+    width: auto;
+    margin-left: 15%;
     margin-top: 50px;
     font-size: 50px;
   }

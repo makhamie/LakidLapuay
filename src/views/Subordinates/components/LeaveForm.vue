@@ -27,11 +27,12 @@
         <el-row>
           <task-assignment @validateTaskList="validateTaskIsPass" v-if="taskList.length > 0" :list="taskList"></task-assignment>
         </el-row>
-        <el-row style="margin-top: 20px;">
+        <el-row style="margin-top: 20px; text-align: right;">
           <el-button type="primary" @click="createLeaveRequest" :disabled="!validateForm">Create Leave Request</el-button>
         </el-row>
       </el-form>
     </div>
+    {{taskList}}
   </div>
 </template>
 
@@ -142,6 +143,7 @@ export default {
 
 .field {
   margin-top: 20px;
+  width: 50%;
 }
 h1, h2 {
   font-weight: normal;

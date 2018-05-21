@@ -2,6 +2,32 @@
   <div class="container">
     <h1>Manage User</h1>
     <div class="login-container">
+      <el-dialog title="Manage User" :visible.sync="dialogFormVisible">
+        <el-form class="edit-form" v-if="userForm" ref="userForm" :model="userForm" label-width="120px">
+          <el-form-item label="Name">
+            <el-input v-model="userForm.name" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="Department">
+            <el-select @change="fetchDepartmentSupervisor" v-model="userForm.department_id" :value-key="userForm.department.name" placeholder="Please Select a department">
+              <el-option v-for="(department,index) in departments" :key="index" :label="department.name" :value="department.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Role">
+            <el-select v-model="userForm.role">
+              <el-option v-for="(role, index) in roles" :key="index" :label="role" :value="role"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item v-if="userForm.role === 'subordinate'" label="Supervisor">
+            <el-select v-model="supervisor.id" placeholder="Please Select Supervisor">
+              <el-option v-if="userForm.id !== supervisor.id" v-for="(supervisor, index) in availableSupervisor" :key="index" :value="supervisor.id" :label="supervisor.name"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="onSave">Save</el-button>
+        </span>
+      </el-dialog>
       <el-table :data="tableData" @row-click="onClickRow" style="width: 100%" :header-row-style="{'text-align': 'center'}">
         <el-table-column prop="id" label="ID" width="50">
         </el-table-column>
@@ -20,29 +46,6 @@
           </div>
         </el-col>
       </el-row>
-      <el-form class="edit-form" v-if="userForm" ref="userForm" :model="userForm" label-width="120px">
-        <el-form-item label="Name">
-          <el-input v-model="userForm.name" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="Department">
-          <el-select @change="fetchDepartmentSupervisor" v-model="userForm.department_id" :value-key="userForm.department.name" placeholder="Please Select a department">
-            <el-option v-for="(department,index) in departments" :key="index" :label="department.name" :value="department.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Role">
-          <el-select v-model="userForm.role">
-            <el-option v-for="(role, index) in roles" :key="index" :label="role" :value="role"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item v-if="userForm.role === 'subordinate'" label="Supervisor">
-          <el-select v-model="supervisor.id" placeholder="Please Select Supervisor">
-            <el-option v-if="userForm.id !== supervisor.id" v-for="(supervisor, index) in availableSupervisor" :key="index" :value="supervisor.id" :label="supervisor.name"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item style="text-align: left;">
-          <el-button type="primary" @click="onSave">Save</el-button>
-        </el-form-item>
-      </el-form>
     </div>
   </div>
 </template>
@@ -55,6 +58,7 @@ import { notificationAlert, messageAlert } from '@/libraries/helper'
 export default {
   data () {
     return {
+      dialogFormVisible: false,
       tableData: [],
       allUserCount: 0,
       currentPage: 1,
@@ -132,6 +136,7 @@ export default {
         console.log(error)
       }
       this.userForm = user
+      this.dialogFormVisible = true
     },
     async fetchDepartmentSupervisor (departmentId) {
       this.startLoad()
