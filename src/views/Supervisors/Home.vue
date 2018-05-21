@@ -4,7 +4,6 @@
       <label class="page-title">Supervisor</label>
       <leave-request-table>
       </leave-request-table>
-      <task-list></task-list>
     </div>
   </div>
 </template>
