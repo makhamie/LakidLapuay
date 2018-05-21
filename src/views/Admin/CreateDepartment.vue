@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-loading="isLoading" class="container">
     <h1>Create Department</h1>
     <el-form class="edit-form" ref="departmentForm" :model="departmentForm" label-width="120px">
       <el-form-item label="Department">
@@ -12,6 +12,7 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import { AdminService } from '@/resources'
 import { messageAlert } from '@/libraries/helper'
 
@@ -23,17 +24,27 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
+  },
   methods: {
     async onSave () {
-      console.log('saving user')
+      this.startLoad()
       try {
         await AdminService.createDepartment(this.departmentForm.name)
         messageAlert('Create new department successfully')
       } catch (error) {
         messageAlert('Fail to create new department', 'error')
+        this.stopLoad()
         console.log(error)
       }
-    }
+    },
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    })
   }
 
 }

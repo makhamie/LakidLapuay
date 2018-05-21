@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-loading="isLoading" class="container">
     <div class="field">
       <el-form :inline="true" ref="leaveForm" :model="leaveForm" label-width="120px">
         <el-row>
@@ -76,8 +76,8 @@ export default {
       stopLoad: 'finishLoad'
     }),
     async validateDate (dates) {
+      this.startLoad()
       try {
-        this.startLoad()
         let validateDateResponse = await SubordinateService.getTaskInRange(dates[0], dates[1])
         if (validateDateResponse.data.success) {
           this.taskList = validateDateResponse.data.results.map((data) => {
@@ -94,11 +94,12 @@ export default {
         }
         this.stopLoad()
       } catch (error) {
-        notificationAlert('Fail to contact server', 'error')
         this.stopLoad()
+        notificationAlert('Fail to contact server', 'error')
       }
     },
     async createLeaveRequest () {
+      this.startLoad()
       try {
         let createLeaveRequestResponse = await SubordinateService.createLeaveRequest(this.leaveForm.reason, this.leaveForm.period[0], this.leaveForm.period[1])
         if (createLeaveRequestResponse.data.success) {
@@ -113,9 +114,11 @@ export default {
             })
             await SubordinateService.createLeaveTasks(leaveTask)
           }
+          this.stopLoad()
           messageAlert('Create leave request success')
         }
       } catch (error) {
+        this.stopLoad()
         messageAlert('Fail to create leave request', 'error')
         console.log(error)
       }

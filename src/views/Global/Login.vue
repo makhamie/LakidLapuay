@@ -1,15 +1,15 @@
 <template>
-  <div class="container">
-      <h1>Login</h1>
-      <el-form ref="loginForm" :model="loginForm">
-        <el-form-item label="Email" label-width="120px">
-          <el-input v-on:keyup.enter.native="onLogin" v-model="loginForm.email" type="email"></el-input>
-        </el-form-item>
-        <el-form-item label="Password" label-width="120px">
-          <el-input v-on:keyup.enter.native="onLogin" v-model="loginForm.password" type="password"></el-input>
-        </el-form-item>
-        <el-button type="primary" @click="onLogin">Login</el-button>
-      </el-form>
+  <div v-loading="isLoading" class="container">
+    <h1>Login</h1>
+    <el-form ref="loginForm" :model="loginForm">
+      <el-form-item label="Email" label-width="120px">
+        <el-input v-on:keyup.enter.native="onLogin" v-model="loginForm.email" type="email"></el-input>
+      </el-form-item>
+      <el-form-item label="Password" label-width="120px">
+        <el-input v-on:keyup.enter.native="onLogin" v-model="loginForm.password" type="password"></el-input>
+      </el-form-item>
+      <el-button type="primary" @click="onLogin">Login</el-button>
+    </el-form>
   </div>
 </template>
 <script>
@@ -17,6 +17,7 @@ import { setAuth, messageAlert } from '@/libraries/helper'
 import { UserService } from '@/resources'
 import { BASE_URL } from '@/libraries/const'
 import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
@@ -32,8 +33,14 @@ export default {
       this.$router.push(`/${this.$store.state.role}`)
     }
   },
+  computed: {
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
+  },
   methods: {
     async onLogin () {
+      this.startLoad()
       try {
         let loginResponse = await axios.post(BASE_URL + '/login', {
           email: this.loginForm.email, password: this.loginForm.password
@@ -42,6 +49,7 @@ export default {
         if (loginResponse.data.success) {
           await setAuth(loginResponse.data.results)
           let userData = await UserService.getUserData()
+          this.stopLoad()
           this.setUser(userData.data.results)
           messageAlert('Login Successful', 'success')
         } else {
@@ -50,12 +58,17 @@ export default {
       } catch (error) {
         messageAlert('Cannot connect to server', 'error')
         console.log(error)
+        this.stopLoad()
       }
     },
     setUser (user) {
       this.$store.dispatch('setUser', user)
       this.$router.push(`/${user.role}`)
-    }
+    },
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    })
   }
 }
 </script>

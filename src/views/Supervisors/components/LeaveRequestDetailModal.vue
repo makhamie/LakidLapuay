@@ -5,6 +5,7 @@
       title="LeaveRequestDetail"
       :visible.sync="leaveRequestDetailModalVisible"
       @open="openLeaveRequestDetail"
+      v-loading="isLoading"
     >
       <el-table :data="leaveRequestDetailRows">
         <el-table-column
@@ -48,6 +49,7 @@
 import { SupervisorService } from '@/resources'
 import { PER_PAGE } from '@/libraries/const'
 import { notificationAlert, messageAlert } from '@/libraries/helper'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: ['leaveRequestId'],
@@ -63,22 +65,33 @@ export default {
   computed: {
     perPage () {
       return PER_PAGE
-    }
+    },
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
   },
   methods: {
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    }),
     async openLeaveRequestDetail () {
+      this.startLoad()
       try {
         let leaveRequestDetailResponse = await SupervisorService.getLeaveRequestDetail(this.leaveRequestId, this.currentPage)
         if (leaveRequestDetailResponse.data.success) {
           this.leaveRequestDetailRows = leaveRequestDetailResponse.data.results.list
           this.leaveRequestDetailCount = leaveRequestDetailResponse.data.results.count
         }
+        this.stopLoad()
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
     async handlePageChange (page) {
+      this.startLoad()
       this.currentPage = page
       try {
         let leaveRequestDetailResponse = await SupervisorService.getLeaveRequestDetail(this.leaveRequestId, page)
@@ -86,19 +99,23 @@ export default {
           this.leaveRequestDetailRows = leaveRequestDetailResponse.data.results.list
           this.leaveRequestDetailCount = leaveRequestDetailResponse.data.results.count
         }
+        this.stopLoad()
         this.leaveRequestDetailModalVisible = true
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
     async handleAction (action) {
-      console.log(this.leaveRequestId, action)
+      this.startLoad()
       try {
         await SupervisorService.responseLeaveRequest(this.leaveRequestId, action)
         this.leaveRequestDetailModalVisible = false
+        this.stopLoad()
         messageAlert('Successfuly response to leave request')
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }

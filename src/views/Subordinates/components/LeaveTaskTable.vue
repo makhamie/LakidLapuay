@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-tabs v-model="tab" @tab-click="handleTabChange">
+    <el-tabs v-loading="isLoading" v-model="tab" @tab-click="handleTabChange">
       <!-- Pending Tab -->
       <el-tab-pane label="Pending" name="pending">
         <el-table :data="pendingRows">
@@ -150,6 +150,7 @@
 import { SubordinateService } from '@/resources'
 import { PER_PAGE } from '@/libraries/const'
 import { messageAlert, notificationAlert } from '@/libraries/helper'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
@@ -170,22 +171,33 @@ export default {
   computed: {
     perPage () {
       return PER_PAGE
-    }
+    },
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
   },
   async mounted () {
+    this.startLoad()
     try {
       let pendingRowsResponse = await SubordinateService.getLeaveTask(this.tab, this.currentPage)
       if (pendingRowsResponse.data.success) {
         this.pendingRows = pendingRowsResponse.data.results.leave_tasks
         this.pendingRowCount = pendingRowsResponse.data.results.count
       }
+      this.stopLoad()
     } catch (error) {
+      this.stopLoad()
       notificationAlert('Cannot contact server', 'error')
       console.log(error)
     }
   },
   methods: {
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    }),
     async handlePageChange (page) {
+      this.startLoad()
       this.currentPage = page
       const currentTab = this.tab
       try {
@@ -194,12 +206,15 @@ export default {
           this[`${currentTab}Rows`] = newRowsResponse.data.results.leave_tasks
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
+        this.stopLoad()
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
     },
     async handleTabChange (tab, event) {
+      this.startLoad()
       const currentTab = tab.name
       this.tab = tab.name
       this.currentPage = 1
@@ -209,7 +224,9 @@ export default {
           this[`${currentTab}Rows`] = newRowsResponse.data.results.leave_tasks
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
+        this.stopLoad()
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }
@@ -228,6 +245,7 @@ export default {
       }
     },
     async rejectLeaveTask (leaveTaskId) {
+      this.startLoad()
       try {
         let leaveTaskResponse = await SubordinateService.responseLeaveTask(leaveTaskId, 'rejected')
         if (leaveTaskResponse.data.success) {
@@ -235,12 +253,15 @@ export default {
           messageAlert('Leave task approved')
         }
         messageAlert('Cannot approve leave task')
+        this.stopLoad()
       } catch (error) {
         messageAlert('Leave task approved')
+        this.stopLoad()
         console.log(error)
       }
     },
     async reload () {
+      this.startLoad()
       this.currentPage = 1
       const currentTab = this.tab
       try {
@@ -249,7 +270,9 @@ export default {
           this[`${currentTab}Rows`] = newRowsResponse.data.results.leave_tasks
           this[`${currentTab}RowCount`] = newRowsResponse.data.results.count
         }
+        this.stopLoad()
       } catch (error) {
+        this.stopLoad()
         notificationAlert('Cannot contact server', 'error')
         console.log(error)
       }

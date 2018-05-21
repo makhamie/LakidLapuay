@@ -86,20 +86,28 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      startLoad: 'startLoad',
+      stopLoad: 'finishLoad'
+    }),
     async handlePageChange (page) {
       this.currentPage = page
+      this.startLoad()
       try {
         let allUserResponse = await AdminService.getAllUsers(this.currentPage)
         if (allUserResponse.data.success) {
           this.tableData = allUserResponse.data.results.users
           this.allUserCount = allUserResponse.data.results.count
+          this.stopLoad()
         }
       } catch (error) {
         notificationAlert('Cannot Contact Server', 'error')
+        this.stopLoad()
         console.log(error)
       }
     },
     async onClickRow (user, mouseEvent, column) {
+      this.startLoad()
       try {
         let currentSupervisorResponse = await AdminService.getUserSupervisor(user.id)
         if (currentSupervisorResponse.data.success) {
@@ -121,14 +129,17 @@ export default {
             }
           })
         }
+        this.stopLoad()
       } catch (error) {
         messageAlert('Cannot contact server', 'error')
+        this.stopLoad()
         console.log(error)
       }
       this.userForm = user
       this.dialogFormVisible = true
     },
     async fetchDepartmentSupervisor (departmentId) {
+      this.startLoad()
       try {
         let supervisorResponse = await AdminService.getAvailableSupervisor(departmentId)
         if (supervisorResponse.data.success) {
@@ -139,19 +150,23 @@ export default {
             }
           })
           this.supervisor = {}
+          this.stopLoad()
         }
       } catch (error) {
         notificationAlert('Cannot contact server', 'error')
+        this.stopLoad()
         console.log(error)
       }
     },
     async onSave () {
+      this.startLoad()
       try {
         await AdminService.editUser(this.userForm.id, this.userForm.department_id, this.userForm.role)
         await AdminService.editSupervisor(this.userForm.id, this.supervisor.id)
         messageAlert('Edit user successfully')
       } catch (error) {
         messageAlert('Fail to edit user', 'error')
+        this.stopLoad()
         console.log(error)
       }
     }
@@ -159,7 +174,10 @@ export default {
   computed: {
     perPage () {
       return PER_PAGE
-    }
+    },
+    ...mapGetters({
+      isLoading: 'isLoading'
+    })
   }
 
 }
