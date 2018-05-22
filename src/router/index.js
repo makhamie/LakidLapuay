@@ -10,6 +10,7 @@ import SubordinateHome from '@/views/Subordinates/Home'
 import Profile from '@/views/Global/Profile'
 import ManageUser from '@/views/Admin/ManageUser'
 import CreateDepartment from '@/views/Admin/CreateDepartment'
+import TaskList from '@/views/Supervisors/components/TaskList'
 
 Vue.use(Router)
 
@@ -55,6 +56,11 @@ export default new Router({
           path: '/create-leave-request',
           component: Subordinate,
           name: 'Subordinate'
+        },
+        {
+          path: 'tasks',
+          component: TaskList,
+          name: 'SubordinateTask'
         }
       ]
     },
@@ -71,6 +77,11 @@ export default new Router({
           path: 'create-task',
           component: Supervisor,
           name: 'Supervisor'
+        },
+        {
+          path: 'tasks',
+          component: TaskList,
+          name: 'SupervisorTask'
         }
       ]
     },
