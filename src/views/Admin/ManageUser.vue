@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Manage User</h1>
     <div class="login-container">
-      <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+      <el-dialog title="Manage User" :visible.sync="dialogFormVisible">
         <el-form class="edit-form" v-if="userForm" ref="userForm" :model="userForm" label-width="120px">
           <el-form-item label="Name">
             <el-input v-model="userForm.name" disabled></el-input>
