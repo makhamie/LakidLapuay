@@ -11,6 +11,7 @@ import Profile from '@/views/Global/Profile'
 import ManageUser from '@/views/Admin/ManageUser'
 import CreateDepartment from '@/views/Admin/CreateDepartment'
 import TaskList from '@/views/Supervisors/components/TaskList'
+import SubordinateTask from '@/views/Subordinates/components/SubordinateTask'
 
 Vue.use(Router)
 
@@ -59,7 +60,7 @@ export default new Router({
         },
         {
           path: 'tasks',
-          component: TaskList,
+          component: SubordinateTask,
           name: 'SubordinateTask'
         }
       ]
