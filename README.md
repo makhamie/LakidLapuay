@@ -30,12 +30,12 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
   # front-end
   install npm version 3.10 (or upper)
   # back-end
-  install php version 7.1 (or upper)
-  install composer version 1.6 (or upper)
-    composer global require laravel/installer
-    composer require laravel/passport
-    composer require doctrine/dbal
-    composer require nesbot/carbon
+  > install php version 7.1 (or upper)
+  > install composer version 1.6 (or upper)
+  >  composer global require laravel/installer
+  >  composer require laravel/passport
+  >  composer require doctrine/dbal
+  >  composer require nesbot/carbon
   # database
   create sql database named “lakidlapuay”
   install database local server eg. Xampp or Mamp
