@@ -28,9 +28,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 # Requirements
   # front-end
-``` bash
->  install npm version 3.10 (or upper)
-```
+  * install npm version 3.10 (or upper)
 
   # back-end
   * install php version 7.1 (or upper)
