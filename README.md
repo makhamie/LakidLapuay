@@ -32,6 +32,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
   # back-end
   * install php version 7.1 (or upper)
+  * clone project from this [repository](https://github.com/makhamie/LakidLapuay-server)
   * install composer version 1.6 (or upper)
   ``` bash
     composer global require laravel/installer
@@ -42,6 +43,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
   # database
   * create sql database named “lakidlapuay”
   * install database local server eg. Xampp or Mamp
+  * create .env file like this [link](https://drive.google.com/file/d/1oAzMJVL3wji7CXv0kYyxyV5YcYSZBC0g/view)
 
 # How to run the project
 In front-end directory
@@ -53,7 +55,8 @@ npm start
 php artisan serve
 # migrate database
 php artisan migrate
-# migrate database
+# install passport
+php artisan passport:install
 
 # Database local server
 # open the Xampp of Mamp application and start server
