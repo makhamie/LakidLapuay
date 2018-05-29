@@ -38,6 +38,8 @@ In front-end directory
 ```
 # run front-end server
 npm start
+# Try to access it
+http://localhost:8080
 
 # run back-end server
 php artisan serve
