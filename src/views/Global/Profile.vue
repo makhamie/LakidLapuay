@@ -63,7 +63,7 @@
 </template>
 <script>
 import { AdminService, UserService } from '@/resources'
-import { messageAlert, notificationAlert } from '@/libraries/helper'
+import { messageAlert } from '@/libraries/helper'
 import * as firebase from 'firebase'
 import { mapGetters, mapActions } from 'vuex'
 
